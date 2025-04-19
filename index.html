@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appliance Repair Assistant</title>
+  <link rel="manifest" href="manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .section {
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    label, select, button, textarea {
+      width: 100%;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    select, textarea {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    button {
+      background-color: #00cc66;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .hidden-ru {
+      display: none;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Appliance Repair — Client Assistant</h1>
+
+<div class="section">
+  <label for="mode">Mode:</label>
+  <select id="mode" onchange="toggleMode()">
+    <option value="client">Client Mode (English only)</option>
+    <option value="tech">Technician Mode (with Russian)</option>
+  </select>
+</div>
+
+<div class="section">
+  <label for="appliance">Appliance Type:</label>
+  <select id="appliance" onchange="updateFields()">
+    <option value="Refrigerator">Refrigerator</option>
+    <option value="Washing Machine">Washing Machine</option>
+    <option value="Dishwasher">Dishwasher</option>
+    <option value="Dryer">Dryer</option>
+    <option value="Oven / Stove">Oven / Stove</option>
+    <option value="Microwave">Microwave</option>
+  </select>
+</div>
+
+<div class="section">
+  <label for="problem">Problem:</label>
+  <select id="problem"></select>
+  <div class="hidden-ru" id="problem-ru"></div>
+</div>
+
+<div class="section">
+  <label for="diagnosis">Diagnosis:</label>
+  <select id="diagnosis"></select>
+  <div class="hidden-ru" id="diagnosis-ru"></div>
+</div>
+
+<div class="section">
+  <label for="action">Action Taken:</label>
+  <select id="action"></select>
+  <div class="hidden-ru" id="action-ru"></div>
+</div>
+
+<div class="section">
+  <label for="status">Status:</label>
+  <select id="status">
+    <option value="Unit is working normally.">Unit is working normally.</option>
+    <option value="Part is on order, we will return.">Part is on order, we will return.</option>
+    <option value="Temporary fix applied, follow-up needed.">Temporary fix applied, follow-up needed.</option>
+    <option value="Unit is not repairable, replacement recommended.">Unit is not repairable, replacement recommended.</option>
+  </select>
+</div>
+
+<div class="section">
+  <label for="bye">Goodbye message:</label>
+  <select id="bye">
+    <option value="Thank you! Everything is complete. Have a great day!">Thank you! Everything is complete. Have a great day!</option>
+    <option value="Thank you! We will contact you when the part arrives.">Thank you! We will contact you when the part arrives.</option>
+  </select>
+</div>
+
+<button onclick="generateMessage()">Generate Message</button>
+<textarea id="output" readonly placeholder="Message will appear here..."></textarea>
+
+<script>
+const data = {
+  "Refrigerator": {
+    problems: [["Not cooling", "Не охлаждает"], ["Leaking water", "Протекает"], ["Ice maker not working", "Льдогенератор не работает"]],
+    diagnosis: [["Compressor not starting", "Компрессор не запускается"], ["Drain clogged", "Дренаж засорён"], ["Ice duct blocked", "Воздуховод забит льдом"]],
+    action: [["Control board replaced", "Плата управления заменена"], ["Drain cleaned", "Прочищен дренаж"], ["Ice maker reset", "Сброшен льдогенератор"]]
+  },
+  "Washing Machine": {
+    problems: [["Not spinning", "Не отжимает"], ["Not draining", "Не сливает"], ["Leaking", "Протекает"]],
+    diagnosis: [["Pump not working", "Насос не работает"], ["Belt broken", "Ремень порван"], ["Sensor faulty", "Датчик неисправен"]],
+    action: [["Pump replaced", "Насос заменён"], ["Belt replaced", "Ремень заменён"], ["Sensor replaced", "Датчик заменён"]]
+  },
+  "Dishwasher": {
+    problems: [["Not draining", "Не сливает"], ["Not starting", "Не запускается"], ["Not cleaning", "Плохо моет"]],
+    diagnosis: [["Drain pump failed", "Сливной насос не работает"], ["Door latch faulty", "Замок двери неисправен"], ["Spray arms clogged", "Распылители забиты"]],
+    action: [["Pump replaced", "Насос заменён"], ["Latch adjusted", "Замок отрегулирован"], ["Spray arms cleaned", "Распылители прочищены"]]
+  },
+  "Dryer": {
+    problems: [["Not heating", "Не греет"], ["Drum not spinning", "Барабан не крутится"], ["Making noise", "Шумит"]],
+    diagnosis: [["Heater burned", "Нагреватель перегорел"], ["Motor not running", "Мотор не работает"], ["Fuse blown", "Предохранитель перегорел"]],
+    action: [["Heating element replaced", "Нагреватель заменён"], ["Motor replaced", "Мотор заменён"], ["Fuse replaced", "Предохранитель заменён"]]
+  },
+  "Oven / Stove": {
+    problems: [["Burner not igniting", "Конфорка не зажигается"], ["Oven not heating", "Духовка не греет"], ["Door not closing", "Дверца не закрывается"]],
+    diagnosis: [["Igniter failed", "Поджигатель не работает"], ["Thermostat faulty", "Термостат неисправен"], ["Control board dead", "Плата не работает"]],
+    action: [["Igniter replaced", "Поджигатель заменён"], ["Thermostat replaced", "Термостат заменён"], ["Board replaced", "Плата заменена"]]
+  },
+  "Microwave": {
+    problems: [["Not heating", "Не греет"], ["No power", "Не включается"], ["Sparking", "Искрит"]],
+    diagnosis: [["Magnetron failed", "Магнетрон неисправен"], ["Diode shorted", "Диод пробит"], ["Fuse blown", "Предохранитель сгорел"]],
+    action: [["Magnetron replaced", "Магнетрон заменён"], ["Diode replaced", "Диод заменён"], ["Fuse replaced", "Предохранитель заменён"]]
+  }
+};
+
+function updateFields() {
+  const appliance = document.getElementById("appliance").value;
+  ['problem', 'diagnosis', 'action'].forEach(field => {
+    const select = document.getElementById(field);
+    const translation = document.getElementById(field + "-ru");
+    select.innerHTML = "";
+    data[appliance][field].forEach(([en, ru]) => {
+      const option = document.createElement("option");
+      option.textContent = en;
+      option.setAttribute("data-ru", ru);
+      select.appendChild(option);
+    });
+    translation.textContent = data[appliance][field][0][1];
+  });
+  toggleMode();
+}
+
+function toggleMode() {
+  const mode = document.getElementById("mode").value;
+  ['problem', 'diagnosis', 'action'].forEach(field => {
+    const ru = document.getElementById(field + "-ru");
+    ru.style.display = mode === "tech" ? "block" : "none";
+    const select = document.getElementById(field);
+    const selected = select.options[select.selectedIndex];
+    ru.textContent = selected?.getAttribute("data-ru") || "";
+  });
+}
+
+['problem', 'diagnosis', 'action'].forEach(field => {
+  document.addEventListener("change", e => {
+    if (e.target.id === field) {
+      const ru = e.target.selectedOptions[0].getAttribute("data-ru");
+      document.getElementById(field + "-ru").textContent = ru;
+    }
+  });
+});
+
+function generateMessage() {
+  const appliance = document.getElementById("appliance").value;
+  const problem = document.getElementById("problem").value;
+  const diagnosis = document.getElementById("diagnosis").value;
+  const action = document.getElementById("action").value;
+  const status = document.getElementById("status").value;
+  const bye = document.getElementById("bye").value;
+
+  const message = `Hi! I’m here to fix your ${appliance}.
+Problem: ${problem}.
+Diagnosis: ${diagnosis}.
+Action: ${action}.
+Status: ${status}
+${bye}`;
+  document.getElementById("output").value = message;
+}
+
+window.onload = updateFields;
+</script>
+
+</body>
+</html>

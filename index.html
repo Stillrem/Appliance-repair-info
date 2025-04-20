@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appliance Repair Report</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+    function copyReport() {
+      const text = document.getElementById('report').value;
+      navigator.clipboard.writeText(text);
+      alert('Report copied!');
+    }
+    function fillReport() {
+      const mode = document.getElementById('mode').value;
+      const appliance = document.getElementById('appliance').value;
+      const brand = document.getElementById('brand').value;
+      const problem = document.getElementById('problem').value;
+      const diagnosis = document.getElementById('diagnosis').value;
+      const action = document.getElementById('action').value;
+      const status = document.getElementById('status').value;
+
+      let report = `Appliance Type: ${appliance}\nТип техники: ${appliance}\n`;
+      report += `Brand/Model: ${brand}\nБренд/Модель: ${brand}\n\n`;
+      report += `Issue: ${problem.split(" — ")[0]}\nПроблема: ${problem.split(" — ")[1]}\n\n`;
+      report += `Diagnosis: ${diagnosis.split(" — ")[0]}\nДиагностика: ${diagnosis.split(" — ")[1]}\n\n`;
+      report += `Action Taken: ${action.split(" — ")[0]}\nЧто сделано: ${action.split(" — ")[1]}\n\n`;
+      report += `Status: ${status.split(" — ")[0]}\nСтатус: ${status.split(" — ")[1]}`;
+
+      document.getElementById('report').value = report;
+    }
+  </script>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 20px;
+    }
+    h1 { color: #00FF7F; }
+    select, textarea, input, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 16px;
+      border: none;
+    }
+    select, input, textarea {
+      background: #1e1e1e;
+      color: white;
+      border: 1px solid #444;
+    }
+    button {
+      background-color: #00c47c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Appliance Repair Report</h1>
+
+  <label>Mode:</label>
+  <select id="mode">
+    <option value="technician">Technician</option>
+    <option value="client">Client</option>
+  </select>
+
+  <label>Appliance Type:</label>
+  <select id="appliance">
+    <option>Refrigerator</option>
+    <option>Dishwasher</option>
+    <option>Washing Machine</option>
+    <option>Dryer</option>
+    <option>Stove / Oven</option>
+    <option>Microwave</option>
+  </select>
+
+  <label>Brand / Model:</label>
+  <input id="brand" type="text" placeholder="e.g. LG WM4000HBA, Samsung RF28" />
+
+  <label>Problem:</label>
+  <select id="problem">
+    <option>Not cooling — Не охлаждает</option>
+    <option>No power — Нет питания</option>
+    <option>Making noise — Издаёт шум</option>
+    <option>Leaking water — Протекает вода</option>
+    <option>Display not working — Не работает дисплей</option>
+  </select>
+
+  <label>Diagnosis:</label>
+  <select id="diagnosis">
+    <option>Compressor does not start — Компрессор не запускается</option>
+    <option>Fan not spinning — Вентилятор не крутится</option>
+    <option>Drain pump motor failed — Не работает сливной насос</option>
+    <option>Temperature sensor faulty — Неисправен температурный датчик</option>
+  </select>
+
+  <label>Action Taken:</label>
+  <select id="action">
+    <option>Compressor replaced — Заменён компрессор</option>
+    <option>Drain pump replaced — Заменён сливной насос</option>
+    <option>Sensor replaced — Заменён датчик</option>
+    <option>Control board reset — Выполнен сброс платы</option>
+  </select>
+
+  <label>Status:</label>
+  <select id="status">
+    <option>Repair completed — Ремонт завершён</option>
+    <option>Part ordered — Деталь заказана</option>
+    <option>Temporary fix — Временное решение</option>
+    <option>Not repairable — Не подлежит ремонту</option>
+  </select>
+
+  <textarea id="report" rows="8" placeholder="Final report..."></textarea>
+  <button onclick="fillReport()">Generate Report</button>
+  <button onclick="copyReport()">Copy Report</button>
+</body>
+</html>

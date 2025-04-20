@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appliance Technician Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+  <style>
+    body {
+      background: #121212;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 20px;
+    }
+    h1 { color: #00cc66; }
+    .block {
+      background: #1e1e1e;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    select, button, textarea {
+      width: 100%;
+      padding: 10px;
+      background: #2a2a2a;
+      border: none;
+      color: white;
+      margin-top: 5px;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #00cc66;
+      font-weight: bold;
+    }
+    textarea {
+      height: 180px;
+      resize: none;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Technician Report</h1>
+
+  <div class="block">
+    <label>Mode:</label>
+    <select id="mode" onchange="updateTranslation()">
+      <option value="tech">Technician (with RU translation)</option>
+      <option value="client">Client (English only)</option>
+    </select>
+  </div>
+
+  <div class="block">
+    <label>Appliance Type:</label>
+    <select id="appliance" onchange="loadFields()">
+      <option value="Refrigerator">Refrigerator</option>
+      <option value="Dishwasher">Dishwasher</option>
+      <option value="WashingMachine">Washing Machine</option>
+      <option value="Dryer">Dryer</option>
+      <option value="StoveOven">Stove / Oven</option>
+      <option value="Microwave">Microwave</option>
+    </select>
+  </div>
+
+  <div class="block">
+    <label>Problem:</label>
+    <select id="issue"></select>
+    <div id="issue_tr"></div>
+  </div>
+
+  <div class="block">
+    <label>Diagnosis:</label>
+    <select id="diagnosis"></select>
+    <div id="diagnosis_tr"></div>
+  </div>
+
+  <div class="block">
+    <label>Action Taken:</label>
+    <select id="action"></select>
+    <div id="action_tr"></div>
+  </div>
+
+  <div class="block">
+    <label>Status:</label>
+    <select id="status">
+      <option value="Repair completed – unit working normally|Ремонт завершён — техника работает нормально">Repair completed – unit working normally</option>
+      <option value="Part ordered – return visit scheduled|Деталь заказана — повторный визит назначен">Part ordered – return visit scheduled</option>
+      <option value="Temporary repair – monitor performance|Временный ремонт — требуется наблюдение">Temporary repair – monitor performance</option>
+      <option value="Unit not repairable – replacement advised|Не подлежит ремонту — рекомендована замена">Unit not repairable – replacement advised</option>
+    </select>
+    <div id="status_tr"></div>
+  </div>
+
+  <button onclick="generateReport()">Generate Report</button>
+  <button onclick="copyReport()">Copy Report</button>
+
+  <textarea id="output" readonly></textarea>
+
+<script>
+const data = {
+  Refrigerator: {
+    issue: [["Not cooling", "Не охлаждает"], ["Ice maker not producing ice", "Льдогенератор не делает лёд"]],
+    diagnosis: [["Compressor does not start", "Компрессор не запускается"], ["Fan motor not spinning", "Мотор вентилятора не крутится"]],
+    action: [["Replaced fan motor", "Заменён мотор вентилятора"], ["Reset control board", "Сброшена плата управления"]]
+  },
+  Dishwasher: {
+    issue: [["Not draining", "Не сливает воду"], ["Not starting", "Не запускается"]],
+    diagnosis: [["Drain pump motor not turning", "Мотор сливного насоса не крутится"], ["Control board has no output", "Плата управления не даёт сигнал"]],
+    action: [["Drain pump replaced", "Сливной насос заменён"], ["Control board replaced", "Плата управления заменена"]]
+  },
+  WashingMachine: {
+    issue: [["Not spinning", "Не отжимает"], ["Not draining", "Не сливает"]],
+    diagnosis: [["Drive belt is broken", "Приводной ремень порван"], ["Pump not working", "Сливной насос не работает"]],
+    action: [["Pump replaced", "Насос заменён"], ["Drive belt replaced", "Ремень заменён"]]
+  },
+  Dryer: {
+    issue: [["Not heating", "Не греет"], ["Drum not spinning", "Барабан не крутится"]],
+    diagnosis: [["Heating element is broken", "Нагревательный элемент неисправен"], ["Motor not running", "Мотор не работает"]],
+    action: [["Replaced heater", "Заменён нагреватель"], ["Replaced motor", "Заменён мотор"]]
+  },
+  StoveOven: {
+    issue: [["Oven not heating", "Духовка не нагревается"], ["Burner not igniting", "Конфорка не зажигается"]],
+    diagnosis: [["Igniter is weak", "Поджиг слабый"], ["Control board no signal", "Плата не выдаёт сигнал"]],
+    action: [["Igniter replaced", "Заменён поджиг"], ["Board replaced", "Плата заменена"]]
+  },
+  Microwave: {
+    issue: [["Not heating", "Не греет"], ["Not turning on", "Не включается"]],
+    diagnosis: [["Magnetron defective", "Неисправен магнетрон"], ["Fuse blown", "Перегорел предохранитель"]],
+    action: [["Magnetron replaced", "Магнетрон заменён"], ["Fuse replaced", "Предохранитель заменён"]]
+  }
+};
+
+function loadFields() {
+  const appliance = document.getElementById("appliance").value;
+  ["issue", "diagnosis", "action"].forEach(field => {
+    const sel = document.getElementById(field);
+    sel.innerHTML = "";
+    data[appliance][field].forEach(pair => {
+      const opt = document.createElement("option");
+      opt.value = pair.join("|");
+      opt.textContent = pair[0];
+      sel.appendChild(opt);
+    });
+  });
+  updateTranslation();
+}
+
+function updateTranslation() {
+  const mode = document.getElementById("mode").value;
+  ["issue", "diagnosis", "action", "status"].forEach(field => {
+    const sel = document.getElementById(field);
+    const tr = document.getElementById(field + "_tr");
+    const val = sel.value;
+    if (!val) return;
+    const [en, ru] = val.split("|");
+    tr.textContent = (mode === "tech") ? ru : "";
+  });
+}
+
+["issue", "diagnosis", "action", "status"].forEach(id => {
+  document.getElementById(id).addEventListener("change", updateTranslation);
+});
+
+function generateReport() {
+  const mode = document.getElementById("mode").value;
+  const appliance = document.getElementById("appliance").value;
+  const issue = document.getElementById("issue").value.split("|")[0];
+  const diagnosis = document.getElementById("diagnosis").value.split("|")[0];
+  const action = document.getElementById("action").value.split("|")[0];
+  const status = document.getElementById("status").value.split("|")[0];
+  const report = `Appliance: ${appliance}
+Problem: ${issue}
+Diagnosis: ${diagnosis}
+Action: ${action}
+Status: ${status}`;
+  document.getElementById("output").value = report;
+}
+
+function copyReport() {
+  const out = document.getElementById("output");
+  out.select();
+  document.execCommand("copy");
+  alert("Report copied");
+}
+
+loadFields();
+</script>
+</body>
+</html>

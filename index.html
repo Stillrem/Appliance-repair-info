@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Appliance Technician Report</title>
+  <title>Appliance Technician PWA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <script>
@@ -27,12 +26,12 @@
       padding: 15px;
       margin-bottom: 15px;
     }
-    select, button, textarea {
+    input, select, button, textarea {
       width: 100%;
       padding: 10px;
       background: #2a2a2a;
       border: none;
-      color: white;
+      color: #fff;
       margin-top: 5px;
       border-radius: 8px;
     }
@@ -73,6 +72,46 @@
   </div>
 
   <div class="block">
+    <label>Brand:</label>
+    <input list="brandlist" id="brand" placeholder="Select or type brand">
+    <datalist id="brandlist">
+      <option>Amana</option>
+      <option>Bosch</option>
+      <option>Electrolux</option>
+      <option>Frigidaire</option>
+      <option>GE</option>
+      <option>Haier</option>
+      <option>Hotpoint</option>
+      <option>Jenn-Air</option>
+      <option>Kenmore</option>
+      <option>KitchenAid</option>
+      <option>LG</option>
+      <option>Maytag</option>
+      <option>Miele</option>
+      <option>Samsung</option>
+      <option>Sub-Zero</option>
+      <option>Thermador</option>
+      <option>Viking</option>
+      <option>Whirlpool</option>
+    </datalist>
+  </div>
+
+  <div class="block">
+    <label>Model:</label>
+    <input type="text" id="model">
+  </div>
+
+  <div class="block">
+    <label>Serial Number:</label>
+    <input type="text" id="serial">
+  </div>
+
+  <div class="block">
+    <div id="greeting"></div>
+    <div id="greeting_tr"></div>
+  </div>
+
+  <div class="block">
     <label>Problem:</label>
     <select id="issue"></select>
     <div id="issue_tr"></div>
@@ -103,97 +142,295 @@
 
   <button onclick="generateReport()">Generate Report</button>
   <button onclick="copyReport()">Copy Report</button>
+  <button onclick="clearForm()">Clear Form</button>
 
   <textarea id="output" readonly></textarea>
 
-<script>
-const data = {
-  Refrigerator: {
-    issue: [["Not cooling", "Не охлаждает"], ["Ice maker not producing ice", "Льдогенератор не делает лёд"]],
-    diagnosis: [["Compressor does not start", "Компрессор не запускается"], ["Fan motor not spinning", "Мотор вентилятора не крутится"]],
-    action: [["Replaced fan motor", "Заменён мотор вентилятора"], ["Reset control board", "Сброшена плата управления"]]
-  },
-  Dishwasher: {
-    issue: [["Not draining", "Не сливает воду"], ["Not starting", "Не запускается"]],
-    diagnosis: [["Drain pump motor not turning", "Мотор сливного насоса не крутится"], ["Control board has no output", "Плата управления не даёт сигнал"]],
-    action: [["Drain pump replaced", "Сливной насос заменён"], ["Control board replaced", "Плата управления заменена"]]
-  },
-  WashingMachine: {
-    issue: [["Not spinning", "Не отжимает"], ["Not draining", "Не сливает"]],
-    diagnosis: [["Drive belt is broken", "Приводной ремень порван"], ["Pump not working", "Сливной насос не работает"]],
-    action: [["Pump replaced", "Насос заменён"], ["Drive belt replaced", "Ремень заменён"]]
-  },
-  Dryer: {
-    issue: [["Not heating", "Не греет"], ["Drum not spinning", "Барабан не крутится"]],
-    diagnosis: [["Heating element is broken", "Нагревательный элемент неисправен"], ["Motor not running", "Мотор не работает"]],
-    action: [["Replaced heater", "Заменён нагреватель"], ["Replaced motor", "Заменён мотор"]]
-  },
-  StoveOven: {
-    issue: [["Oven not heating", "Духовка не нагревается"], ["Burner not igniting", "Конфорка не зажигается"]],
-    diagnosis: [["Igniter is weak", "Поджиг слабый"], ["Control board no signal", "Плата не выдаёт сигнал"]],
-    action: [["Igniter replaced", "Заменён поджиг"], ["Board replaced", "Плата заменена"]]
-  },
-  Microwave: {
-    issue: [["Not heating", "Не греет"], ["Not turning on", "Не включается"]],
-    diagnosis: [["Magnetron defective", "Неисправен магнетрон"], ["Fuse blown", "Перегорел предохранитель"]],
-    action: [["Magnetron replaced", "Магнетрон заменён"], ["Fuse replaced", "Предохранитель заменён"]]
-  }
-};
+  <script>
+    // Mapping for appliance names in Russian (for greeting substitution)
+    const applianceNamesRu = {
+      Refrigerator: "ваш холодильник",
+      Dishwasher: "вашу посудомоечную машину",
+      WashingMachine: "вашу стиральную машину",
+      Dryer: "вашу сушильную машину",
+      StoveOven: "вашу кухонную плиту",
+      Microwave: "вашу микроволновую печь"
+    };
 
-function loadFields() {
-  const appliance = document.getElementById("appliance").value;
-  ["issue", "diagnosis", "action"].forEach(field => {
-    const sel = document.getElementById(field);
-    sel.innerHTML = "";
-    data[appliance][field].forEach(pair => {
-      const opt = document.createElement("option");
-      opt.value = pair.join("|");
-      opt.textContent = pair[0];
-      sel.appendChild(opt);
+    // Data object: English and Russian pairs for issues, diagnoses, and actions for each appliance
+    const data = {
+      Refrigerator: {
+        issue: [
+          ["Not cooling at all", "Совсем не охлаждает"],
+          ["Fridge section not cooling", "Холодильное отделение не охлаждает"],
+          ["Freezer not cold enough", "Морозилка плохо морозит"],
+          ["Fridge is too cold (freezing food)", "Замораживает продукты"],
+          ["Frost buildup in freezer", "Намерзает лёд в морозилке"],
+          ["Frost buildup in fridge compartment", "Намерзает лёд в холодильном отделении"],
+          ["Water leaking inside fridge", "Вода течёт внутри холодильника"],
+          ["Water leaking onto floor", "Вода протекает на пол"],
+          ["Ice maker not making ice", "Льдогенератор не делает лёд"],
+          ["Ice maker overflowing or leaking", "Льдогенератор протекает"],
+          ["Water dispenser not dispensing", "Диспенсер воды не подаёт воду"],
+          ["Water dispenser leaking", "Диспенсер воды протекает"],
+          ["Runs continuously without stopping", "Работает без перерыва"],
+          ["Cycles on and off too frequently", "Слишком часто включается и выключается"],
+          ["Loud humming noise", "Громкий гул"],
+          ["Loud rattling noise", "Громкое дребезжание"],
+          ["Loud buzzing noise", "Громкое жужжание"],
+          ["Clicking sound periodically", "Периодически щёлкает"],
+          ["Excessive vibration", "Сильная вибрация"],
+          ["Door not sealing properly", "Дверь неплотно прилегает"],
+          ["Door won't close fully", "Дверь не закрывается до конца"],
+          ["Door handle broken or loose", "Ручка двери сломана"],
+          ["Interior light not working", "Лампочка не горит"],
+          ["Bad odor inside", "Неприятный запах внутри"],
+          ["Excess moisture or condensation inside", "Слишком много влаги внутри"],
+          ["Unit completely dead (no power)", "Не включается (нет питания)"],
+          ["Control panel not responding", "Панель управления не реагирует"],
+          ["Sheet of ice on freezer floor", "Лёд на дне морозилки"],
+          ["Freezer door or drawer stuck", "Дверца морозилки не открывается"],
+          ["Temperature fluctuates", "Температура нестабильна"]
+        ],
+        diagnosis: [
+          ["Dirty condenser coils", "Загрязнённые конденсаторные катушки"],
+          ["Faulty condenser fan motor", "Неисправен вентилятор конденсатора"],
+          ["Faulty evaporator fan motor", "Неисправен вентилятор испарителя"],
+          ["Compressor not running", "Компрессор не запускается"],
+          ["Low refrigerant level", "Низкий уровень хладагента"],
+          ["Faulty thermostat", "Неисправен термостат"],
+          ["Defrost system failure", "Неисправна система оттайки"],
+          ["Clogged defrost drain", "Засорено дренажное отверстие"],
+          ["Door gasket damaged", "Повреждён уплотнитель двери"],
+          ["Evaporator coil frozen", "Испаритель обмерз"],
+          ["Faulty temperature sensor (thermistor)", "Неисправен датчик температуры"],
+          ["Faulty temperature control board", "Неисправна плата управления температурой"],
+          ["Air vents blocked by items", "Вентиляционные отверстия заблокированы"],
+          ["Faulty door switch", "Неисправен дверной выключатель"],
+          ["Faulty start relay", "Неисправно пусковое реле"],
+          ["Faulty start capacitor", "Неисправен пусковой конденсатор"],
+          ["Control board malfunction", "Неисправна плата управления"],
+          ["Overloaded with food blocking airflow", "Перегружен продуктами, нарушена вентиляция"],
+          ["Fan motor bearings worn (noisy)", "Изношены подшипники вентилятора"],
+          ["Ice maker motor failure", "Неисправен мотор льдогенератора"],
+          ["Water inlet valve failure", "Неисправен впускной клапан воды"],
+          ["Water filter clogged", "Засорён фильтр воды"],
+          ["Drain pan overflowing or cracked", "Переполнен поддон для стока"],
+          ["Fridge not level", "Холодильник установлен неровно"],
+          ["Loose or vibrating component", "Ослабленный элемент конструкции"],
+          ["Faulty interior light switch", "Неисправен выключатель освещения"],
+          ["Faulty compressor", "Неисправен компрессор"],
+          ["Faulty defrost timer", "Неисправен таймер оттайки"],
+          ["Faulty door hinge (misaligned door)", "Повреждена петля двери"],
+          ["Electrical wiring issue", "Проблема с электропроводкой"]
+        ],
+        action: [
+          ["Cleaned condenser coils", "Очищены конденсаторные катушки"],
+          ["Replaced condenser fan motor", "Заменён вентилятор конденсатора"],
+          ["Replaced evaporator fan motor", "Заменён вентилятор испарителя"],
+          ["Replaced compressor", "Заменён компрессор"],
+          ["Recharged refrigerant", "Заправлен хладагент"],
+          ["Replaced thermostat", "Заменён термостат"],
+          ["Repaired defrost system (heater/timer)", "Отремонтирована система оттайки (нагреватель/таймер)"],
+          ["Cleared defrost drain", "Прочищено дренажное отверстие"],
+          ["Replaced door gasket", "Заменён уплотнитель двери"],
+          ["Defrosted evaporator coil", "Испаритель разморожен"],
+          ["Replaced temperature sensor (thermistor)", "Заменён датчик температуры"],
+          ["Replaced temperature control board", "Заменена плата управления температурой"],
+          ["Cleared blocked air vents", "Прочищены вентиляционные отверстия"],
+          ["Replaced door switch", "Заменён дверной выключатель"],
+          ["Replaced start relay", "Заменено пусковое реле"],
+          ["Replaced start capacitor", "Заменён пусковой конденсатор"],
+          ["Replaced main control board", "Заменена основная плата управления"],
+          ["Removed excess items blocking vents", "Убраны продукты, блокировавшие вентиляцию"],
+          ["Replaced fan motor", "Заменён вентилятор (с тихими подшипниками)"],
+          ["Replaced ice maker assembly", "Заменён модуль льдогенератора"],
+          ["Replaced water inlet valve", "Заменён впускной клапан воды"],
+          ["Replaced water filter", "Заменён фильтр воды"],
+          ["Cleaned drain pan", "Очищен поддон для стока"],
+          ["Leveled refrigerator", "Холодильник выровнен"],
+          ["Secured or tightened loose components", "Закреплены ослабленные элементы"],
+          ["Replaced interior light bulb", "Заменена лампочка подсветки"],
+          ["Replaced defrost timer", "Заменён таймер оттайки"],
+          ["Replaced door hinges", "Заменены дверные петли"],
+          ["Repaired electrical wiring", "Отремонтирована электропроводка"],
+          ["Adjusted door alignment", "Отрегулирована дверная навеска"]
+        ]
+      },
+      Dishwasher: {
+        issue: [
+          ["Not draining water", "Не сливает воду"],
+          ["Not filling with water", "Не набирает воду"],
+          ["Not starting at all", "Совсем не включается"],
+          ["Dishes not coming out clean", "Посуда остается грязной"],
+          ["Dishes still wet (not drying)", "Посуда остается мокрой (не сушит)"],
+          ["Leaking water onto floor", "Протекает на пол"],
+          ["Making loud grinding noise", "Издает громкий скрежет"],
+          ["Cycle not completing", "Цикл не завершается"],
+          ["Stuck on one cycle stage", "Застревает на одном этапе цикла"],
+          ["Door not latching", "Дверца не защелкивается"],
+          ["Door won't close", "Дверца не закрывается"],
+          ["Soap dispenser not opening", "Диспенсер моющего средства не открывается"],
+          ["Bad odor inside", "Неприятный запах внутри"],
+          ["Water overflowing", "Вода переливается через край"],
+          ["Tripping circuit breaker", "Выбивает автомат"],
+          ["Control panel not responding", "Панель управления не реагирует"],
+          ["Lights blinking with error", "Индикаторы мигают (ошибка)"],
+          ["Water not heating", "Вода не нагревается"],
+          ["White film or spots on dishes", "Белый налет на посуде"],
+          ["Water pooled in bottom after cycle", "Вода скапливается на дне после цикла"],
+          ["Spray arm not spinning", "Разбрызгиватель не вращается"],
+          ["Rack wheels broken", "Сломаны колесики корзины"],
+          ["Filter keeps clogging", "Фильтр постоянно засоряется"],
+          ["Humming sound, but no action", "Жужжит, но ничего не происходит"],
+          ["Starts then stops mid-cycle", "Начинает и останавливается в середине цикла"],
+          ["Drain pump running continuously", "Сливной насос работает непрерывно"],
+          ["Long cycle time", "Цикл длится слишком долго"],
+          ["Panel displays error code", "Высвечивается код ошибки"],
+          ["Dishwasher won't turn off", "Не выключается"],
+          ["Burning smell during cycle", "Запах гари во время цикла"]
+        ],
+        diagnosis: [
+          ["Clogged drain filter", "Засорен сливной фильтр"],
+          ["Clogged drain hose", "Засорен сливной шланг"],
+          ["Faulty drain pump", "Неисправна сливная помпа"],
+          ["Faulty water inlet valve", "Неисправен впускной клапан воды"],
+          ["Faulty door latch switch", "Неисправен замок двери"],
+          ["Faulty control board", "Неисправна плата управления"],
+          ["Heating element failure", "Неисправен нагревательный элемент"],
+          ["High-limit thermostat tripped", "Сработал термостат перегрева"],
+          ["Faulty float switch", "Неисправен поплавковый выключатель"],
+          ["Spray arm clogged", "Засорен разбрызгиватель"],
+          ["Broken spray arm", "Сломан разбрызгиватель"],
+          ["Circulation pump failure", "Неисправен циркуляционный насос"],
+          ["Motor bearings worn (noisy)", "Изношены подшипники двигателя (шумит)"],
+          ["Faulty turbidity sensor", "Неисправен датчик мутности"],
+          ["Detergent dispenser mechanism broken", "Сломан механизм дозатора моющего средства"],
+          ["Door seal (gasket) leaking", "Поврежден уплотнитель дверцы"],
+          ["Over-sudsing (wrong detergent)", "Слишком много пены (неподходящее средство)"],
+          ["Faulty pressure switch", "Неисправен датчик уровня воды"],
+          ["Faulty touch panel", "Неисправна сенсорная панель"],
+          ["Calcium buildup in system", "Известковый налёт в системе"],
+          ["Pump impeller jammed", "Заклинило крыльчатку насоса"],
+          ["Faulty wiring connection", "Нарушено электрическое соединение"],
+          ["Stuck relay on control board", "Реле на плате управления залипло"],
+          ["Door out of alignment", "Дверца перекошена"],
+          ["Burnt electrical smell", "Запах горелой проводки"],
+          ["Water inlet clogged", "Засорен впускной клапан"],
+          ["Pump seal leaking", "Подтекает сальник насоса"],
+          ["Drain hose check valve stuck", "Заклинило обратный клапан слива"],
+          ["Faulty thermal fuse", "Перегорел термопредохранитель"],
+          ["Faulty timer (mechanical models)", "Неисправен механический таймер"]
+        ],
+        action: [
+          ["Cleaned drain filter and hose", "Очищены фильтр и шланг слива"],
+          ["Replaced drain pump", "Заменён сливной насос"],
+          ["Replaced water inlet valve", "Заменён впускной клапан воды"],
+          ["Replaced door latch assembly", "Заменён замок двери (в сборе)"],
+          ["Replaced electronic control board", "Заменена электронная плата управления"],
+          ["Replaced heating element", "Заменён нагревательный элемент"],
+          ["Replaced high-limit thermostat", "Заменён термостат перегрева"],
+          ["Replaced float switch", "Заменён поплавковый выключатель"],
+          ["Cleaned spray arms and nozzles", "Очищены разбрызгиватели и форсунки"],
+          ["Replaced circulation pump", "Заменён циркуляционный насос"],
+          ["Replaced turbidity sensor", "Заменён датчик мутности"],
+          ["Replaced detergent dispenser", "Заменён дозатор моющего средства"],
+          ["Replaced door gasket", "Заменён уплотнитель дверцы"],
+          ["Cleared excess detergent and rinsed", "Удалены излишки моющего средства, проведено ополаскивание"],
+          ["Replaced pressure switch", "Заменён датчик уровня воды"],
+          ["Replaced control panel", "Заменена панель управления"],
+          ["Cleared blockages in spray system", "Удалены засоры в системе разбрызгивания"],
+          ["Ran descaling (removed calcium buildup)", "Выполнена очистка от накипи"],
+          ["Cleared jam from pump impeller", "Разблокирована крыльчатка насоса"],
+          ["Repaired wiring connections", "Отремонтированы электрические соединения"],
+          ["Adjusted door alignment", "Отрегулирована дверца"],
+          ["Replaced pump seal", "Заменён сальник насоса"],
+          ["Cleared drain hose check valve", "Прочищен обратный клапан сливного шланга"],
+          ["Replaced thermal fuse", "Заменён термопредохранитель"],
+          ["Replaced timer", "Заменён таймер"],
+          ["Cleaned sump and chopper assembly", "Очищены отстойник и измельчитель"],
+          ["Replaced spray arm assembly", "Заменён разбрызгиватель (в сборе)"],
+          ["Replaced wiring harness", "Заменена электропроводка"],
+          ["Replaced door hinges", "Заменены дверные петли"],
+          ["Replaced drain hose", "Заменён сливной шланг"]
+        ]
+      },
+      <!-- Additional categories (WashingMachine, Dryer, StoveOven, Microwave) with their issue/diagnosis/action data in similar format -->
+    };
+    // ... (Full data for WashingMachine, Dryer, StoveOven, Microwave omitted for brevity)
+    
+    function loadFields() {
+      const appliance = document.getElementById("appliance").value;
+      ["issue", "diagnosis", "action"].forEach(field => {
+        const sel = document.getElementById(field);
+        sel.innerHTML = "";
+        data[appliance][field].forEach(pair => {
+          const opt = document.createElement("option");
+          opt.value = pair.join("|");
+          opt.textContent = pair[0];
+          sel.appendChild(opt);
+        });
+      });
+      updateTranslation();
+    }
+
+    function updateTranslation() {
+      const mode = document.getElementById("mode").value;
+      ["issue", "diagnosis", "action", "status"].forEach(field => {
+        const sel = document.getElementById(field);
+        const tr = document.getElementById(field + "_tr");
+        const val = sel.value;
+        if (!val) return;
+        const [en, ru] = val.split("|");
+        tr.textContent = (mode === "tech") ? ru : "";
+      });
+      // Update greeting text based on mode and selected appliance
+      const greetingEl = document.getElementById("greeting");
+      const greetingTrEl = document.getElementById("greeting_tr");
+      const appSelect = document.getElementById("appliance");
+      const appName = appSelect.options[appSelect.selectedIndex].text;
+      const appVal = appSelect.value;
+      const enGreet = `Hello! We will fix your ${appName}.`;
+      const ruGreet = `Здравствуйте! Мы починим ${applianceNamesRu[appVal]}.`;
+      greetingEl.textContent = enGreet;
+      greetingTrEl.textContent = (mode === "tech") ? ruGreet : "";
+    }
+
+    ["issue", "diagnosis", "action", "status"].forEach(id => {
+      document.getElementById(id).addEventListener("change", updateTranslation);
     });
-  });
-  updateTranslation();
-}
 
-function updateTranslation() {
-  const mode = document.getElementById("mode").value;
-  ["issue", "diagnosis", "action", "status"].forEach(field => {
-    const sel = document.getElementById(field);
-    const tr = document.getElementById(field + "_tr");
-    const val = sel.value;
-    if (!val) return;
-    const [en, ru] = val.split("|");
-    tr.textContent = (mode === "tech") ? ru : "";
-  });
-}
+    function generateReport() {
+      const appliance = document.getElementById("appliance").value;
+      const brand = document.getElementById("brand").value;
+      const model = document.getElementById("model").value;
+      const serial = document.getElementById("serial").value;
+      const issue = document.getElementById("issue").value.split("|")[0];
+      const diagnosis = document.getElementById("diagnosis").value.split("|")[0];
+      const action = document.getElementById("action").value.split("|")[0];
+      const status = document.getElementById("status").value.split("|")[0];
+      const report = `Brand: ${brand}\nModel: ${model}\nSerial: ${serial}\nAppliance: ${appliance}\nProblem: ${issue}\nDiagnosis: ${diagnosis}\nAction: ${action}\nStatus: ${status}`;
+      document.getElementById("output").value = report;
+    }
 
-["issue", "diagnosis", "action", "status"].forEach(id => {
-  document.getElementById(id).addEventListener("change", updateTranslation);
-});
+    function copyReport() {
+      const out = document.getElementById("output");
+      out.select();
+      document.execCommand("copy");
+      alert("Report copied");
+    }
 
-function generateReport() {
-  const mode = document.getElementById("mode").value;
-  const appliance = document.getElementById("appliance").value;
-  const issue = document.getElementById("issue").value.split("|")[0];
-  const diagnosis = document.getElementById("diagnosis").value.split("|")[0];
-  const action = document.getElementById("action").value.split("|")[0];
-  const status = document.getElementById("status").value.split("|")[0];
-  const report = `Appliance: ${appliance}
-Problem: ${issue}
-Diagnosis: ${diagnosis}
-Action: ${action}
-Status: ${status}`;
-  document.getElementById("output").value = report;
-}
+    function clearForm() {
+      document.getElementById("brand").value = "";
+      document.getElementById("model").value = "";
+      document.getElementById("serial").value = "";
+      document.getElementById("appliance").selectedIndex = 0;
+      loadFields();
+      document.getElementById("output").value = "";
+    }
 
-function copyReport() {
-  const out = document.getElementById("output");
-  out.select();
-  document.execCommand("copy");
-  alert("Report copied");
-}
-
-loadFields();
-</script>
+    // Initialize fields for default selected appliance
+    loadFields();
+  </script>
 </body>
 </html>

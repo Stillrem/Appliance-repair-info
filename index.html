@@ -385,8 +385,8 @@
       const appSelect = document.getElementById("appliance");
       const appName = appSelect.options[appSelect.selectedIndex].text;
       const appVal = appSelect.value;
-      const enGreet = `Hello! We will fix your ${appName}.`;
-      const ruGreet = `Здравствуйте! Мы починим ${applianceNamesRu[appVal]}.`;
+      const enGreet = `Hello! Appliance repair, I will fix your ${appName}.`;
+      const ruGreet = `Здравствуйте! Ремонт бытовой техники я починю ${applianceNamesRu[appVal]}.`;
       greetingEl.textContent = enGreet;
       greetingTrEl.textContent = (mode === "tech") ? ruGreet : "";
     }

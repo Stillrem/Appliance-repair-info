@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Appliance Repair PWA</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      background-color: #000;
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0; padding: 1rem;
+    }
+    h1, label {
+      color: #f0f0f0;
+    }
+    select, input[type=text] {
+      background: #111;  color: #f0f0f0;
+      border: 1px solid #444; border-radius: 6px;
+      padding: 0.5rem; width: 100%; box-sizing: border-box;
+      margin-bottom: 1rem;
+    }
+    select:focus, input:focus {
+      outline: 2px solid #28a745;
+    }
+    .button-row { text-align: center; margin-top: 1rem; }
+    button {
+      background: #28a745; color: #fff;
+      border: none; border-radius: 6px;
+      padding: 0.6rem 1.2rem; margin: 0.5rem;
+      font-size: 1rem; cursor: pointer;
+    }
+    button:hover { background: #218838; }
+    #greeting { margin: 1rem 0; font-size: 1.1rem; line-height: 1.4; }
+    .translation { color: #a0ffa0; display: none; }
+    body.tech-mode .translation { display: inline; }
+    body.tech-mode #greeting br { display: initial; }
+    .form-section { margin-bottom: 1.5rem; }
+    label { display: block; margin-bottom: 0.3rem; font-weight: bold; }
+    textarea#reportOutput {
+      width: 100%; height: 6em;
+      background: #111; color: #f0f0f0;
+      border: 1px solid #444; border-radius: 6px;
+      padding: 0.5rem;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body class="client-mode">
+  <h1>Appliance Service Report</h1>
+  <div style="text-align: right; margin-bottom: 0.5rem;">
+    <label style="font-size: 0.9rem; font-weight: normal;">
+      <input type="checkbox" id="modeToggle" /> Technician Mode
+    </label>
+  </div>
+  <div id="greeting">Hello! I’m your appliance technician. I will be repairing your <span id="appliance-name">Appliance</span>. Please don’t worry — everything will be fixed 100%.
+    <span class="translation"><br>Здравствуйте! Я ваш мастер по бытовой технике. Я буду ремонтировать вашу <span id="appliance-name-ru">технику</span>. Пожалуйста, не волнуйтесь — всё будет отремонтировано на 100%.</span>
+  </div>
+  <div class="form-section">
+    <label for="category">Appliance Type:</label>
+    <select id="category">
+      <option value="" disabled selected>Select Appliance</option>
+      <option value="Refrigerator">Refrigerator</option>
+      <option value="Dishwasher">Dishwasher</option>
+      <option value="Washing Machine">Washing Machine</option>
+      <option value="Dryer">Dryer</option>
+      <option value="Stove/Oven">Stove/Oven</option>
+      <option value="Microwave">Microwave</option>
+    </select>
+  </div>
+  <div class="form-section">
+    <label for="brand">Brand:</label>
+    <select id="brand">
+      <option value="" disabled selected>Select Brand</option>
+      <option>Whirlpool</option><option>GE</option><option>Samsung</option>
+      <option>LG</option><option>Bosch</option><option>Maytag</option>
+      <option>Frigidaire</option><option>KitchenAid</option><option>Electrolux</option>
+      <option>Miele</option><option>Kenmore</option><option>Other</option>
+    </select>
+  </div>
+  <div class="form-section">
+    <label for="model">Model:</label>
+    <input type="text" id="model" placeholder="Enter model number" />
+  </div>
+  <div class="form-section">
+    <label for="serial">Serial Number:</label>
+    <input type="text" id="serial" placeholder="Enter serial number" />
+  </div>
+  <div class="form-section"><label for="problem">Problem:</label><select id="problem"></select></div>
+  <div class="form-section"><label for="diagnosis">Diagnosis:</label><select id="diagnosis"></select></div>
+  <div class="form-section"><label for="action">Action Taken:</label><select id="action"></select></div>
+  <div class="form-section">
+    <label for="status">Status:</label>
+    <select id="status">
+      <option value="" disabled selected>Select Status</option>
+      <option value="Fixed 100%" data-ru="Полностью отремонтировано">Fixed 100%</option>
+      <option value="Temporary Fix" data-ru="Временное решение">Temporary Fix</option>
+      <option value="Part Ordered" data-ru="Деталь заказана, требуется повторный визит">Part Ordered</option>
+      <option value="Not Repairable" data-ru="Не подлежит ремонту">Not Repairable</option>
+    </select>
+  </div>
+  <div class="form-section">
+    <label for="reportOutput">Report:</label>
+    <textarea id="reportOutput" readonly></textarea>
+  </div>
+  <div class="button-row">
+    <button id="generateBtn">Generate Report</button>
+    <button id="copyBtn">Copy Report</button>
+    <button id="clearBtn">Clear Form</button>
+  </div>
+  <script>
+    function showTranslationsInOptions(selectElement) {
+      for (let opt of selectElement.options) {
+        if (opt.dataset.ru && !opt.textContent.includes(" — ")) {
+          opt.textContent = `${opt.value} — ${opt.dataset.ru}`;
+        }
+      }
+    }
+    function hideTranslationsInOptions(selectElement) {
+      for (let opt of selectElement.options) {
+        if (opt.dataset.ru) {
+          opt.textContent = opt.value;
+        }
+      }
+    }
+    document.getElementById('modeToggle').addEventListener('change', () => {
+      const techModeOn = document.getElementById('modeToggle').checked;
+      if (techModeOn) {
+        document.body.classList.add('tech-mode');
+        document.body.classList.remove('client-mode');
+        ['problem', 'diagnosis', 'action', 'status'].forEach(id => showTranslationsInOptions(document.getElementById(id)));
+      } else {
+        document.body.classList.remove('tech-mode');
+        document.body.classList.add('client-mode');
+        ['problem', 'diagnosis', 'action', 'status'].forEach(id => hideTranslationsInOptions(document.getElementById(id)));
+      }
+    });
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const appliance = document.getElementById('category').value || "(none)";
+      const brand = document.getElementById('brand').value || "(unspecified)";
+      const model = document.getElementById('model').value || "(unspecified)";
+      const serial = document.getElementById('serial').value || "(unspecified)";
+      const problem = document.getElementById('problem').value || "(none)";
+      const diagnosis = document.getElementById('diagnosis').value || "(none)";
+      const action = document.getElementById('action').value || "(none)";
+      const status = document.getElementById('status').value || "(none)";
+      let reportText = `Appliance: ${appliance}
+`;
+      reportText += `Brand: ${brand}
+Model: ${model}
+Serial: ${serial}
+`;
+      reportText += `Problem: ${problem}
+Diagnosis: ${diagnosis}
+Action Taken: ${action}
+`;
+      reportText += `Status: ${status}
+`;
+      document.getElementById('reportOutput').value = reportText;
+    });
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const text = document.getElementById('reportOutput').value;
+      if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Report text copied to clipboard!");
+        }).catch(err => {
+          alert("Failed to copy text: " + err);
+        });
+      }
+    });
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      ['category', 'brand', 'status'].forEach(id => document.getElementById(id).selectedIndex = 0);
+      ['model', 'serial'].forEach(id => document.getElementById(id).value = "");
+      ['problem', 'diagnosis', 'action'].forEach(id => document.getElementById(id).innerHTML = "");
+      document.getElementById('reportOutput').value = "";
+      document.getElementById('modeToggle').checked = false;
+      document.body.classList.add('client-mode');
+      document.body.classList.remove('tech-mode');
+    });
+  </script>
+</body>
+</html>

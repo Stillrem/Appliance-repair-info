@@ -1,14 +1,15 @@
-
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('tech-report-cache').then(function(cache) {
       return cache.addAll([
         'index.html',
-        'manifest.json'
+        'manifest.json',
+        // 'icon.png' and other assets can be added here if needed
       ]);
     })
   );
 });
+
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request).then(function(response) {

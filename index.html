@@ -132,6 +132,17 @@
     </select>
   </div>
 
+    <div class="block">
+    <label>Status:</label>
+    <select id="status">
+      <option value="Repair completed – unit working normally|Ремонт завершён — техника работает нормально">Repair completed – unit working normally</option>
+      <option value="Part ordered – return visit scheduled|Деталь заказана — повторный визит назначен">Part ordered – return visit scheduled</option>
+      <option value="Temporary repair – monitor performance|Временный ремонт — требуется наблюдение">Temporary repair – monitor performance</option>
+      <option value="Unit not repairable – replacement advised|Не подлежит ремонту — рекомендована замена">Unit not repairable – replacement advised</option>
+    </select>
+    <div id="status_tr"></div>
+  </div>
+  
   <!-- Report output and buttons -->
   <div class="form-section">
     <label for="reportOutput">Report:</label>
@@ -539,7 +550,7 @@
       reportText += `Problem: ${problem}\n`;
       reportText += `Diagnosis: ${diagnosis}\n`;
       reportText += `Action Taken: ${action}\n`;
-      reportText += "Status: Fixed 100%.\n";
+      reportText += `Status: ${status}\n`;
       // Optionally, we could include the greeting or a closing line
       reportOutput.value = reportText;
     });

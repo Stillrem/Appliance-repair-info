@@ -12,18 +12,14 @@
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0; padding: 1rem;
     }
-    h1, h2, h3, label {
-      color: #f0f0f0;
-    }
+    h1, h2, h3, label { color: #f0f0f0; }
     select, input[type=text] {
       background: #111; color: #f0f0f0;
       border: 1px solid #444; border-radius: 6px;
       padding: 0.5rem; width: 100%; box-sizing: border-box;
       margin-bottom: 1rem;
     }
-    select:focus, input:focus {
-      outline: 2px solid #28a745;
-    }
+    select:focus, input:focus { outline: 2px solid #28a745; }
     .button-row { text-align: center; margin-top: 1rem; }
     button {
       background: #28a745; color: #fff;
@@ -42,8 +38,7 @@
       width: 100%; height: 6em;
       background: #111; color: #f0f0f0;
       border: 1px solid #444; border-radius: 6px;
-      padding: 0.5rem;
-      box-sizing: border-box;
+      padding: 0.5rem; box-sizing: border-box;
     }
   </style>
 </head>
@@ -90,45 +85,38 @@
       <option>Other</option>
     </select>
   </div>
-
   <div class="form-section">
     <label for="model">Model:</label>
     <input type="text" id="model" placeholder="Enter model number" />
   </div>
-
   <div class="form-section">
     <label for="serial">Serial Number:</label>
     <input type="text" id="serial" placeholder="Enter serial number" />
   </div>
-
   <div class="form-section">
     <label for="year">Year of Manufacture:</label>
-    <input type="text" id="year" placeholder="Enter year (optional)" />
+    <input type="text" id="year" placeholder="Enter year (e.g. 2020)" />
   </div>
-
   <div class="form-section">
     <label for="problem">Problem:</label>
     <select id="problem"></select>
   </div>
-
   <div class="form-section">
     <label for="diagnosis">Diagnosis:</label>
     <select id="diagnosis"></select>
   </div>
-
   <div class="form-section">
     <label for="action">Action Taken:</label>
     <select id="action"></select>
   </div>
-
   <div class="form-section">
     <label for="status">Status:</label>
     <select id="status">
       <option value="" disabled selected>Select Status</option>
-      <option>Fixed 100%</option>
-      <option>Temporary Repair</option>
-      <option>Parts Ordered</option>
-      <option>Not Repairable</option>
+      <option value="Fixed 100%" data-ru="Починено на 100%">Fixed 100%</option>
+      <option value="Waiting for parts" data-ru="Ожидание запчастей">Waiting for parts</option>
+      <option value="Temporary fix" data-ru="Временное решение">Temporary fix</option>
+      <option value="Not repairable" data-ru="Не подлежит ремонту">Not repairable</option>
     </select>
   </div>
 
@@ -136,7 +124,6 @@
     <label for="reportOutput">Report:</label>
     <textarea id="reportOutput" placeholder="Generated report will appear here..." readonly></textarea>
   </div>
-
   <div class="button-row">
     <button id="generateBtn">Generate Report</button>
     <button id="copyBtn">Copy Report</button>
@@ -145,59 +132,74 @@
 
   <script>
     const categorySelect = document.getElementById('category');
-    const brandSelect = document.getElementById('brand');
-    const modelInput = document.getElementById('model');
-    const serialInput = document.getElementById('serial');
-    const yearInput = document.getElementById('year');
     const problemSelect = document.getElementById('problem');
     const diagnosisSelect = document.getElementById('diagnosis');
     const actionSelect = document.getElementById('action');
     const statusSelect = document.getElementById('status');
+    const applianceNameSpan = document.getElementById('appliance-name');
+    const applianceNameRuSpan = document.getElementById('appliance-name-ru');
+    const modeToggle = document.getElementById('modeToggle');
     const reportOutput = document.getElementById('reportOutput');
 
+    function showTranslationsInOptions(selectElement) {
+      for (let opt of selectElement.options) {
+        if (opt.dataset.ru && !opt.textContent.includes(' — ')) {
+          opt.textContent = `${opt.value} — ${opt.dataset.ru}`;
+        }
+      }
+    }
+    function hideTranslationsInOptions(selectElement) {
+      for (let opt of selectElement.options) {
+        if (opt.dataset.ru) {
+          opt.textContent = opt.value;
+        }
+      }
+    }
+
+    modeToggle.addEventListener('change', () => {
+      const techModeOn = modeToggle.checked;
+      if (techModeOn) {
+        document.body.classList.add('tech-mode');
+        document.body.classList.remove('client-mode');
+        [problemSelect, diagnosisSelect, actionSelect, statusSelect].forEach(showTranslationsInOptions);
+      } else {
+        document.body.classList.add('client-mode');
+        document.body.classList.remove('tech-mode');
+        [problemSelect, diagnosisSelect, actionSelect, statusSelect].forEach(hideTranslationsInOptions);
+      }
+    });
+
     document.getElementById('generateBtn').addEventListener('click', () => {
-      const appliance = categorySelect.value || '(none)';
-      const brand = brandSelect.value || '(unspecified)';
-      const model = modelInput.value || '(unspecified)';
-      const serial = serialInput.value || '(unspecified)';
-      const year = yearInput.value || '(unspecified)';
-      const problem = problemSelect.value || '(none)';
-      const diagnosis = diagnosisSelect.value || '(none)';
-      const action = actionSelect.value || '(none)';
-      const status = statusSelect.value || '(unspecified)';
-
+      const appliance = categorySelect.value || "(none)";
+      const brand = document.getElementById('brand').value || "(unspecified)";
+      const model = document.getElementById('model').value || "(unspecified)";
+      const serial = document.getElementById('serial').value || "(unspecified)";
+      const year = document.getElementById('year').value || "(unspecified)";
+      const problem = problemSelect.value || "(none)";
+      const diagnosis = diagnosisSelect.value || "(none)";
+      const action = actionSelect.value || "(none)";
+      const status = statusSelect.value || "(none)";
       let reportText = `Appliance: ${appliance}\n`;
-      reportText += `Brand: ${brand}\n`;
-      reportText += `Model: ${model}\n`;
-      reportText += `Serial: ${serial}\n`;
-      reportText += `Year: ${year}\n`;
-      reportText += `Problem: ${problem}\n`;
-      reportText += `Diagnosis: ${diagnosis}\n`;
-      reportText += `Action Taken: ${action}\n`;
-      reportText += `Status: ${status}\n`;
-
+      reportText += `Brand: ${brand}\nModel: ${model}\nSerial: ${serial}\nYear: ${year}\n`;
+      reportText += `Problem: ${problem}\nDiagnosis: ${diagnosis}\nAction Taken: ${action}\nStatus: ${status}.\n`;
       reportOutput.value = reportText;
     });
 
     document.getElementById('copyBtn').addEventListener('click', () => {
-      navigator.clipboard.writeText(reportOutput.value).then(() => {
-        alert('Report text copied to clipboard!');
-      }).catch(err => {
-        alert('Failed to copy text: ' + err);
-      });
+      navigator.clipboard.writeText(reportOutput.value).then(() => alert("Report copied!"));
     });
 
     document.getElementById('clearBtn').addEventListener('click', () => {
       categorySelect.selectedIndex = 0;
-      brandSelect.selectedIndex = 0;
-      modelInput.value = '';
-      serialInput.value = '';
-      yearInput.value = '';
-      problemSelect.innerHTML = '';
-      diagnosisSelect.innerHTML = '';
-      actionSelect.innerHTML = '';
+      document.getElementById('brand').selectedIndex = 0;
+      document.getElementById('model').value = "";
+      document.getElementById('serial').value = "";
+      document.getElementById('year').value = "";
+      problemSelect.innerHTML = "";
+      diagnosisSelect.innerHTML = "";
+      actionSelect.innerHTML = "";
       statusSelect.selectedIndex = 0;
-      reportOutput.value = '';
+      reportOutput.value = "";
     });
   </script>
 </body>

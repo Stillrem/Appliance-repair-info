@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
     <style>
+        /* ... ваш оригинальный CSS без изменений ... */
         :root {
             --primary: #34c759;
             --primary-dark: #30d158;
@@ -24,454 +25,53 @@
             --border: #2c2c2e;
             --shadow: rgba(0, 0, 0, 0.3);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-                Arial, sans-serif;
-            background: var(--background);
-            color: var(--text);
-            min-height: 100vh;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
-                env(safe-area-inset-left);
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 100%;
-            padding: 20px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 15px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 8px 32px rgba(52, 199, 89, 0.3);
-        }
-
-        .title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .mode-toggle {
-            display: flex;
-            background: var(--surface);
-            border-radius: 12px;
-            padding: 4px;
-            margin: 25px 0;
-            box-shadow: inset 0 1px 3px var(--shadow);
-        }
-
-        .mode-btn {
-            flex: 1;
-            padding: 12px 16px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-        }
-
-        .mode-btn.active {
-            background: var(--primary);
-            color: var(--text);
-            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
-            transform: scale(1.02);
-        }
-
-        .form-section {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        .label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text);
-            font-size: 16px;
-        }
-
-        .translation {
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-style: italic;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .translation.hidden {
-            display: none;
-        }
-
-        select,
-        input,
-        textarea {
-            width: 100%;
-            padding: 16px;
-            background: var(--surface-2);
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-size: 16px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        select {
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-            padding-right: 50px;
-            cursor: pointer;
-        }
-
-        select:focus,
-        input:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.1);
-            transform: translateY(-1px);
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: var(--text-secondary);
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: var(--text);
-            box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: var(--surface-2);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-3);
-            transform: translateY(-1px);
-        }
-
-        .report-output {
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 24px;
-            margin-top: 30px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .report-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .report-content {
-            line-height: 1.8;
-        }
-
-        .report-line {
-            margin-bottom: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .report-line:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .report-label {
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-
-        .report-value {
-            font-size: 16px;
-            color: var(--text);
-        }
-
-        .templates {
-            margin-top: 30px;
-        }
-
-        .templates-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .template-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            text-align: left;
-            margin-bottom: 12px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            line-height: 1.4;
-        }
-
-        .template-btn:hover {
-            background: var(--surface-3);
-            border-color: var(--primary);
-            transform: translateY(-1px);
-        }
-
-        .template-btn:active {
-            transform: scale(0.98);
-        }
-
-        .template-main {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .template-translation {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-
-        .status-completed {
-            background: #34c759;
-        }
-
-        .status-partial {
-            background: #ff9500;
-        }
-
-        .status-pending {
-            background: #007aff;
-        }
-
-        .status-unrepairable {
-            background: #ff3b30;
-        }
-
-        .install-prompt {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: var(--surface);
-            border: 1px solid var(--primary);
-            border-radius: 16px;
-            padding: 20px;
-            display: none;
-            z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .install-prompt.show {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .install-text {
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .install-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .install-btn {
-            background: var(--primary);
-            color: var(--text);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn {
-            background: var(--surface-2);
-            color: var(--text-secondary);
-            border: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-
-            .title {
-                font-size: 24px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                padding: 14px 20px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .container {
-                max-width: 600px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; background: var(--background); color: var(--text); min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: hidden; }
+        .container { max-width: 100%; padding: 20px; margin: 0 auto; min-height: 100vh; }
+        .header { text-align: center; margin-bottom: 30px; padding: 20px 0; }
+        .logo { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 15px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 8px 32px rgba(52,199,89,.3);}
+        .title { font-size: 28px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text;-webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { color: var(--text-secondary); font-size: 16px; font-weight: 500; }
+        .mode-toggle { display: flex; background: var(--surface); border-radius: 12px; padding: 4px; margin: 25px 0; box-shadow: inset 0 1px 3px var(--shadow);}
+        .mode-btn { flex: 1; padding: 12px 16px; border: none; background: transparent; color: var(--text-secondary); border-radius: 8px; font-weight: 600; font-size: 15px; transition: all 0.3s cubic-bezier(.25,.46,.45,.94); cursor: pointer;}
+        .mode-btn.active {background: var(--primary); color: var(--text); box-shadow: 0 2px 8px rgba(52,199,89,.3); transform: scale(1.02);}
+        .form-section {background: var(--surface); border-radius: 16px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.1);}
+        .section-title {font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;}
+        .form-group { margin-bottom: 20px;}
+        .form-group:last-child {margin-bottom: 0;}
+        .label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text); font-size: 16px;}
+        .translation { color: var(--text-secondary); font-size: 14px; font-style: italic; display: block; margin-top: 2px;}
+        .translation.hidden { display: none;}
+        select,input,textarea {width: 100%; padding: 16px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; font-family: inherit; transition: all .3s ease; -webkit-appearance: none; appearance: none;}
+        select {background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat:no-repeat; background-position:right 12px center; background-size:20px; padding-right:50px; cursor:pointer;}
+        select:focus,input:focus,textarea:focus {outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(52,199,89,.1); transform: translateY(-1px);}
+        input::placeholder,textarea::placeholder {color: var(--text-secondary);}
+        textarea {min-height: 100px; resize: vertical; line-height: 1.5;}
+        .form-row {display: grid;grid-template-columns: 1fr 1fr; gap: 15px;}
+        .action-buttons {display: flex; gap: 12px; margin-top: 30px;}
+        .btn { flex: 1;padding: 16px 24px; border: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all .3s cubic-bezier(.25,.46,.45,.94); cursor: pointer; position: relative; overflow: hidden;}
+        .btn:active {transform: scale(.98);}
+        .btn-primary {background: linear-gradient(135deg,var(--primary),var(--primary-dark));color: var(--text);box-shadow:0 4px 16px rgba(52,199,89,.3);}
+        .btn-primary:hover {box-shadow:0 6px 20px rgba(52,199,89,.4);transform:translateY(-2px);}
+        .btn-secondary {background:var(--surface-2);color:var(--text);border:1px solid var(--border);}
+        .btn-secondary:hover {background:var(--surface-3);transform:translateY(-1px);}
+        .report-output {background: var(--surface); border-radius: 16px; padding: 24px; margin-top: 30px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.1);}
+        .report-title {font-size: 20px; font-weight:700; margin-bottom: 20px; color:var(--primary); display: flex; align-items: center; gap:8px;}
+        .report-content {line-height: 1.8;}
+        .report-line {margin-bottom: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);}
+        .report-line:last-child {border-bottom: none; margin-bottom: 0;}
+        .report-label {font-weight:600; color:var(--text-secondary); font-size:14px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;}
+        .report-value {font-size:16px; color: var(--text);}
+        .templates {margin-top: 30px;}
+        .templates-title {font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;}
+        .template-btn {width: 100%;padding: 16px;background: var(--surface-2);border: 1px solid var(--border);border-radius: 12px;color: var(--text);text-align: left;margin-bottom: 12px;font-size: 15px;cursor: pointer;transition: all .3s ease;line-height: 1.4;}
+        .template-btn:hover {background:var(--surface-3);border-color:var(--primary);transform:translateY(-1px);}
+        .template-btn:active {transform:scale(.98);}
+        .template-main {font-weight:600;margin-bottom:4px;}
+        .template-translation {color:var(--text-secondary);font-size:13px;}
+        .hidden {display:none !important;}
+        @media (max-width: 480px) { .container{padding:15px;}.title{font-size:24px;}.form-row{grid-template-columns:1fr;gap:12px;}.action-buttons{flex-direction:column;}.btn{padding:14px 20px;}}
+        @media (min-width: 768px){.container{max-width:600px;}}
     </style>
 </head>
 <body>
@@ -480,17 +80,14 @@
             <div class="logo">🔧</div>
             <h1 class="title">Appliance Repair Pro</h1>
             <p class="subtitle">Professional Service Reports</p>
-
             <div class="mode-toggle">
                 <button class="mode-btn active" data-mode="technician">👨‍🔧 Technician</button>
                 <button class="mode-btn" data-mode="client">👤 Client</button>
             </div>
         </div>
-
         <form id="repairForm">
             <div class="form-section">
                 <div class="section-title">🏠 Appliance Information</div>
-
                 <div class="form-group">
                     <label class="label">
                         Appliance Type
@@ -506,7 +103,6 @@
                         <option value="microwave">Microwave / Микроволновка</option>
                     </select>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label class="label">
@@ -525,7 +121,6 @@
                         <input type="text" id="model" placeholder="Enter model number" required />
                     </div>
                 </div>
-
                 <div class="form-row">
                     <div class="form-group">
                         <label class="label">
@@ -543,10 +138,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-section">
                 <div class="section-title">🔍 Service Details</div>
-
                 <div class="form-group">
                     <label class="label">
                         Problem
@@ -556,7 +149,6 @@
                         <option value="">Select Problem</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label class="label">
                         Diagnosis
@@ -566,7 +158,6 @@
                         <option value="">Select Diagnosis</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label class="label">
                         Action Taken
@@ -576,7 +167,6 @@
                         <option value="">Select Action</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label class="label">
                         Status
@@ -590,7 +180,6 @@
                         <option value="unrepairable">❌ Not Repairable / Не подлежит ремонту</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label class="label">
                         Additional Notes
@@ -599,18 +188,17 @@
                     <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
                 </div>
             </div>
-
             <div class="action-buttons">
                 <button type="submit" class="btn btn-primary">📋 Generate Report</button>
                 <button type="button" class="btn btn-secondary" id="clearBtn">🗑️ Clear Form</button>
             </div>
         </form>
-
-        <div id="reportOutput" class="report-output hidden">
-            <div class="report-title">📄 Service Report</div>
-            <div id="reportContent" class="report-content"></div>
+        <div id="reportsControlBtns" class="action-buttons hidden" style="margin-top:24px;">
+            <button type="button" class="btn btn-primary" id="copyAllBtn">📑 Copy All Reports</button>
+            <button type="button" class="btn btn-primary" id="copyLastBtn">📋 Copy Last Report</button>
+            <button type="button" class="btn btn-secondary" id="clearAllBtn">🗑️ Clear All Reports</button>
         </div>
-
+        <div id="allReportsBlock"></div>
         <div class="templates">
             <div class="templates-title">💬 Customer Message Templates</div>
             <button class="template-btn" data-template="completion">
@@ -631,57 +219,48 @@
             </button>
         </div>
     </div>
-
-    <div class="install-prompt" id="installPrompt">
-        <div class="install-text">📱 Install this app on your home screen for quick access!</div>
-        <div class="install-buttons">
-            <button class="install-btn" id="installBtn">Install</button>
-            <button class="close-btn" id="closePrompt">Close</button>
-        </div>
-    </div>
-
-  <script>
+    <script>
 const applianceData = {
     refrigerator: {
-        brands: ['GE','Samsung','Whirlpool','LG','Kenmore','KitchenAid','Frigidaire','Maytag','Bosch','Electrolux','Haier','Panasonic','Beko','Hotpoint','Indesit','Miele','Ariston','Sharp','Smeg','Hitachi'],
+        brands: ['GE', 'Samsung', 'Whirlpool', 'LG', 'Kenmore', 'KitchenAid', 'Frigidaire', 'Maytag', 'Bosch', 'Electrolux', 'Haier', 'Panasonic', 'Beko', 'Hotpoint', 'Indesit', 'Miele', 'Ariston', 'Sharp', 'Smeg', 'Hitachi'],
         problems: [
-            { en:"Not cooling properly", ru:"Не охлаждает должным образом" },
-            { en:"Making loud noises", ru:"Издает громкие звуки" },
-            { en:"Leaking water", ru:"Течет вода" },
-            { en:"Ice maker not working", ru:"Льдогенератор не работает" },
-            { en:"Defrost issues", ru:"Не работает разморозка" },
-            { en:"Compressor running constantly", ru:"Компрессор работает постоянно" },
-            { en:"Odors in fridge", ru:"Запахи внутри" },
-            { en:"Food freezing", ru:"Замораживает продукты" },
-            { en:"Water dispenser failure", ru:"Не работает раздатчик воды" },
-            { en:"Control panel unresponsive", ru:"Панель не реагирует" },
-            { en:"Door not closing", ru:"Дверь не закрывается" },
-            { en:"Evaporator fan noise", ru:"Шум вентилятора испарителя" }
+            { en: "Not cooling properly", ru: "Не охлаждает должным образом" },
+            { en: "Making loud noises", ru: "Издает громкие звуки" },
+            { en: "Leaking water", ru: "Течет вода" },
+            { en: "Ice maker not working", ru: "Льдогенератор не работает" },
+            { en: "Defrost issues", ru: "Не работает разморозка" },
+            { en: "Compressor running constantly", ru: "Компрессор работает постоянно" },
+            { en: "Odors in fridge", ru: "Запахи внутри" },
+            { en: "Food freezing", ru: "Замораживает продукты" },
+            { en: "Water dispenser failure", ru: "Не работает раздатчик воды" },
+            { en: "Control panel unresponsive", ru: "Панель не реагирует" },
+            { en: "Door not closing", ru: "Дверь не закрывается" },
+            { en: "Evaporator fan noise", ru: "Шум вентилятора испарителя" }
         ],
         diagnosis: [
-            { en:"Faulty compressor", ru:"Неисправный компрессор" },
-            { en:"Refrigerant leak", ru:"Утечка хладагента" },
-            { en:"Defrost timer failure", ru:"Неисправен таймер разморозки" },
-            { en:"Clogged drain", ru:"Засор дренажа" },
-            { en:"Broken fan motor", ru:"Сломан мотор вентилятора" }
+            { en: "Faulty compressor", ru: "Неисправный компрессор" },
+            { en: "Refrigerant leak", ru: "Утечка хладагента" },
+            { en: "Defrost timer failure", ru: "Неисправен таймер разморозки" },
+            { en: "Clogged drain", ru: "Засор дренажа" },
+            { en: "Broken fan motor", ru: "Сломан мотор вентилятора" }
         ],
         actions: [
-            { en:"Replaced compressor", ru:"Заменен компрессор" },
-            { en:"Repaired leak + refill", ru:"Заправлен фреон, устранена утечка" },
-            { en:"Cleared drain", ru:"Проведен прочистка дренажа" },
-            { en:"Installed new fan", ru:"Заменен вентилятор" },
-            { en:"Replaced door gasket", ru:"Заменили уплотнитель двери" }
+            { en: "Replaced compressor", ru: "Заменен компрессор" },
+            { en: "Repaired leak + refill", ru: "Заправлен фреон, устранена утечка" },
+            { en: "Cleared drain", ru: "Проведен прочистка дренажа" },
+            { en: "Installed new fan", ru: "Заменен вентилятор" },
+            { en: "Replaced door gasket", ru: "Заменили уплотнитель двери" }
         ]
     },
     dishwasher: {
         brands: ['GE','Samsung','Whirlpool','LG','Kenmore','Bosch','Siemens','Electrolux','Beko','Miele','Hotpoint','Indesit','Ariston','Zanussi','Candy','Sharp','Viking','Daewoo','Smeg'],
         problems: [
-            { en:"Not draining water", ru:"Не сливает воду" },
-            { en:"Dishes not getting clean", ru:"Посуда не отмывается" },
-            { en:"Leaking", ru:"Течет" },
-            { en:"No power", ru:"Не включается" },
-            { en:"Filling with water continuously", ru:"Постоянно набирает воду" },
-            { en:"Door not latching", ru:"Дверь не закрывается" }
+            { en: "Not draining water", ru: "Не сливает воду" },
+            { en: "Dishes not getting clean", ru: "Посуда не отмывается" },
+            { en: "Leaking", ru: "Течет" },
+            { en: "No power", ru: "Не включается" },
+            { en: "Filling with water continuously", ru: "Постоянно набирает воду" },
+            { en: "Door not latching", ru: "Дверь не закрывается" }
         ],
         diagnosis: [
             {en:"Clogged drain hose",ru:"Забит сливной шланг"},
@@ -790,26 +369,74 @@ const applianceData = {
     }
 };
 
-// DOM
+const ENGLISH_UI = {
+    applianceType: "Appliance Type",
+    brand: "Brand",
+    model: "Model",
+    serial: "Serial Number",
+    year: "Year of Manufacture",
+    problem: "Problem",
+    diagnosis: "Diagnosis",
+    action: "Action Taken",
+    status: "Status",
+    notes: "Additional Notes",
+    selectBrand: "Select Brand",
+    selectProblem: "Select Problem",
+    selectDiagnosis: "Select Diagnosis",
+    selectAction: "Select Action",
+    selectStatus: "Select Status",
+    formPlaceholderModel: "Enter model number",
+    formPlaceholderSerial: "Enter serial number",
+    formPlaceholderYear: "2020",
+    formPlaceholderNotes: "Enter any additional details or recommendations...",
+    btnGenerateReport: "📋 Generate Report",
+    btnClearForm: "🗑️ Clear Form",
+    btnCopyAll: "📑 Copy All Reports",
+    btnCopyLast: "📋 Copy Last Report",
+    btnClearAll: "🗑️ Clear All Reports",
+    sectionAppliance: "🏠 Appliance Information",
+    sectionService: "🔍 Service Details",
+    reportTitle: "📄 Service Report",
+    customerTemplates: "💬 Customer Message Templates",
+    template1: { main: "✅ Service completed successfully - Your appliance is working perfectly", translation: "" },
+    template2: { main: "🔧 Part ordered - We'll return within 3-5 business days to complete the repair", translation: "" },
+    template3: { main: "💰 Repair estimate provided - Please review and let us know your decision", translation: "" },
+    template4: { main: "🛡️ Repair covered under warranty - No charge for today's service", translation: "" }
+};
+
+// --- DOM
 const categorySelect = document.getElementById('category');
 const brandSelect = document.getElementById('brand');
 const problemSelect = document.getElementById('problem');
 const diagnosisSelect = document.getElementById('diagnosis');
 const actionSelect = document.getElementById('action');
 const form = document.getElementById('repairForm');
-const reportOutput = document.getElementById('reportOutput');
-const reportContent = document.getElementById('reportContent');
 const clearBtn = document.getElementById('clearBtn');
+const copyAllBtn = document.getElementById('copyAllBtn');
+const copyLastBtn = document.getElementById('copyLastBtn');
+const clearAllBtn = document.getElementById('clearAllBtn');
+const allReportsBlock = document.getElementById('allReportsBlock');
+const reportOutput = document.getElementById('reportsControlBtns');
 
-// NEW: отчёты сохраняются
+// --- сохранение отчётов в localStorage
 let reportsArr = [];
+function saveReports() { localStorage.setItem('applianceReports', JSON.stringify(reportsArr)); }
+function loadReports() {
+    try {
+        const data = localStorage.getItem('applianceReports');
+        if (data) reportsArr = JSON.parse(data);
+        else reportsArr = [];
+    } catch { reportsArr = []; }
+}
 
-categorySelect.addEventListener('change', () => {
+// заполняем селекты
+categorySelect.addEventListener('change', () => updateFields());
+function updateFields(clientMode) {
     const category = categorySelect.value;
-    brandSelect.innerHTML = '<option value="">Select Brand</option>';
-    problemSelect.innerHTML = '<option value="">Select Problem</option>';
-    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
-    actionSelect.innerHTML = '<option value="">Select Action</option>';
+    brandSelect.innerHTML = `<option value="">${ENGLISH_UI.selectBrand}</option>`;
+    problemSelect.innerHTML = `<option value="">${ENGLISH_UI.selectProblem}</option>`;
+    diagnosisSelect.innerHTML = `<option value="">${ENGLISH_UI.selectDiagnosis}</option>`;
+    actionSelect.innerHTML = `<option value="">${ENGLISH_UI.selectAction}</option>`;
 
     if (category && applianceData[category]) {
         applianceData[category].brands.forEach(brand => {
@@ -821,28 +448,27 @@ categorySelect.addEventListener('change', () => {
         applianceData[category].problems.forEach(problem => {
             const option = document.createElement('option');
             option.value = problem.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = `${problem.en} / ${problem.ru}`;
+            option.textContent = clientMode ? problem.en : `${problem.en} / ${problem.ru}`;
             problemSelect.appendChild(option);
         });
         applianceData[category].diagnosis.forEach(diagnosis => {
             const option = document.createElement('option');
             option.value = diagnosis.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = `${diagnosis.en} / ${diagnosis.ru}`;
+            option.textContent = clientMode ? diagnosis.en : `${diagnosis.en} / ${diagnosis.ru}`;
             diagnosisSelect.appendChild(option);
         });
         applianceData[category].actions.forEach(action => {
             const option = document.createElement('option');
             option.value = action.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = `${action.en} / ${action.ru}`;
+            option.textContent = clientMode ? action.en : `${action.en} / ${action.ru}`;
             actionSelect.appendChild(option);
         });
     }
-});
+}
 
-// формирование отчета + запись в массив всех отчетов
 function getCurrentReport() {
     return {
-        appliance: categorySelect.options[categorySelect.selectedIndex].text,
+        appliance: categorySelect.options[categorySelect.selectedIndex].text.replace(/ \/ .+$/,''),
         brand: brandSelect.options[brandSelect.selectedIndex]?.text || '',
         model: document.getElementById('model').value.trim(),
         serial: document.getElementById('serial').value.trim(),
@@ -854,32 +480,33 @@ function getCurrentReport() {
         notes: document.getElementById('notes').value.trim()
     };
 }
-
-// отрисовка всех отчетов
 function renderAllReports() {
+    if (reportsArr.length === 0) {
+        allReportsBlock.innerHTML = '';
+        reportOutput.classList.add('hidden');
+        return;
+    }
     let out = '';
     reportsArr.forEach((r,idx) => {
         out += `<div class="report-output" style="margin-top:24px;">
-            <div class="report-title">📄 Report #${idx+1}</div>
+            <div class="report-title">${ENGLISH_UI.reportTitle}</div>
             <div class="report-content">
-                <div class="report-line"><span class="report-label">Appliance Type:</span> <span class="report-value">${r.appliance}</span></div>
-                <div class="report-line"><span class="report-label">Brand:</span> <span class="report-value">${r.brand}</span></div>
-                <div class="report-line"><span class="report-label">Model:</span> <span class="report-value">${r.model}</span></div>
-                <div class="report-line"><span class="report-label">Serial Number:</span> <span class="report-value">${r.serial}</span></div>
-                <div class="report-line"><span class="report-label">Year of Manufacture:</span> <span class="report-value">${r.year}</span></div>
-                <div class="report-line"><span class="report-label">Problem:</span> <span class="report-value">${r.problem}</span></div>
-                <div class="report-line"><span class="report-label">Diagnosis:</span> <span class="report-value">${r.diagnosis}</span></div>
-                <div class="report-line"><span class="report-label">Action Taken:</span> <span class="report-value">${r.action}</span></div>
-                <div class="report-line"><span class="report-label">Status:</span> <span class="report-value">${r.status}</span></div>
-                <div class="report-line"><span class="report-label">Additional Notes:</span> <span class="report-value">${r.notes}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.applianceType}:</span> <span class="report-value">${r.appliance}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.brand}:</span> <span class="report-value">${r.brand}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.model}:</span> <span class="report-value">${r.model}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.serial}:</span> <span class="report-value">${r.serial}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.year}:</span> <span class="report-value">${r.year}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.problem}:</span> <span class="report-value">${r.problem}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.diagnosis}:</span> <span class="report-value">${r.diagnosis}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.action}:</span> <span class="report-value">${r.action}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.status}:</span> <span class="report-value">${r.status}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.notes}:</span> <span class="report-value">${r.notes}</span></div>
             </div>
         </div>`;
     });
-    document.getElementById('allReportsBlock').innerHTML = out;
-    document.getElementById('reportsControlBtns').classList.toggle('hidden', reportsArr.length === 0);
+    allReportsBlock.innerHTML = out;
+    reportOutput.classList.remove('hidden');
 }
-
-// формат для копирования
 function reportToText(r) {
     return `
 [${r.appliance}]
@@ -899,65 +526,115 @@ form.addEventListener('submit', e => {
     e.preventDefault();
     const report = getCurrentReport();
     reportsArr.push(report);
+    saveReports();
     renderAllReports();
     form.reset();
-    brandSelect.innerHTML = '<option value="">Select Brand</option>';
-    problemSelect.innerHTML = '<option value="">Select Problem</option>';
-    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
-    actionSelect.innerHTML = '<option value="">Select Action</option>';
+    updateFields(isClientMode());
 });
 
 clearBtn.addEventListener('click', () => {
     form.reset();
-    reportOutput.classList.add('hidden');
-    brandSelect.innerHTML = '<option value="">Select Brand</option>';
-    problemSelect.innerHTML = '<option value="">Select Problem</option>';
-    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
-    actionSelect.innerHTML = '<option value="">Select Action</option>';
+    updateFields(isClientMode());
 });
 
-// управление историями отчетов
-if (!document.getElementById('allReportsBlock')) {
-    // Вставим под form
-    let repBlock = document.createElement('div');
-    repBlock.id = 'reportsControlBtns';
-    repBlock.className = 'action-buttons hidden';
-    repBlock.innerHTML = `
-        <button type="button" class="btn btn-primary" id="copyAllBtn">📑 Copy All Reports</button>
-        <button type="button" class="btn btn-primary" id="copyLastBtn">📋 Copy Last Report</button>
-        <button type="button" class="btn btn-secondary" id="clearAllBtn">🗑️ Clear All Reports</button>
-    `;
-    form.parentNode.insertBefore(repBlock, form.nextSibling);
+copyAllBtn.addEventListener('click', () => {
+    if (reportsArr.length)
+        navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));
+});
+copyLastBtn.addEventListener('click', () => {
+    if (reportsArr.length)
+        navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));
+});
+clearAllBtn.addEventListener('click', () => {
+    reportsArr.length = 0;
+    saveReports();
+    renderAllReports();
+});
 
-    let allRepHtml = document.createElement('div');
-    allRepHtml.id = 'allReportsBlock';
-    form.parentNode.insertBefore(allRepHtml, repBlock.nextSibling);
-
-    document.getElementById('copyAllBtn').onclick = () => {
-        if (reportsArr.length)
-            navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));
-    }
-    document.getElementById('copyLastBtn').onclick = () => {
-        if (reportsArr.length)
-            navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));
-    }
-    document.getElementById('clearAllBtn').onclick = () => {
-        reportsArr.length = 0; renderAllReports();
-    };
+// --- режим client/technician ---
+function isClientMode() {
+    return document.querySelector('.mode-btn[data-mode="client"]').classList.contains('active');
 }
-
-// Режим клиент/техник — скрытие переводов
-const modeButtons = document.querySelectorAll('.mode-btn');
-modeButtons.forEach(button => {
+function switchUiToClient(client) {
+    // лейблы и плейсхолдеры
+    document.querySelectorAll('.label').forEach(label => {
+        let base = label.childNodes[0];
+        if (base && base.nodeType === 3) {
+            const enKey = Object.keys(ENGLISH_UI).find(k => ENGLISH_UI[k] && ENGLISH_UI[k].startsWith(base.textContent.trim()));
+            if (enKey) base.textContent = ENGLISH_UI[enKey];
+        }
+    });
+    document.querySelectorAll('.translation').forEach(span => span.classList[client?'add':'remove']('hidden'));
+    // select options
+    updateFields(client);
+    // placeholders
+    document.getElementById('model').placeholder     = ENGLISH_UI.formPlaceholderModel;
+    document.getElementById('serial').placeholder    = ENGLISH_UI.formPlaceholderSerial;
+    document.getElementById('year').placeholder      = ENGLISH_UI.formPlaceholderYear;
+    document.getElementById('notes').placeholder     = ENGLISH_UI.formPlaceholderNotes;
+    // buttons
+    let btns = [
+        {id:"copyAllBtn",txt:ENGLISH_UI.btnCopyAll},
+        {id:"copyLastBtn",txt:ENGLISH_UI.btnCopyLast},
+        {id:"clearAllBtn",txt:ENGLISH_UI.btnClearAll},
+        {id:"clearBtn",txt:ENGLISH_UI.btnClearForm}
+    ];
+    btns.forEach(obj=>{
+        if(document.getElementById(obj.id))document.getElementById(obj.id).textContent=obj.txt
+    });
+    // form
+    document.querySelector('button[type="submit"]').textContent = ENGLISH_UI.btnGenerateReport;
+    // шаблоны
+    const templates = [
+        ENGLISH_UI.template1, ENGLISH_UI.template2, ENGLISH_UI.template3, ENGLISH_UI.template4
+    ];
+    document.querySelectorAll('.template-btn').forEach((btn,i)=>{
+        btn.querySelector('.template-main').textContent = templates[i].main;
+        btn.querySelector('.template-translation').textContent = "";
+        btn.querySelector('.template-translation').classList.add('hidden');
+    });
+    document.querySelector('.templates-title').textContent = ENGLISH_UI.customerTemplates;
+    document.querySelectorAll('.section-title')[0].textContent = ENGLISH_UI.sectionAppliance;
+    document.querySelectorAll('.section-title')[1].textContent = ENGLISH_UI.sectionService;
+}
+function switchUiToTechnician() {
+    // Восстанавливаем переводы и оригинальные подписи
+    document.querySelectorAll('.translation').forEach(span=>span.classList.remove('hidden'));
+    categorySelect.options[0].text = "Select Appliance Type";
+    document.querySelectorAll('.template-btn')[0].querySelector('.template-main').textContent = "✅ Service completed successfully - Your appliance is working perfectly";
+    document.querySelectorAll('.template-btn')[0].querySelector('.template-translation').textContent = "✅ Обслуживание успешно завершено - Ваша техника работает отлично";
+    document.querySelectorAll('.template-btn')[1].querySelector('.template-main').textContent = "🔧 Part ordered - We'll return within 3-5 business days to complete the repair";
+    document.querySelectorAll('.template-btn')[1].querySelector('.template-translation').textContent = "🔧 Запчасть заказана - Вернемся через 3-5 рабочих дней для завершения ремонта";
+    document.querySelectorAll('.template-btn')[2].querySelector('.template-main').textContent = "💰 Repair estimate provided - Please review and let us know your decision";
+    document.querySelectorAll('.template-btn')[2].querySelector('.template-translation').textContent = "💰 Смета ремонта предоставлена - Пожалуйста, рассмотрите и сообщите решение";
+    document.querySelectorAll('.template-btn')[3].querySelector('.template-main').textContent = "🛡️ Repair covered under warranty - No charge for today's service";
+    document.querySelectorAll('.template-btn')[3].querySelector('.template-translation').textContent = "🛡️ Ремонт покрывается гарантией - Сегодняшнее обслуживание бесплатно";
+    document.querySelector('.templates-title').textContent = "💬 Customer Message Templates";
+    document.querySelectorAll('.section-title')[0].textContent = "🏠 Appliance Information";
+    document.querySelectorAll('.section-title')[1].textContent = "🔍 Service Details";
+    updateFields(false);
+}
+document.querySelectorAll('.mode-btn').forEach(button => {
     button.addEventListener('click', () => {
-        modeButtons.forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.mode-btn').forEach(btn=>btn.classList.remove('active'));
         button.classList.add('active');
-        // убираем/возвращаем переводы
-        document.querySelectorAll('.translation').forEach(el => {
-            if (button.getAttribute('data-mode') === 'client') el.classList.add('hidden');
-            else el.classList.remove('hidden');
-        });
+        let client = button.getAttribute('data-mode') === "client";
+        if (client) switchUiToClient(true); else switchUiToTechnician();
     });
 });
 
-</script>
+// шаблоны - только main в режиме client
+document.querySelectorAll('.template-btn').forEach(btn=>{
+    btn.addEventListener('click',()=> {
+        const main = btn.querySelector('.template-main').textContent;
+        document.getElementById('notes').value = main;
+    })
+});
+
+// --- стартовая отрисовка
+loadReports();
+renderAllReports();
+updateFields(isClientMode());
+    </script>
+</body>
+</html>

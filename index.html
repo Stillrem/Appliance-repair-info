@@ -117,13 +117,9 @@ textarea{min-height:100px;resize:vertical;line-height:1.5;}
           <input type="text" id="serial" placeholder="Enter serial number" />
         </div>
         <div class="form-group">
-          <label class="label">Month/Year <span class="translation">Месяц/Год (MM.YYYY)</span></label>
-          <input type="text" id="month_year" placeholder="MM.YYYY" pattern="^(0[1-9]|1[0-2])\\.20[0-9]{2}$" maxlength="7"/>
+          <label class="label">Year of Manufacture <span class="translation">Месяц и год выпуска (MM.YYYY)</span></label>
+          <input type="text" id="year" placeholder="MM.YYYY" pattern="^(0[1-9]|1[0-2])\\.20[0-9]{2}$" maxlength="7"/>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="label">Year of Manufacture <span class="translation">Год выпуска</span></label>
-        <input type="text" id="year" placeholder="2020"/>
       </div>
     </div>
     <div class="form-section">
@@ -206,31 +202,82 @@ textarea{min-height:100px;resize:vertical;line-height:1.5;}
   </div>
 </div>
 <script>
-// ДЛЯ ПРИМЕРА - только по 4 значения. Для продакшн вставьте свои большие массивы!
+const brandsFridge = [
+"LG","Samsung","Whirlpool","GE","Bosch","Siemens","Electrolux","Frigidaire","KitchenAid",
+"Maytag","Hitachi","Liebherr","Sharp","Indesit","Hotpoint","Viking","Beko","Kenmore","Haier",
+"Panasonic","Zanussi","Daewoo","Gorenje","Amana","Candy","Ariston","Miele","Sub-Zero","Smeg",
+"Turboair","Vestfrost","Atlant","Nord","Vestel","Krups","Schaub Lorenz","Blomberg","Grundig","Crosley",
+"Hisense","Toshiba","Winia","Baumatic","Bomann","Brandt","Fisher & Paykel","Teka","Neff","Teka","Silverline"
+];
+const brandsDishwasher = [
+"Bosch","Siemens","Electrolux","Whirlpool","Beko","Miele","Candy","Hotpoint","Indesit","Zanussi",
+"Samsung","LG","Sharp","AEG","Smeg","Ariston","Gorenje","Blomberg","Grundig","Viking","Daewoo",
+"Bomann","Amica","Baumatic","Brandt","Teka","Neff","Hotpoint-Ariston","Maytag","Kenmore","Krups",
+"Siemens iQ500","Toshiba","Vestel","Weissgauff","Kuppersbusch","Bomann","Teka","Silverline","Haier",
+"Liebherr","Hansa","Panasonic","Fagor","Crosley","Fisher & Paykel","Gaggenau","Winia","Hisense"
+];
+const brandsWasher = [
+"LG","Bosch","Samsung","Whirlpool","Electrolux","Siemens","Indesit","Candy","Hotpoint", "Maytag",
+"Frigidaire","Haier","Ariston","Beko","Miele","Zanussi","Gorenje","Amica","Panasonic","Sharp",
+"Kuppersbusch","Vestfrost","Grundig","Blomberg","Baumatic","Brandt","Teka","Hisense","Toshiba","Fisher & Paykel",
+"Bomann","Wansa","Gaggenau","Silverline","Viking","Weissgauff","Winia","Hansa","Krups","Delonghi",
+"Kenmore","Atlant","Smeg","AEG","Neff","Nord","Daewoo","Rosieres","Schulthess","Qilive"
+];
+const brandsDryer = [
+"Electrolux","Bosch","Siemens","Whirlpool","Samsung","LG","Gorenje","Miele","Hotpoint","Beko",
+"Aeg","Indesit","Candy","Blomberg","Sharp","Grundig","Amica","Maytag","Bauknecht","Zanussi",
+"Ariston","Midea","AEG","Bomann","Panasonic","Haier","Viking","Smeg","Brandt","Teka","Vestel",
+"Vestfrost","Winia","Frigidaire","Krups","Toshiba","Fisher & Paykel","Weissgauff","Silverline","Hisense",
+"Crosley","Daewoo","Rosieres","Baumatic","Atlant","Neff","Qilive","Nord","Delonghi","Wansa"
+];
+const brandsOven = [
+"GE","Bosch","Siemens","Whirlpool","Samsung","LG","Electrolux","Hotpoint","Ariston","Beko",
+"Miele","Candy","Sharp","Smeg","Indesit","Blomberg","Grundig","Zanussi","Amica","Maytag","Frigidaire",
+"Gorenje","Viking","Baumatic","Kenmore","Teka","Brandt","Neff","Bomann","Crosley","Krups","Toshiba",
+"Fisher & Paykel","Panasonic","Vestel","Winia","Hisense","Silverline","Weissgauff","Wansa","Hansa","Nord",
+"Delonghi","Rosieres","Schulthess","AEG","Qilive","Vestfrost","Atlant","Haier"
+];
+const brandsMicrowave = [
+"Samsung","Panasonic","LG","Sharp","Bosch","Siemens","Whirlpool","Electrolux","Midea","Candy",
+"Daewoo","Gorenje","Hotpoint","Ariston","Beko","Haier","Vitek","Mystery","BBK","REDMOND","Scarlett",
+"SUPRA","Shivaki","Horizont","Hansa","Grunhelm","Vestfrost","Teka","Brandt","Kenwood","Kuppersberg","Maunfeld",
+"Zanussi","Weissgauff","Bork","Krups","AEG","Baumatic","Delonghi","Fagor","Philips","Blomberg","Grundig",
+"Qilive","Smeg","Toshiba","Winia","Fisher & Paykel","Crosley"
+];
 const applianceData = {
 refrigerator:{
-brands:["LG","Samsung","Whirlpool","GE"],
-problems:[{en:"Not cooling",ru:"Не охлаждает"},{en:"Leaking water",ru:"Течет вода"},{en:"Frost in freezer",ru:"Иней в морозильнике"},{en:"Noisy operation",ru:"Сильный шум"}],
-diagnosis:[{en:"Compressor faulty",ru:"Неисправен компрессор"},{en:"Thermostat replaced",ru:"Термостат заменён"},{en:"Start relay bad",ru:"Пусковое реле неисправно"},{en:"Defrost timer fault",ru:"Таймер оттайки вышел из строя"}],
-actions:[{en:"Replaced compressor",ru:"Заменен компрессор"},{en:"Replaced thermostat",ru:"Заменён термостат"},{en:"Cleared drain",ru:"Почищен дренаж"},{en:"Installed new fan",ru:"Установлен новый вентилятор"}]
+brands:brandsFridge,
+problems:[{en:"Not cooling",ru:"Не охлаждает"}, {en:"Leaking water",ru:"Течет вода"}, {en:"Frost in freezer",ru:"Иней в морозильнике"}, {en:"Noisy operation",ru:"Сильный шум"}],
+diagnosis:[{en:"Compressor faulty",ru:"Неисправен компрессор"}, {en:"Thermostat replaced",ru:"Термостат заменён"}, {en:"Start relay bad",ru:"Пусковое реле неисправно"}, {en:"Defrost timer fault",ru:"Таймер оттайки вышел из строя"}],
+actions:[{en:"Replaced compressor",ru:"Заменен компрессор"}, {en:"Replaced thermostat",ru:"Заменён термостат"}, {en:"Cleared drain",ru:"Почищен дренаж"}, {en:"Installed new fan",ru:"Установлен новый вентилятор"}]
 },
-dishwasher:{brands:["Bosch","Siemens","Indesit","Candy"],problems:[{en:"Not draining",ru:"Не сливает воду"},{en:"Not cleaning",ru:"Плохо моет посуду"},{en:"Leaking",ru:"Протекает"},{en:"No power",ru:"Не включается"}],
-diagnosis:[{en:"Pump blocked",ru:"Заблокирован насос"},{en:"Heater fault",ru:"Неисправен нагреватель"},{en:"Control board issue",ru:"Проблема с платой"},{en:"Faulty sensor",ru:"Сломан датчик"}],
-actions:[{en:"Cleared debris",ru:"Удалён мусор"},{en:"Replaced heater",ru:"Поменян нагреватель"},{en:"Reset board",ru:"Плата сброшена"},{en:"Cleaned filter",ru:"Почищен фильтр"}]},
-washing_machine:{brands:["LG","Bosch","Whirlpool","Samsung"],problems:[{en:"Not spinning",ru:"Не крутит барабан"},{en:"Water not draining",ru:"Не сливает воду"},{en:"Door locked",ru:"Дверца заблокирована"},{en:"Leakage",ru:"Протекает"}],
-diagnosis:[{en:"Motor brushes worn",ru:"Щётки мотора изношены"},{en:"Drain pump fault",ru:"Неисправен насос"},{en:"Lock broken",ru:"Сломан замок"},{en:"Hose leak",ru:"Течь шланга"}],
-actions:[{en:"Changed brushes",ru:"Поменяны щётки"},{en:"Cleaned drain",ru:"Почищен слив"},{en:"Repaired lock",ru:"Замок отремонтирован"},{en:"Replaced hose",ru:"Шланг заменён"}]},
-dryer:{brands:["Electrolux","Whirlpool","Bosch","Beko"],problems:[{en:"No heat",ru:"Нет нагрева"},{en:"Long dry time",ru:"Долго сушит"},{en:"Drum not spinning",ru:"Барабан не крутится"},{en:"Vibration",ru:"Вибрирует"}],
-diagnosis:[{en:"Heater dead",ru:"Нагреватель сгорел"},{en:"Vent blocked",ru:"Засорён воздуховод"},{en:"Motor jammed",ru:"Двигатель заклинило"},{en:"Faulty belt",ru:"Порван ремень"}],
-actions:[{en:"Cleaned vent",ru:"Почищен воздуховод"},{en:"Replaced heater",ru:"Поменян нагреватель"},{en:"Changed belt",ru:"Поменян ремень"},{en:"Fixed motor",ru:"Мотор починен"}]},
-stove_oven:{brands:["Ariston","GE","Bosch","Gorenje"],problems:[{en:"Not heating",ru:"Не греет"},{en:"No ignition",ru:"Нет искры"},{en:"Uneven baking",ru:"Неравномерно печёт"},{en:"Display dead",ru:"Дисплей не горит"}],
-diagnosis:[{en:"Element burnt",ru:"Тэн сгорел"},{en:"Igniter broken",ru:"Искровой модуль сломан"},{en:"Sensor bad",ru:"Датчик неисправен"},{en:"Board fail",ru:"Плата вышла из строя"}],
-actions:[{en:"Changed element",ru:"Заменён тэн"},{en:"Fixed igniter",ru:"Исправлен розжиг"},{en:"Replaced sensor",ru:"Датчик заменён"},{en:"Repaired board",ru:"Починена плата"}]},
-microwave:{brands:["Samsung","Panasonic","Whirlpool","Sharp"],problems:[{en:"No heating",ru:"Не греет"},{en:"Plate not spinning",ru:"Тарелка не крутится"},{en:"Sparking",ru:"Искрит"},{en:"Noise",ru:"Гудит"}],
-diagnosis:[{en:"Magnetron dead",ru:"Магнетрон сгорел"},{en:"Turntable motor bad",ru:"Двигатель тарелки сломан"},{en:"Waveguide cover bad",ru:"Мика сгорела"},{en:"Fuse blown",ru:"Предохранитель перегорел"}],
-actions:[{en:"Changed magnetron",ru:"Заменён магнетрон"},{en:"Fixed motor",ru:"Мотор починен"},{en:"Replaced fuse",ru:"Поменян предохранитель"},{en:"Cleaned cover",ru:"Почищена мика"}]}
+dishwasher:{
+brands:brandsDishwasher,
+problems:[{en:"Not draining",ru:"Не сливает воду"}, {en:"Not cleaning",ru:"Плохо моет посуду"}, {en:"Leaking",ru:"Протекает"}, {en:"No power",ru:"Не включается"}],
+diagnosis:[{en:"Pump blocked",ru:"Заблокирован насос"}, {en:"Heater fault",ru:"Неисправен нагреватель"}, {en:"Control board issue",ru:"Проблема с платой"}, {en:"Faulty sensor",ru:"Сломан датчик"}],
+actions:[{en:"Cleared debris",ru:"Удалён мусор"}, {en:"Replaced heater",ru:"Поменян нагреватель"}, {en:"Reset board",ru:"Плата сброшена"}, {en:"Cleaned filter",ru:"Почищен фильтр"}]},
+washing_machine:{
+brands:brandsWasher,
+problems:[{en:"Not spinning",ru:"Не крутит барабан"}, {en:"Water not draining",ru:"Не сливает воду"}, {en:"Door locked",ru:"Дверца заблокирована"}, {en:"Leakage",ru:"Протекает"}],
+diagnosis:[{en:"Motor brushes worn",ru:"Щётки мотора изношены"}, {en:"Drain pump fault",ru:"Неисправен насос"}, {en:"Lock broken",ru:"Сломан замок"}, {en:"Hose leak",ru:"Течь шланга"}],
+actions:[{en:"Changed brushes",ru:"Поменяны щётки"}, {en:"Cleaned drain",ru:"Почищен слив"}, {en:"Repaired lock",ru:"Замок отремонтирован"}, {en:"Replaced hose",ru:"Шланг заменён"}]},
+dryer:{
+brands:brandsDryer,
+problems:[{en:"No heat",ru:"Нет нагрева"}, {en:"Long dry time",ru:"Долго сушит"}, {en:"Drum not spinning",ru:"Барабан не крутится"}, {en:"Vibration",ru:"Вибрирует"}],
+diagnosis:[{en:"Heater dead",ru:"Нагреватель сгорел"}, {en:"Vent blocked",ru:"Засорён воздуховод"}, {en:"Motor jammed",ru:"Двигатель заклинило"}, {en:"Faulty belt",ru:"Порван ремень"}],
+actions:[{en:"Cleaned vent",ru:"Почищен воздуховод"}, {en:"Replaced heater",ru:"Поменян нагреватель"}, {en:"Changed belt",ru:"Поменян ремень"}, {en:"Fixed motor",ru:"Мотор починен"}]},
+stove_oven:{
+brands:brandsOven,
+problems:[{en:"Not heating",ru:"Не греет"}, {en:"No ignition",ru:"Нет искры"}, {en:"Uneven baking",ru:"Неравномерно печёт"}, {en:"Display dead",ru:"Дисплей не горит"}],
+diagnosis:[{en:"Element burnt",ru:"Тэн сгорел"}, {en:"Igniter broken",ru:"Искровой модуль сломан"}, {en:"Sensor bad",ru:"Датчик неисправен"}, {en:"Board fail",ru:"Плата вышла из строя"}],
+actions:[{en:"Changed element",ru:"Заменён тэн"}, {en:"Fixed igniter",ru:"Исправлен розжиг"}, {en:"Replaced sensor",ru:"Датчик заменён"}, {en:"Repaired board",ru:"Починена плата"}]},
+microwave:{
+brands:brandsMicrowave,
+problems:[{en:"No heating",ru:"Не греет"}, {en:"Plate not spinning",ru:"Тарелка не крутится"}, {en:"Sparking",ru:"Искрит"}, {en:"Noise",ru:"Гудит"}],
+diagnosis:[{en:"Magnetron dead",ru:"Магнетрон сгорел"}, {en:"Turntable motor bad",ru:"Двигатель тарелки сломан"}, {en:"Waveguide cover bad",ru:"Мика сгорела"}, {en:"Fuse blown",ru:"Предохранитель перегорел"}],
+actions:[{en:"Changed magnetron",ru:"Заменён магнетрон"}, {en:"Fixed motor",ru:"Мотор починен"}, {en:"Replaced fuse",ru:"Поменян предохранитель"}, {en:"Cleaned cover",ru:"Почищена мика"}]}
 };
-
+// Остальной JS (кастомные варианты, история, удаление, рендеринг репорта) ОСТАЛИСЬ БЕЗ ИЗМЕНЕНИЙ!
 let customOptions = JSON.parse(localStorage.getItem('arpro_custom_options')||'{}');
 const categorySelect = document.getElementById('category');
 const brandSelect = document.getElementById('brand');
@@ -239,8 +286,6 @@ const diagnosisSelect = document.getElementById('diagnosis');
 const actionSelect = document.getElementById('action');
 const form = document.getElementById('repairForm');
 const clearBtn = document.getElementById('clearBtn');
-
-// Быстрое добавление
 function promptAddCustom(where) {
   let cat = categorySelect.value;
   if (!cat) return alert('Сначала выберите категорию техники!');
@@ -253,7 +298,6 @@ function promptAddCustom(where) {
   updateAllCategoryFields();
   updateDelBtns();
 }
-
 function reloadSelect(select, arr, field, cat){
   select.innerHTML = `<option value="">Select ${field.charAt(0).toUpperCase()+field.slice(1)}</option>`;
   arr.forEach(obj=>{
@@ -264,7 +308,6 @@ function reloadSelect(select, arr, field, cat){
     select.insertAdjacentHTML('beforeend', `<option data-custom="1" data-idx="${i}">${en}${ru?' / '+ru:''} ★</option>`);
   });
 }
-
 function updateAllCategoryFields(){
   const c = categorySelect.value;
   if(!c || !applianceData[c]) {
@@ -286,12 +329,10 @@ function updateAllCategoryFields(){
   });
   updateDelBtns();
 }
-
 // Для удаления своих пунктов
 const delProblemBtn = document.getElementById('delCustomProblem');
 const delDiagnosisBtn = document.getElementById('delCustomDiagnosis');
 const delActionBtn = document.getElementById('delCustomAction');
-
 function updateDelBtns() {
   const category = categorySelect.value;
   // Problem
@@ -314,7 +355,6 @@ function updateDelBtns() {
   document.getElementById(id).addEventListener('change',updateDelBtns);
 });
 categorySelect.addEventListener('change',updateDelBtns);
-
 delProblemBtn.onclick = function() {
   const idx = +this.dataset.idx;
   const cat = categorySelect.value;
@@ -348,7 +388,6 @@ delActionBtn.onclick = function() {
     updateDelBtns();
   }
 };
-
 // == REPORT: История и добавление ==
 let reportsArr = JSON.parse(localStorage.getItem('arpro_reports_history')||'[]');
 function getCurrentReport(){
@@ -359,7 +398,6 @@ function getCurrentReport(){
         model: document.getElementById('model').value.trim(),
         serial: document.getElementById('serial').value.trim(),
         year: document.getElementById('year').value.trim(),
-        month: document.getElementById('month_year').value.trim(),
         problem: problemSelect.options[problemSelect.selectedIndex]?.text ?? '',
         diagnosis: diagnosisSelect.options[diagnosisSelect.selectedIndex]?.text ?? '',
         action: actionSelect.options[actionSelect.selectedIndex]?.text ?? '',
@@ -373,8 +411,7 @@ function reportToText(r){
 Brand: ${r.brand}
 Model: ${r.model}
 Serial#: ${r.serial}
-Month: ${r.month}
-Year: ${r.year}
+Year of Manufacture: ${r.year}
 Problem: ${r.problem}
 Diagnosis: ${r.diagnosis}
 Action: ${r.action}
@@ -394,7 +431,6 @@ function renderAllReports(){
              <div class="report-line"><span class="report-label">Brand:</span> <span class="report-value">${r.brand}</span></div>
              <div class="report-line"><span class="report-label">Model:</span> <span class="report-value">${r.model}</span></div>
              <div class="report-line"><span class="report-label">Serial:</span> <span class="report-value">${r.serial}</span></div>
-             <div class="report-line"><span class="report-label">Month/Year:</span> <span class="report-value">${r.month}</span></div>
              <div class="report-line"><span class="report-label">Year of Manufacture:</span> <span class="report-value">${r.year}</span></div>
              <div class="report-line"><span class="report-label">Problem:</span> <span class="report-value">${r.problem}</span></div>
              <div class="report-line"><span class="report-label">Diagnosis:</span> <span class="report-value">${r.diagnosis}</span></div>
@@ -405,17 +441,15 @@ function renderAllReports(){
           </div>
         </div>`);
     document.getElementById('allReportsBlock').innerHTML = out;
-    // Управление кнопками
     const btns = document.getElementById('reportsControlBtns');
     btns.style.display = reportsArr.length ? "" : "none";
 }
 categorySelect.addEventListener('change',updateAllCategoryFields);
 form.addEventListener('submit', e => {
     e.preventDefault();
-    // Валидация месяца
-    let v = document.getElementById('month_year').value.trim();
+    let v = document.getElementById('year').value.trim();
     if(v && !/^((0[1-9])|(1[0-2]))\.20[0-9]{2}$/.test(v)){
-        alert('Неверный формат месяца! Пример: 02.2025 или 11.2023'); return;
+        alert('Неверный формат! Пример: 02.2025 или 10.2017'); return;
     }
     const report = getCurrentReport();
     reportsArr.push(report);

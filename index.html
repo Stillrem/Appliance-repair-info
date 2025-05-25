@@ -12,54 +12,64 @@
     <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
     <style>
-        :root { --primary: #34c759; --primary-dark: #30d158; --background: #000000; --surface: #1c1c1e; --surface-2: #2c2c2e; --surface-3: #3a3a3c; --text: #ffffff; --text-secondary: #8e8e93; --border: #2c2c2e; --shadow: rgba(0, 0, 0, 0.3);}
-        * { margin: 0; padding: 0; box-sizing: border-box;}
-        body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; background: var(--background); color: var(--text); min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: hidden;}
-        .container { max-width: 100%; padding: 20px; margin: 0 auto; min-height: 100vh;}
+        :root { --primary: #34c759; --primary-dark: #30d158; --danger: #ff453a; --input-bg: #2c2c2e; --input-border: #454545; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif; background: #000; color: #fff; min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+        .container { max-width: 100%; padding: 20px; min-height: 100vh; }
         .header { text-align: center; margin-bottom: 30px; padding: 20px 0;}
         .logo { width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 15px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 8px 32px rgba(52,199,89,.3);}
         .title { font-size: 28px; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); -webkit-background-clip: text;-webkit-text-fill-color: transparent; background-clip: text;}
-        .subtitle { color: var(--text-secondary); font-size: 16px; font-weight: 500;}
-        .mode-toggle { display: flex; background: var(--surface); border-radius: 12px; padding: 4px; margin: 25px 0; box-shadow: inset 0 1px 3px var(--shadow);}
-        .mode-btn { flex: 1; padding: 12px 16px; border: none; background: transparent; color: var(--text-secondary); border-radius: 8px; font-weight: 600; font-size: 15px; transition: all 0.3s cubic-bezier(.25,.46,.45,.94); cursor: pointer;}
-        .mode-btn.active {background: var(--primary); color: var(--text); box-shadow: 0 2px 8px rgba(52,199,89,.3); transform: scale(1.02);}
-        .form-section {background: var(--surface); border-radius: 16px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.1);}
-        .section-title {font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;}
-        .form-group { margin-bottom: 20px;}
-        .form-group:last-child {margin-bottom: 0;}
-        .label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--text); font-size: 16px;}
-        .translation { color: var(--text-secondary); font-size: 14px; font-style: italic; display: block; margin-top: 2px;}
-        .translation.hidden { display: none;}
-        select,input,textarea {width: 100%; padding: 16px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 16px; font-family: inherit; transition: all .3s ease; -webkit-appearance: none; appearance: none;}
-        select {background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat:no-repeat; background-position:right 12px center; background-size:20px; padding-right:50px; cursor:pointer;}
-        select:focus,input:focus,textarea:focus {outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(52,199,89,.1); transform: translateY(-1px);}
-        input::placeholder,textarea::placeholder {color: var(--text-secondary);}
-        textarea {min-height: 100px; resize: vertical; line-height: 1.5;}
-        .form-row {display: grid;grid-template-columns: 1fr 1fr; gap: 15px;}
-        .action-buttons {display: flex; gap: 12px; margin-top: 30px;}
-        .btn { flex: 1;padding: 16px 24px; border: none; border-radius: 12px; font-weight: 600; font-size: 16px; transition: all .3s cubic-bezier(.25,.46,.45,.94); cursor: pointer; position: relative; overflow: hidden;}
-        .btn:active {transform: scale(.98);}
-        .btn-primary {background: linear-gradient(135deg,var(--primary),var(--primary-dark));color: var(--text);box-shadow:0 4px 16px rgba(52,199,89,.3);}
+        .subtitle { color: #8e8e93; font-size: 16px; font-weight: 500;}
+        .mode-toggle { display:flex; background:#1c1c1e; border-radius:12px; padding:4px; margin:25px 0; box-shadow:inset 0 1px 3px rgba(0,0,0,.3);}
+        .mode-btn {flex:1; padding:12px 16px; border:none; background:transparent; color:#8e8e93; border-radius:8px; font-weight:600; font-size:15px; transition:.3s; cursor:pointer;}
+        .mode-btn.active {background: var(--primary); color:#fff; box-shadow:0 2px 8px rgba(52,199,89,.3);}
+        .form-section {background:#1c1c1e; border-radius:16px; padding:24px; margin-bottom:20px; border:1px solid #2c2c2e; box-shadow:0 4px 16px rgba(0,0,0,.1);}
+        .section-title {font-size:18px; font-weight:700; color:var(--primary); margin-bottom:20px; display: flex; align-items:center;}
+        .form-group {margin-bottom:20px;}
+        .form-group:last-child {margin-bottom:0;}
+        .label {display:block; font-weight:600; margin-bottom:8px; color:#fff; font-size:16px;}
+        .translation { color: #8e8e93; font-size:14px; font-style: italic; display: block; margin-top:2px;}
+        .translation.hidden {display:none;}
+        select,input,textarea {width:100%; padding:16px; background:var(--input-bg); border:1.5px solid var(--input-border); border-radius:12px; color:#fff; font-size:16px; transition:.3s;}
+        select {background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'/%3e%3c/svg%3e");
+            background-repeat:no-repeat; background-position:right 12px center; background-size:20px; padding-right:50px; cursor:pointer;}
+        select:focus,input:focus,textarea:focus {outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(52,199,89,.1);}
+        input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0;}
+        input[type=number] {appearance:textfield;}
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px;}
+        .action-buttons { display:flex; gap:12px; margin-top:30px;}
+        .btn { flex:1; padding:16px 24px; border:none; border-radius:12px; font-weight:600; font-size:16px; transition:.3s; cursor:pointer;}
+        .btn:active {transform:scale(.98);}
+        .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff; box-shadow:0 4px 16px rgba(52,199,89,.3);}
         .btn-primary:hover {box-shadow:0 6px 20px rgba(52,199,89,.4);transform:translateY(-2px);}
-        .btn-secondary {background:var(--surface-2);color:var(--text);border:1px solid var(--border);}
-        .btn-secondary:hover {background:var(--surface-3);transform:translateY(-1px);}
-        .report-output {background: var(--surface); border-radius: 16px; padding: 24px; margin-top: 30px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,.1);}
-        .report-title {font-size: 20px; font-weight:700; margin-bottom: 20px; color:var(--primary); display: flex; align-items: center; gap:8px;}
-        .report-content {line-height: 1.8;}
-        .report-line {margin-bottom: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);}
-        .report-line:last-child {border-bottom: none; margin-bottom: 0;}
-        .report-label {font-weight:600; color:var(--text-secondary); font-size:14px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;}
-        .report-value {font-size:16px; color: var(--text);}
-        .templates {margin-top: 30px;}
-        .templates-title {font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;}
-        .template-btn {width: 100%;padding: 16px;background: var(--surface-2);border: 1px solid var(--border);border-radius: 12px;color: var(--text);text-align: left;margin-bottom: 12px;font-size: 15px;cursor: pointer;transition: all .3s ease;line-height: 1.4;}
-        .template-btn:hover {background:var(--surface-3);border-color:var(--primary);transform:translateY(-1px);}
-        .template-btn:active {transform:scale(.98);}
+        .btn-secondary {background:#2c2c2e;color:#fff; border:1px solid #2c2c2e;}
+        .btn-secondary:hover {background:#3a3a3c;}
+        .inline-btns { display: flex; gap: 0.4em; position: absolute; right:8px; top:50%; transform: translateY(-50%); }
+        .plus-add-btn { background: var(--primary); color: #fff; border: none; border-radius:50%; width: 32px; height:32px; font-size:20px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; box-shadow: 0 3px 12px rgba(52,199,89,0.13); transition:.12s;}
+        .plus-add-btn:hover {background: var(--primary-dark);}
+        .trash-btn {background: var(--danger); color:#fff; border:none; border-radius:50%; width:32px; height:32px; font-size:18px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:.12s;}
+        .trash-btn:hover {background: #ff796a;}
+        .form-group-select-wrap { position: relative; }
+        .custom-choice { display: flex; align-items:center; justify-content:space-between;}
+        .custom-item-label {display:inline;}
+        .report-output {background:#1c1c1e; border-radius:16px; padding:24px; margin-top:30px; border:1px solid #2c2c2e; box-shadow:0 4px 16px rgba(0,0,0,.1);}
+        .report-title {font-size:20px;font-weight:700;margin-bottom:20px;color:var(--primary);}
+        .report-content {line-height:1.8;}
+        .report-line {margin-bottom:12px;padding:12px 0;border-bottom:1px solid #2c2c2e;}
+        .report-line:last-child {border-bottom:none;margin-bottom:0;}
+        .report-label {font-weight:600;color:#8e8e93;font-size:14px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}
+        .report-value {font-size:16px;color:#fff;}
+        .templates {margin-top:30px;}
+        .templates-title {font-size:18px;font-weight:700;color:var(--primary);margin-bottom:15px;display:flex;align-items: center;}
+        .template-btn {width:100%;padding:16px;background:#2c2c2e;border:1px solid #2c2c2e;border-radius:12px;color:#fff;text-align:left;margin-bottom:12px;font-size:15px;cursor:pointer;transition:.3s;}
+        .template-btn:hover {background:#3a3a3c;}
         .template-main {font-weight:600;margin-bottom:4px;}
-        .template-translation {color:var(--text-secondary);font-size:13px;}
+        .template-translation {color:#8e8e93;font-size:13px;}
         .hidden {display:none !important;}
         @media (max-width: 480px) { .container{padding:15px;}.title{font-size:24px;}.form-row{grid-template-columns:1fr;gap:12px;}.action-buttons{flex-direction:column;}.btn{padding:14px 20px;}}
         @media (min-width: 768px){.container{max-width:600px;}}
+        /* Year+Month fix */
+        .form-group-row {display: grid;grid-template-columns: 1fr 1fr; gap: 13px; }
     </style>
 </head>
 <body>
@@ -81,15 +91,9 @@
                     Appliance Type
                     <span class="translation">Тип техники</span>
                 </label>
-                <select id="category" required>
-                    <option value="">Select Appliance Type</option>
-                    <option value="refrigerator">Refrigerator / Холодильник</option>
-                    <option value="dishwasher">Dishwasher / Посудомоечная машина</option>
-                    <option value="washing_machine">Washing Machine / Стиральная машина</option>
-                    <option value="dryer">Dryer / Сушилка</option>
-                    <option value="stove_oven">Stove/Oven / Плита/Духовка</option>
-                    <option value="microwave">Microwave / Микроволновка</option>
-                </select>
+                <div class="form-group-select-wrap">
+                    <select id="category" required></select>
+                </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
@@ -97,9 +101,9 @@
                         Brand
                         <span class="translation">Бренд</span>
                     </label>
-                    <select id="brand" required>
-                        <option value="">Select Brand</option>
-                    </select>
+                    <div class="form-group-select-wrap">
+                        <select id="brand" required></select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="label">
@@ -109,7 +113,7 @@
                     <input type="text" id="model" placeholder="Enter model number" required />
                 </div>
             </div>
-            <div class="form-row">
+            <div class="form-group-row">
                 <div class="form-group">
                     <label class="label">
                         Serial Number
@@ -122,51 +126,48 @@
                         Year of Manufacture
                         <span class="translation">Год выпуска</span>
                     </label>
-                    <input type="number" id="year" placeholder="2020" min="1990" max="2024" />
+                    <input type="number" id="year" min="1990" max="2099" step="1" placeholder="YYYY" style="margin-bottom:7px;">
+                    <input type="number" id="month" min="1" max="12" step="1" placeholder="MM">
                 </div>
             </div>
         </div>
         <div class="form-section">
             <div class="section-title">🔍 Service Details</div>
             <div class="form-group">
-                <label class="label">
-                    Problem
-                    <span class="translation">Проблема</span>
-                </label>
-                <select id="problem" required>
-                    <option value="">Select Problem</option>
-                </select>
+                <label class="label">Problem <span class="translation">Проблема</span></label>
+                <div class="form-group-select-wrap">
+                    <select id="problem" required></select>
+                    <div class="inline-btns">
+                        <button type="button" class="plus-add-btn" data-add="problem" title="Add Problem">+</button>
+                    </div>
+                </div>
+                <ul id="problem-custom-list" class="custom-list" style="list-style:none;margin:0;padding:0;"></ul>
             </div>
             <div class="form-group">
-                <label class="label">
-                    Diagnosis
-                    <span class="translation">Диагноз</span>
-                </label>
-                <select id="diagnosis" required>
-                    <option value="">Select Diagnosis</option>
-                </select>
+                <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
+                <div class="form-group-select-wrap">
+                    <select id="diagnosis" required></select>
+                    <div class="inline-btns">
+                        <button type="button" class="plus-add-btn" data-add="diagnosis" title="Add Diagnosis">+</button>
+                    </div>
+                </div>
+                <ul id="diagnosis-custom-list" class="custom-list" style="list-style:none;margin:0;padding:0;"></ul>
             </div>
             <div class="form-group">
-                <label class="label">
-                    Action Taken
-                    <span class="translation">Выполненные действия</span>
-                </label>
-                <select id="action" required>
-                    <option value="">Select Action</option>
-                </select>
+                <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
+                <div class="form-group-select-wrap">
+                    <select id="action" required></select>
+                    <div class="inline-btns">
+                        <button type="button" class="plus-add-btn" data-add="action" title="Add Action">+</button>
+                    </div>
+                </div>
+                <ul id="action-custom-list" class="custom-list" style="list-style:none;margin:0;padding:0;"></ul>
             </div>
             <div class="form-group">
-                <label class="label">
-                    Status
-                    <span class="translation">Статус</span>
-                </label>
-                <select id="status" required>
-                    <option value="">Select Status</option>
-                    <option value="completed">✅ Fixed 100% / Полностью исправлено</option>
-                    <option value="waiting">⏳ Waiting for Part / Ожидание запчасти</option>
-                    <option value="temporary">🔧 Temporary Fix / Временное решение</option>
-                    <option value="unrepairable">❌ Not Repairable / Не подлежит ремонту</option>
-                </select>
+                <label class="label">Status <span class="translation">Статус</span></label>
+                <div class="form-group-select-wrap">
+                    <select id="status" required></select>
+                </div>
             </div>
             <div class="form-group">
                 <label class="label">
@@ -357,12 +358,21 @@ const applianceData = {
     }
 };
 
+const STATUS_LIST = [
+    { val:"", en:"Select Status", ru:"Выберите статус" },
+    { val:"completed", en:"✅ Fixed 100%", ru:"✅ Полностью исправлено" },
+    { val:"waiting", en:"⏳ Waiting for Part", ru:"⏳ Ожидание запчасти" },
+    { val:"temporary", en:"🔧 Temporary Fix", ru:"🔧 Временное решение" },
+    { val:"unrepairable", en:"❌ Not Repairable", ru:"❌ Не подлежит ремонту" }
+];
+
 const ENGLISH_UI = {
     applianceType: "Appliance Type",
     brand: "Brand",
     model: "Model",
     serial: "Serial Number",
     year: "Year of Manufacture",
+    month: "Month",
     problem: "Problem",
     diagnosis: "Diagnosis",
     action: "Action Taken",
@@ -375,7 +385,8 @@ const ENGLISH_UI = {
     selectStatus: "Select Status",
     formPlaceholderModel: "Enter model number",
     formPlaceholderSerial: "Enter serial number",
-    formPlaceholderYear: "2020",
+    formPlaceholderYear: "YYYY",
+    formPlaceholderMonth: "MM",
     formPlaceholderNotes: "Enter any additional details or recommendations...",
     btnGenerateReport: "📋 Generate Report",
     btnClearForm: "🗑️ Clear Form",
@@ -385,154 +396,137 @@ const ENGLISH_UI = {
     sectionAppliance: "🏠 Appliance Information",
     sectionService: "🔍 Service Details",
     reportTitle: "📄 Service Report",
-    customerTemplates: "💬 Customer Message Templates",
-    template1: { main: "✅ Service completed successfully - Your appliance is working perfectly", translation: "" },
-    template2: { main: "🔧 Part ordered - We'll return within 3-5 business days to complete the repair", translation: "" },
-    template3: { main: "💰 Repair estimate provided - Please review and let us know your decision", translation: "" },
-    template4: { main: "🛡️ Repair covered under warranty - No charge for today's service", translation: "" }
+    customerTemplates: "💬 Customer Message Templates"
 };
 
-// localStorage для Problems/Diagnosis/Actions:
-const LOCAL_KEY_PROBLEM_DIAGNOSIS = "additionalProblemsAndDiagnosisV1";
-function loadAdditionalData() {
-    let store = {};
-    try { store = JSON.parse(localStorage.getItem(LOCAL_KEY_PROBLEM_DIAGNOSIS) || "{}"); } catch {}
-    Object.entries(store).forEach(([cat,add])=>{
-        if (add.problems) applianceData[cat].problems = applianceData[cat].problems.concat(add.problems);
-        if (add.diagnosis) applianceData[cat].diagnosis = applianceData[cat].diagnosis.concat(add.diagnosis);
-        if (add.actions)  applianceData[cat].actions = applianceData[cat].actions.concat(add.actions);
+const LOCAL_KEY_PROBLEM_DIAGNOSIS = "additionalProblemsAndDiagnosisV2";
+
+function getAdditions() {
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY_PROBLEM_DIAGNOSIS) || "{}"); }
+    catch { return {}; }
+}
+function setAdditions(data) { localStorage.setItem(LOCAL_KEY_PROBLEM_DIAGNOSIS, JSON.stringify(data)); }
+function isClientMode() {
+    return document.querySelector('.mode-btn[data-mode="client"]').classList.contains('active');
+}
+
+// ================= STARTUP! FILL SELECTS =================
+function fillSelects(clientMode) {
+    // 1. Appliance type
+    const catSel = document.getElementById("category");
+    catSel.innerHTML = "";
+    catSel.appendChild(new Option("Select Appliance Type", ""));
+    Object.entries(applianceData).forEach(([cat, obj]) => {
+        let label = obj.applianceName ? obj.applianceName : cat.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());
+        if (!clientMode && obj && obj.ruName) label += " / "+obj.ruName;
+        let e = new Option(label,cat);
+        catSel.appendChild(e);
     });
-    return store;
-}
-function saveAdditionalData(store) { localStorage.setItem(LOCAL_KEY_PROBLEM_DIAGNOSIS, JSON.stringify(store)); }
-let additionalStore = loadAdditionalData();
 
-const categorySelect = document.getElementById('category');
-const brandSelect = document.getElementById('brand');
-const problemSelect = document.getElementById('problem');
-const diagnosisSelect = document.getElementById('diagnosis');
-const actionSelect = document.getElementById('action');
-const form = document.getElementById('repairForm');
-const clearBtn = document.getElementById('clearBtn');
-const copyAllBtn = document.getElementById('copyAllBtn');
-const copyLastBtn = document.getElementById('copyLastBtn');
-const clearAllBtn = document.getElementById('clearAllBtn');
-const allReportsBlock = document.getElementById('allReportsBlock');
-const reportOutput = document.getElementById('reportsControlBtns');
+    const brands = (catSel.value&&applianceData[catSel.value] ? applianceData[catSel.value].brands : []);
+    const brandSel = document.getElementById("brand");
+    brandSel.innerHTML = `<option value="">${ENGLISH_UI.selectBrand}</option>`;
+    brands.forEach(brand=>{
+        brandSel.appendChild(new Option(brand,brand));
+    });
 
-let reportsArr = [];
-function saveReports() { localStorage.setItem('applianceReports', JSON.stringify(reportsArr)); }
-function loadReports() {
-    try { const data = localStorage.getItem('applianceReports'); if (data) reportsArr = JSON.parse(data); else reportsArr = []; }
-    catch { reportsArr = []; }
+    fillAllOptionBlocks(clientMode);
 }
 
-// Кнопки Add рядом с Problem и Diagnosis:
-function insertAddButtons() {
-    [
-      {id:"problem",label:"Problem"},
-      {id:"diagnosis",label:"Diagnosis"}
-    ].forEach(obj=>{
-        const sel = document.getElementById(obj.id);
-        if (!sel.parentNode.querySelector('.addBtn')) {
-            let btn = document.createElement('button');        
-            btn.type = "button";
-            btn.className = "btn btn-secondary addBtn";
-            btn.style = "width:auto;margin-left:8px;padding:8px 16px;font-size:14px;";
-            btn.innerHTML = '➕ Add';
-            btn.onclick = function(){
-                addProblemOrDiagnosis(obj.id);
-            };
-            sel.parentNode.appendChild(btn);
-        }
+function fillAllOptionBlocks(clientMode) {
+    ["problem","diagnosis","action"].forEach(type=>{
+        fillOptions(type, clientMode);
+        renderCustomList(type, clientMode);
+    });
+    fillStatus(clientMode);
+};
+
+function fillOptions(type, clientMode) {
+    const cat = document.getElementById("category").value;
+    const sel = document.getElementById(type);
+    sel.innerHTML = `<option value="">${ENGLISH_UI["select"+type.charAt(0).toUpperCase()+type.slice(1)]||"Select"}</option>`;
+    if (!cat || !applianceData[cat]) return;
+    let arr = applianceData[cat][type] || [];
+    const additions = getAdditions();
+    let customs = (additions[cat]&&additions[cat][type]) ? additions[cat][type] : [];
+    arr = arr.concat(customs);
+
+    arr.forEach(item=>{
+        sel.appendChild(new Option(clientMode?item.en:(item.en+(item.ru?(" / "+item.ru):"")), item.en));
     });
 }
-insertAddButtons();
 
-// Добавление новой Problems/Diagnosis (и Actions — легко добавить по аналогу)
-function addProblemOrDiagnosis(type) {
-    const category = categorySelect.value;
-    if (!category) { alert("Select Appliance Type first!"); return; }
-    let en = prompt("Enter new " + type.charAt(0).toUpperCase() + type.slice(1) + " (English):");
+function fillStatus(clientMode) {
+    let sel = document.getElementById("status");
+    sel.innerHTML = "";
+    STATUS_LIST.forEach(st=>{
+        sel.appendChild(new Option((clientMode?st.en:st.en+" / "+st.ru), st.val));
+    });
+}
+
+// ========== ADD/REMOVE CUSTOM. + UI RENDER LIST ============
+function renderCustomList(type, clientMode) {
+    const cat = document.getElementById("category").value;
+    const ul = document.getElementById(type+'-custom-list');
+    ul.innerHTML = "";
+    if (!cat) return;
+    const additions = getAdditions();
+    let customs = (additions[cat] && additions[cat][type]) ? additions[cat][type] : [];
+    customs.forEach((item,i)=>{
+        let li = document.createElement("li");
+        li.className = "custom-choice";
+        let label = document.createElement("span");
+        label.className = "custom-item-label";
+        label.textContent = clientMode ? item.en : (item.en + (item.ru?(" / "+item.ru):""));
+        li.appendChild(label);
+        let delBtn = document.createElement("button");
+        delBtn.className = "trash-btn";
+        delBtn.title = "Delete";
+        delBtn.type = "button";
+        delBtn.innerHTML = "🗑";
+        delBtn.onclick = function(){
+            if (!confirm("Delete this?")) return;
+            customs.splice(i,1);
+            additions[cat][type]=customs;
+            setAdditions(additions);
+            renderCustomList(type, clientMode);
+            fillOptions(type, clientMode);
+        };
+        li.appendChild(delBtn);
+        ul.appendChild(li);
+    });
+}
+
+function handlePlusAddBtn(type) {
+    const cat = document.getElementById("category").value;
+    if (!cat) { alert("Select Appliance Type first!"); return; }
+    let en = prompt("Enter new "+type.charAt(0).toUpperCase()+type.slice(1)+" (English):");
     if (!en || !en.trim()) return;
     let ru = isClientMode() ? "" : prompt("Enter translation (Russian):", "");
     en = en.trim();
     ru = ru?ru.trim():"";
-    let item = {en, ru};
-    // сохранение
-    if (!additionalStore[category]) additionalStore[category] = {};
-    if (!additionalStore[category][type]) additionalStore[category][type] = [];
-    if ((applianceData[category][type]||[]).some(x => x.en.toLowerCase()===en.toLowerCase())) {
-        alert("Already exists!");
-        return;
-    }
-    additionalStore[category][type].push(item);
-    saveAdditionalData(additionalStore);
-    applianceData[category][type].push(item);
-    updateFields(isClientMode());
-    let sel = document.getElementById(type);
-    for(let i=0;i<sel.options.length;i++){
-        if(sel.options[i].text.toLowerCase().startsWith(en.toLowerCase())){
-            sel.selectedIndex = i;
-            break;
-        }
-    }
+    // For uniqueness: prevent dups
+    const additions = getAdditions();
+    const arrBase = (applianceData[cat][type] || []).concat((additions[cat]&&additions[cat][type]) ? additions[cat][type] : []);
+    if (arrBase.some(x=>x.en.toLowerCase()===en.toLowerCase())) { alert("Already exists!"); return; }
+    if (!additions[cat]) additions[cat]={};
+    if (!additions[cat][type]) additions[cat][type]=[];
+    additions[cat][type].push({en,ru});
+    setAdditions(additions);
+    renderCustomList(type, isClientMode());
+    fillOptions(type, isClientMode());
 }
 
-// Обновить списки с учетом режима (EN/EN+RU)
-function updateFields(clientMode) {
-    const category = categorySelect.value;
-    brandSelect.innerHTML = `<option value="">${ENGLISH_UI.selectBrand}</option>`;
-    problemSelect.innerHTML = `<option value="">${ENGLISH_UI.selectProblem}</option>`;
-    diagnosisSelect.innerHTML = `<option value="">${ENGLISH_UI.selectDiagnosis}</option>`;
-    actionSelect.innerHTML = `<option value="">${ENGLISH_UI.selectAction}</option>`;
-    if (category && applianceData[category]) {
-        applianceData[category].brands.forEach(brand => {
-            const option = document.createElement('option');
-            option.value = brand.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = brand;
-            brandSelect.appendChild(option);
-        });
-        applianceData[category].problems.forEach(problem => {
-            const option = document.createElement('option');
-            option.value = problem.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = clientMode ? problem.en : `${problem.en}${problem.ru?" / "+problem.ru:""}`;
-            problemSelect.appendChild(option);
-        });
-        applianceData[category].diagnosis.forEach(diagnosis => {
-            const option = document.createElement('option');
-            option.value = diagnosis.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = clientMode ? diagnosis.en : `${diagnosis.en}${diagnosis.ru?" / "+diagnosis.ru:""}`;
-            diagnosisSelect.appendChild(option);
-        });
-        applianceData[category].actions.forEach(action => {
-            const option = document.createElement('option');
-            option.value = action.en.toLowerCase().replace(/\s+/g, '_');
-            option.textContent = clientMode ? action.en : `${action.en}${action.ru?" / "+action.ru:""}`;
-            actionSelect.appendChild(option);
-        });
-    }
-}
-categorySelect.addEventListener('change', ()=>updateFields(isClientMode()));
-function getCurrentReport() {
-    return {
-        appliance: categorySelect.options[categorySelect.selectedIndex].text.replace(/ \/ .+$/,''),
-        brand: brandSelect.options[brandSelect.selectedIndex]?.text || '',
-        model: document.getElementById('model').value.trim(),
-        serial: document.getElementById('serial').value.trim(),
-        year: document.getElementById('year').value.trim(),
-        problem: problemSelect.options[problemSelect.selectedIndex]?.text || '',
-        diagnosis: diagnosisSelect.options[diagnosisSelect.selectedIndex]?.text || '',
-        action: actionSelect.options[actionSelect.selectedIndex]?.text || '',
-        status: document.getElementById('status').options[document.getElementById('status').selectedIndex]?.text || '',
-        notes: document.getElementById('notes').value.trim()
-    };
-}
+// =================== REPORT ======================
+let reportsArr = [];
+function saveReports() { localStorage.setItem('applianceReports', JSON.stringify(reportsArr)); }
+function loadReports() { try{reportsArr=JSON.parse(localStorage.getItem('applianceReports')||"[]");}catch{reportsArr=[];} }
 function renderAllReports() {
+    let allReportsBlock = document.getElementById('allReportsBlock');
+    let reportOutput = document.getElementById('reportsControlBtns');
     if (reportsArr.length === 0) {
         allReportsBlock.innerHTML = '';
-        reportOutput.classList.add('hidden');
-        return;
+        reportOutput.classList.add('hidden'); return;
     }
     let out = '';
     reportsArr.forEach((r,idx) => {
@@ -543,7 +537,7 @@ function renderAllReports() {
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.brand}:</span> <span class="report-value">${r.brand}</span></div>
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.model}:</span> <span class="report-value">${r.model}</span></div>
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.serial}:</span> <span class="report-value">${r.serial}</span></div>
-                <div class="report-line"><span class="report-label">${ENGLISH_UI.year}:</span> <span class="report-value">${r.year}</span></div>
+                <div class="report-line"><span class="report-label">${ENGLISH_UI.year}:</span> <span class="report-value">${r.year}${r.month?', month: '+r.month.padStart(2,'0'):""}</span></div>
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.problem}:</span> <span class="report-value">${r.problem}</span></div>
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.diagnosis}:</span> <span class="report-value">${r.diagnosis}</span></div>
                 <div class="report-line"><span class="report-label">${ENGLISH_UI.action}:</span> <span class="report-value">${r.action}</span></div>
@@ -556,117 +550,99 @@ function renderAllReports() {
     reportOutput.classList.remove('hidden');
 }
 function reportToText(r) {
-    return `
-[${r.appliance}]
+    return `[${r.appliance}]
 Brand: ${r.brand}
 Model: ${r.model}
 Serial#: ${r.serial}
-Year: ${r.year}
+Year: ${r.year}${r.month?", Month: "+r.month.padStart(2,"0"):""}
 Problem: ${r.problem}
 Diagnosis: ${r.diagnosis}
 Action: ${r.action}
 Status: ${r.status}
-Notes: ${r.notes}
-`.trim();
+Notes: ${r.notes}`.trim();
+};
+
+function getFormVals() {
+    return {
+        appliance: document.getElementById('category').options[document.getElementById('category').selectedIndex].text,
+        brand: document.getElementById('brand').options[document.getElementById('brand').selectedIndex]?.text || '',
+        model: document.getElementById('model').value.trim(),
+        serial: document.getElementById('serial').value.trim(),
+        year: document.getElementById('year').value.trim(),
+        month: (document.getElementById('month').value||"").trim(),
+        problem: document.getElementById('problem').options[document.getElementById('problem').selectedIndex]?.text || '',
+        diagnosis: document.getElementById('diagnosis').options[document.getElementById('diagnosis').selectedIndex]?.text || '',
+        action: document.getElementById('action').options[document.getElementById('action').selectedIndex]?.text || '',
+        status: document.getElementById('status').options[document.getElementById('status').selectedIndex]?.text || '',
+        notes: document.getElementById('notes').value.trim()
+    }
 }
+// =========== EVENTS ============
+function resetForm() {
+    document.getElementById('repairForm').reset();
+    fillSelects(isClientMode());
+    fillAllOptionBlocks(isClientMode());
+}
+
+document.getElementById('category').addEventListener('change',()=>{fillAllOptionBlocks(isClientMode());});
+
+document.querySelectorAll('.plus-add-btn').forEach(btn=>{
+    btn.onclick = ()=>handlePlusAddBtn(btn.dataset.add);
+});
 form.addEventListener('submit', e => {
     e.preventDefault();
-    const report = getCurrentReport();
-    reportsArr.push(report);
+    const vals = getFormVals();
+    reportsArr.push(vals);
     saveReports();
     renderAllReports();
-    form.reset();
-    updateFields(isClientMode());
+    resetForm();
 });
-clearBtn.addEventListener('click', () => {
-    form.reset();
-    updateFields(isClientMode());
-});
-copyAllBtn.addEventListener('click', () => {
-    if (reportsArr.length)
-        navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));
-});
-copyLastBtn.addEventListener('click', () => {
-    if (reportsArr.length)
-        navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));
-});
-clearAllBtn.addEventListener('click', () => {
-    reportsArr.length = 0;
-    saveReports();
-    renderAllReports();
-});
-function isClientMode() {
-    return document.querySelector('.mode-btn[data-mode="client"]').classList.contains('active');
-}
-function switchUiToClient(client) {
-    document.querySelectorAll('.label').forEach(label => {
-        let base = label.childNodes[0];
-        if (base && base.nodeType === 3) {
-            const enKey = Object.keys(ENGLISH_UI).find(k => ENGLISH_UI[k] && ENGLISH_UI[k].startsWith(base.textContent.trim()));
-            if (enKey) base.textContent = ENGLISH_UI[enKey];
-        }
-    });
-    document.querySelectorAll('.translation').forEach(span => span.classList[client?'add':'remove']('hidden'));
-    updateFields(client);
-    document.getElementById('model').placeholder     = ENGLISH_UI.formPlaceholderModel;
-    document.getElementById('serial').placeholder    = ENGLISH_UI.formPlaceholderSerial;
-    document.getElementById('year').placeholder      = ENGLISH_UI.formPlaceholderYear;
-    document.getElementById('notes').placeholder     = ENGLISH_UI.formPlaceholderNotes;
-    let btns = [
-        {id:"copyAllBtn",txt:ENGLISH_UI.btnCopyAll},
-        {id:"copyLastBtn",txt:ENGLISH_UI.btnCopyLast},
-        {id:"clearAllBtn",txt:ENGLISH_UI.btnClearAll},
-        {id:"clearBtn",txt:ENGLISH_UI.btnClearForm}
-    ];
-    btns.forEach(obj=>{
-        if(document.getElementById(obj.id))document.getElementById(obj.id).textContent=obj.txt
-    });
-    document.querySelector('button[type="submit"]').textContent = ENGLISH_UI.btnGenerateReport;
-    const templates = [
-        ENGLISH_UI.template1, ENGLISH_UI.template2, ENGLISH_UI.template3, ENGLISH_UI.template4
-    ];
-    document.querySelectorAll('.template-btn').forEach((btn,i)=>{
-        btn.querySelector('.template-main').textContent = templates[i].main;
-        btn.querySelector('.template-translation').textContent = "";
-        btn.querySelector('.template-translation').classList.add('hidden');
-    });
-    document.querySelector('.templates-title').textContent = ENGLISH_UI.customerTemplates;
-    document.querySelectorAll('.section-title')[0].textContent = ENGLISH_UI.sectionAppliance;
-    document.querySelectorAll('.section-title')[1].textContent = ENGLISH_UI.sectionService;
-}
-function switchUiToTechnician() {
-    document.querySelectorAll('.translation').forEach(span=>span.classList.remove('hidden'));
-    categorySelect.options[0].text = "Select Appliance Type";
-    document.querySelectorAll('.template-btn')[0].querySelector('.template-main').textContent = "✅ Service completed successfully - Your appliance is working perfectly";
-    document.querySelectorAll('.template-btn')[0].querySelector('.template-translation').textContent = "✅ Обслуживание успешно завершено - Ваша техника работает отлично";
-    document.querySelectorAll('.template-btn')[1].querySelector('.template-main').textContent = "🔧 Part ordered - We'll return within 3-5 business days to complete the repair";
-    document.querySelectorAll('.template-btn')[1].querySelector('.template-translation').textContent = "🔧 Запчасть заказана - Вернемся через 3-5 рабочих дней для завершения ремонта";
-    document.querySelectorAll('.template-btn')[2].querySelector('.template-main').textContent = "💰 Repair estimate provided - Please review and let us know your decision";
-    document.querySelectorAll('.template-btn')[2].querySelector('.template-translation').textContent = "💰 Смета ремонта предоставлена - Пожалуйста, рассмотрите и сообщите решение";
-    document.querySelectorAll('.template-btn')[3].querySelector('.template-main').textContent = "🛡️ Repair covered under warranty - No charge for today's service";
-    document.querySelectorAll('.template-btn')[3].querySelector('.template-translation').textContent = "🛡️ Ремонт покрывается гарантией - Сегодняшнее обслуживание бесплатно";
-    document.querySelector('.templates-title').textContent = "💬 Customer Message Templates";
-    document.querySelectorAll('.section-title')[0].textContent = "🏠 Appliance Information";
-    document.querySelectorAll('.section-title')[1].textContent = "🔍 Service Details";
-    updateFields(false);
-}
-document.querySelectorAll('.mode-btn').forEach(button => {
-    button.addEventListener('click', () => {
+document.getElementById('clearBtn').addEventListener('click', resetForm);
+document.getElementById('copyAllBtn').addEventListener('click',()=>{if(reportsArr.length)navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));});
+document.getElementById('copyLastBtn').addEventListener('click',()=>{if(reportsArr.length)navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));});
+document.getElementById('clearAllBtn').addEventListener('click',()=>{reportsArr.length=0;saveReports();renderAllReports();});
+
+document.querySelectorAll('.mode-btn').forEach(button=>{
+    button.addEventListener('click',()=>{
         document.querySelectorAll('.mode-btn').forEach(btn=>btn.classList.remove('active'));
         button.classList.add('active');
-        let client = button.getAttribute('data-mode') === "client";
-        if (client) switchUiToClient(true); else switchUiToTechnician();
-    });
+        switchUiLang(isClientMode());
+    })
 });
+
+function switchUiLang(client) {
+    // Лейблы, плейсхолдеры, шапки секций, шаблоны
+    document.querySelectorAll('.label').forEach(label => {
+        label.childNodes[0].nodeValue = ENGLISH_UI[(label.textContent||"").toLowerCase().replace(/[^a-z]+/gi,'') ]|| label.childNodes[0].nodeValue;
+    });
+    document.querySelectorAll('.translation').forEach(span=>!client?span.classList.remove('hidden'):span.classList.add('hidden'));
+    document.getElementById('model').placeholder=ENGLISH_UI.formPlaceholderModel;
+    document.getElementById('serial').placeholder=ENGLISH_UI.formPlaceholderSerial;
+    document.getElementById('year').placeholder=ENGLISH_UI.formPlaceholderYear;
+    document.getElementById('month').placeholder=ENGLISH_UI.formPlaceholderMonth;
+    document.getElementById('notes').placeholder=ENGLISH_UI.formPlaceholderNotes;
+    document.querySelector('button[type="submit"]').textContent=ENGLISH_UI.btnGenerateReport;
+    document.getElementById('clearBtn').textContent=ENGLISH_UI.btnClearForm;
+    document.getElementById('copyAllBtn').textContent=ENGLISH_UI.btnCopyAll;
+    document.getElementById('copyLastBtn').textContent=ENGLISH_UI.btnCopyLast;
+    document.getElementById('clearAllBtn').textContent=ENGLISH_UI.btnClearAll;
+    document.querySelector('.templates-title').textContent=ENGLISH_UI.customerTemplates;
+    document.querySelectorAll('.section-title')[0].textContent=ENGLISH_UI.sectionAppliance;
+    document.querySelectorAll('.section-title')[1].textContent=ENGLISH_UI.sectionService;
+    fillSelects(client);
+    fillAllOptionBlocks(client);
+}
+// === CUSTOM LIST INIT === (force on first draw)
 document.querySelectorAll('.template-btn').forEach(btn=>{
     btn.addEventListener('click',()=> {
-        const main = btn.querySelector('.template-main').textContent;
-        document.getElementById('notes').value = main;
-    })
+        document.getElementById('notes').value = btn.querySelector('.template-main').textContent;
+    });
 });
 loadReports();
 renderAllReports();
-updateFields(isClientMode());
+fillSelects(false);
+fillAllOptionBlocks(false);
+switchUiLang(isClientMode());
 </script>
 </body>
 </html>

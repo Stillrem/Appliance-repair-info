@@ -32,6 +32,27 @@
             box-sizing: border-box;
         }
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    const translations = document.querySelectorAll('.translation');
+
+    modeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const mode = button.dataset.mode;
+            if (mode === 'technician') {
+                translations.forEach(el => el.classList.remove('hidden'));
+            } else {
+                translations.forEach(el => el.classList.add('hidden'));
+            }
+        });
+    });
+});
+</script>
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: var(--background);

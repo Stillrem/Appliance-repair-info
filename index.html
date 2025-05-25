@@ -1,560 +1,963 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Appliance Repair Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <style>
-    body { background:#23272a; color:#fff; font-family:Arial,sans-serif; }
-    .container{max-width:900px;margin:0 auto;padding:30px;}
-    .form-section{background:#282c34;padding:20px;border-radius:14px;margin-bottom:18px;}
-    .form-group{margin-bottom:15px;}
-    .label{font-weight:600;}
-    .translation{font-size:13px;color:#adb5bd;margin-left:5px;}
-    .hidden{display:none !important;}
-    .form-row{display:flex;gap:15px;}
-    .form-row .form-group{flex:1;}
-    .btn{background:#34c759;color:#fff;padding:12px 24px;border-radius:8px;border:none;font-size:16px;font-weight:600;cursor:pointer;margin-right:8px;}
-    .btn-secondary{background:#444;}
-    .header{margin-bottom:32px;text-align:center;}
-    .mode-toggle{display:inline-block;}
-    .mode-btn{background:#444;color:#fff;padding:10px 18px;border:none;border-radius:7px;margin-right:2px;font-weight:bold;}
-    .mode-btn.active{background:#34c759;}
-    .reports-list{margin-top:25px;}
-    .report-block{background:#282c34;border-radius:14px;padding:16px;margin-bottom:16px;}
-    .copy-all-btn,.clear-all-btn,.copy-last-btn{background:#34c759;color:#fff;border:none;padding:10px 16px;border-radius:8px;margin-right:8px;font-weight:600;font-size:14px;cursor:pointer;}
-    .title{font-size:32px;margin-bottom:0;}
-    .subtitle{font-size:18px;color:#ccc;}
-    @media (max-width:700px){.container{padding:6px;}.form-row{flex-direction:column;gap:5px;}.title{font-size:24px;}}
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Appliance Repair Pro</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#34c759" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Repair Pro" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <style>
+        :root {
+            --primary: #34c759;
+            --primary-dark: #30d158;
+            --background: #000000;
+            --surface: #1c1c1e;
+            --surface-2: #2c2c2e;
+            --surface-3: #3a3a3c;
+            --text: #ffffff;
+            --text-secondary: #8e8e93;
+            --border: #2c2c2e;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+                Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+                env(safe-area-inset-left);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 8px 32px rgba(52, 199, 89, 0.3);
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 4px;
+            margin: 25px 0;
+            box-shadow: inset 0 1px 3px var(--shadow);
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .mode-btn.active {
+            background: var(--primary);
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+            transform: scale(1.02);
+        }
+
+        .form-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-size: 16px;
+        }
+
+        .translation {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .translation.hidden {
+            display: none;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--surface-2);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 20px;
+            padding-right: 50px;
+            cursor: pointer;
+        }
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-secondary);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--text);
+            box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(52, 199, 89, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-3);
+            transform: translateY(-1px);
+        }
+
+        .report-output {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 30px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .report-content {
+            line-height: 1.8;
+        }
+
+        .report-line {
+            margin-bottom: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .report-line:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .report-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .report-value {
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .templates {
+            margin-top: 30px;
+        }
+
+        .templates-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .template-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            text-align: left;
+            margin-bottom: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1.4;
+        }
+
+        .template-btn:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .template-btn:active {
+            transform: scale(0.98);
+        }
+
+        .template-main {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .template-translation {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-completed {
+            background: #34c759;
+        }
+
+        .status-partial {
+            background: #ff9500;
+        }
+
+        .status-pending {
+            background: #007aff;
+        }
+
+        .status-unrepairable {
+            background: #ff3b30;
+        }
+
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 20px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .install-prompt.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .install-text {
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .install-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .install-btn {
+            background: var(--primary);
+            color: var(--text);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn {
+            background: var(--surface-2);
+            color: var(--text-secondary);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 14px 20px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="logo" style="font-size:48px;margin-bottom:10px;">🔧</div>
-      <h1 class="title">Appliance Repair Pro</h1>
-      <p class="subtitle">Professional Service Reports</p>
-      <div class="mode-toggle">
-        <button class="mode-btn active" data-mode="technician">👨‍🔧 Technician</button>
-        <button class="mode-btn" data-mode="client">👤 Client</button>
-      </div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔧</div>
+            <h1 class="title">Appliance Repair Pro</h1>
+            <p class="subtitle">Professional Service Reports</p>
+
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="technician">👨‍🔧 Technician</button>
+                <button class="mode-btn" data-mode="client">👤 Client</button>
+            </div>
+        </div>
+
+        <form id="repairForm">
+            <div class="form-section">
+                <div class="section-title">🏠 Appliance Information</div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Appliance Type
+                        <span class="translation">Тип техники</span>
+                    </label>
+                    <select id="category" required>
+                        <option value="">Select Appliance Type</option>
+                        <option value="refrigerator">Refrigerator / Холодильник</option>
+                        <option value="dishwasher">Dishwasher / Посудомоечная машина</option>
+                        <option value="washing_machine">Washing Machine / Стиральная машина</option>
+                        <option value="dryer">Dryer / Сушилка</option>
+                        <option value="stove_oven">Stove/Oven / Плита/Духовка</option>
+                        <option value="microwave">Microwave / Микроволновка</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label">
+                            Brand
+                            <span class="translation">Бренд</span>
+                        </label>
+                        <select id="brand" required>
+                            <option value="">Select Brand</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">
+                            Model
+                            <span class="translation">Модель</span>
+                        </label>
+                        <input type="text" id="model" placeholder="Enter model number" required />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label">
+                            Serial Number
+                            <span class="translation">Серийный номер</span>
+                        </label>
+                        <input type="text" id="serial" placeholder="Enter serial number" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">
+                            Year of Manufacture
+                            <span class="translation">Год выпуска</span>
+                        </label>
+                        <input type="number" id="year" placeholder="2020" min="1990" max="2024" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">🔍 Service Details</div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Problem
+                        <span class="translation">Проблема</span>
+                    </label>
+                    <select id="problem" required>
+                        <option value="">Select Problem</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Diagnosis
+                        <span class="translation">Диагноз</span>
+                    </label>
+                    <select id="diagnosis" required>
+                        <option value="">Select Diagnosis</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Action Taken
+                        <span class="translation">Выполненные действия</span>
+                    </label>
+                    <select id="action" required>
+                        <option value="">Select Action</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Status
+                        <span class="translation">Статус</span>
+                    </label>
+                    <select id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="completed">✅ Fixed 100% / Полностью исправлено</option>
+                        <option value="waiting">⏳ Waiting for Part / Ожидание запчасти</option>
+                        <option value="temporary">🔧 Temporary Fix / Временное решение</option>
+                        <option value="unrepairable">❌ Not Repairable / Не подлежит ремонту</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Additional Notes
+                        <span class="translation">Дополнительные заметки</span>
+                    </label>
+                    <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">📋 Generate Report</button>
+                <button type="button" class="btn btn-secondary" id="clearBtn">🗑️ Clear Form</button>
+            </div>
+        </form>
+
+        <div id="reportOutput" class="report-output hidden">
+            <div class="report-title">📄 Service Report</div>
+            <div id="reportContent" class="report-content"></div>
+        </div>
+
+        <div class="templates">
+            <div class="templates-title">💬 Customer Message Templates</div>
+            <button class="template-btn" data-template="completion">
+                <div class="template-main">✅ Service completed successfully - Your appliance is working perfectly</div>
+                <div class="template-translation">✅ Обслуживание успешно завершено - Ваша техника работает отлично</div>
+            </button>
+            <button class="template-btn" data-template="parts">
+                <div class="template-main">🔧 Part ordered - We'll return within 3-5 business days to complete the repair</div>
+                <div class="template-translation">🔧 Запчасть заказана - Вернемся через 3-5 рабочих дней для завершения ремонта</div>
+            </button>
+            <button class="template-btn" data-template="estimate">
+                <div class="template-main">💰 Repair estimate provided - Please review and let us know your decision</div>
+                <div class="template-translation">💰 Смета ремонта предоставлена - Пожалуйста, рассмотрите и сообщите решение</div>
+            </button>
+            <button class="template-btn" data-template="warranty">
+                <div class="template-main">🛡️ Repair covered under warranty - No charge for today's service</div>
+                <div class="template-translation">🛡️ Ремонт покрывается гарантией - Сегодняшнее обслуживание бесплатно</div>
+            </button>
+        </div>
     </div>
-    <form id="repairForm">
-      <div class="form-section">
-        <div class="section-title">🏠 Appliance Information</div>
-        <div class="form-group">
-          <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
-          <select id="category" required>
-            <option value="">Select Appliance Type</option>
-            <option value="refrigerator">Refrigerator / Холодильник</option>
-            <option value="dishwasher">Dishwasher / Посудомоечная машина</option>
-            <option value="washing_machine">Washing Machine / Стиральная машина</option>
-            <option value="dryer">Dryer / Сушилка</option>
-            <option value="stove_oven">Stove/Oven / Плита/Духовка</option>
-            <option value="microwave">Microwave / Микроволновка</option>
-          </select>
+
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-text">📱 Install this app on your home screen for quick access!</div>
+        <div class="install-buttons">
+            <button class="install-btn" id="installBtn">Install</button>
+            <button class="close-btn" id="closePrompt">Close</button>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="label">Brand <span class="translation">Бренд</span></label>
-            <select id="brand" required><option value="">Select Brand</option></select>
-          </div>
-          <div class="form-group">
-            <label class="label">Model <span class="translation">Модель</span></label>
-            <input type="text" id="model" required />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="label">Serial Number <span class="translation">Серийный номер</span></label>
-            <input type="text" id="serial" />
-          </div>
-          <div class="form-group">
-            <label class="label">Year of Manufacture <span class="translation">Год выпуска</span></label>
-            <input type="number" id="year" placeholder="2023" />
-          </div>
-        </div>
-      </div>
-      <div class="form-section">
-        <div class="section-title">🔍 Service Details</div>
-        <div class="form-group">
-          <label class="label">Problem <span class="translation">Проблема</span></label>
-          <select id="problem" required><option value="">Select Problem</option></select>
-        </div>
-        <div class="form-group">
-          <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
-          <select id="diagnosis" required><option value="">Select Diagnosis</option></select>
-        </div>
-        <div class="form-group">
-          <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
-          <select id="action" required><option value="">Select Action</option></select>
-        </div>
-        <div class="form-group">
-          <label class="label">Status <span class="translation">Статус</span></label>
-          <select id="status" required>
-            <option value="">Select Status</option>
-            <option value="completed">✅ Fixed 100% / Полностью исправлено</option>
-            <option value="waiting">⏳ Waiting for Part / Ожидание запчасти</option>
-            <option value="temporary">🔧 Temporary Fix / Временное решение</option>
-            <option value="unrepairable">❌ Not Repairable / Не подлежит ремонту</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
-          <textarea id="notes"></textarea>
-        </div>
-      </div>
-      <div>
-        <button type="submit" class="btn">📋 Generate Report</button>
-        <button type="button" class="btn btn-secondary" id="clearBtn">🗑️ Clear Form</button>
-      </div>
-    </form>
-    <div id="reportsControlBtns" class="hidden" style="margin-bottom:24px">
-      <button class="copy-all-btn" id="copyAllBtn">📄 Copy All Reports</button>
-      <button class="copy-last-btn" id="copyLastBtn">📋 Copy Last Report</button>
-      <button class="clear-all-btn" id="clearAllBtn">🗑️ Clear All Reports</button>
     </div>
-    <div class="reports-list" id="allReports"></div>
-  </div>
+
   <script>
 const applianceData = {
-  refrigerator: {
-    brands: [
-      "GE","Samsung","Whirlpool","LG","Kenmore","KitchenAid","Frigidaire","Maytag","Bosch","Electrolux","Haier","Panasonic","Beko","Hotpoint","Indesit","Miele","Ariston","Sharp","Smeg","Hitachi"
-    ],
-    problems: [
-      { en:"Not cooling properly", ru:"Не охлаждает должным образом" },
-      { en:"Making loud noises", ru:"Издает громкие звуки" },
-      { en:"Leaking water", ru:"Течет вода" },
-      { en:"Ice maker not working", ru:"Льдогенератор не работает" },
-      { en:"Defrost issues", ru:"Не работает разморозка" },
-      { en:"Compressor running constantly", ru:"Компрессор работает постоянно" },
-      { en:"Interior light not working", ru:"Внутренняя лампа не горит" },
-      { en:"Odors in fridge", ru:"Запахи внутри" },
-      { en:"Food freezing", ru:"Замораживает продукты" },
-      { en:"Water dispenser failure", ru:"Не работает раздатчик воды" },
-      { en:"Control panel unresponsive", ru:"Панель не реагирует" },
-      { en:"Door not closing", ru:"Дверь не закрывается" },
-      { en:"Display error", ru:"Ошибка дисплея" },
-      { en:"Evaporator fan noise", ru:"Шум вентилятора испарителя" },
-      { en:"Frost in freezer", ru:"Образуется иней" },
-      { en:"Loose shelves/drawers", ru:"Полки/ящики сломаны" },
-      { en:"Strange vibration", ru:"Странная вибрация" },
-      { en:"Temperature fluctuates", ru:"Температура скачет" },
-      { en:"Energy use too high", ru:"Высокий расход энергии" },
-      { en:"No power", ru:"Не включается" }
-    ],
-    diagnosis: [
-      { en:"Faulty compressor", ru:"Неисправный компрессор" },
-      { en:"Refrigerant leak", ru:"Утечка хладагента" },
-      { en:"Defrost timer failure", ru:"Неисправен таймер разморозки" },
-      { en:"Clogged drain", ru:"Засор дренажа" },
-      { en:"Broken fan motor", ru:"Сломан мотор вентилятора" },
-      { en:"Door gasket worn", ru:"Уплотнитель двери изношен" },
-      { en:"Sensor error", ru:"Ошибка датчика" },
-      { en:"Power board issue", ru:"Проблема с платой" },
-      { en:"Dirty condenser coils", ru:"Загрязнены конденсаторные катушки" },
-      { en:"Water valve failure", ru:"Сломан клапан воды" },
-      { en:"Overfrosting", ru:"Переохлаждение" },
-      { en:"Display module defect", ru:"Брак панели индикации" },
-      { en:"Defective thermostat", ru:"Поломка термостата" },
-      { en:"Sensor wiring break", ru:"Обрыв датчика" },
-      { en:"Loose hinge", ru:"Разболтана петля" },
-      { en:"Ice blockage", ru:"Засор льдом" },
-      { en:"Frozen evaporator", ru:"Испаритель во льду" },
-      { en:"Software crash", ru:"Сбой модуля" },
-      { en:"Blown LED/lamps", ru:"Сгорели лампы/LED" },
-      { en:"Tripped circuit", ru:"Выбило автомат" }
-    ],
-    actions: [
-      { en:"Replaced compressor", ru:"Заменен компрессор" },
-      { en:"Repaired leak + refill", ru:"Заправлен фреон, устранена утечка" },
-      { en:"Reset control board", ru:"Сброшена плата" },
-      { en:"Cleared drain", ru:"Проведен прочистка дренажа" },
-      { en:"Installed new fan", ru:"Заменен вентилятор" },
-      { en:"Replaced door gasket", ru:"Заменили уплотнитель двери" },
-      { en:"Replaced sensor", ru:"Заменен датчик" },
-      { en:"Cleaned condenser", ru:"Очищены катушки" },
-      { en:"Replaced valve", ru:"Заменен клапан воды" },
-      { en:"Fixed display board", ru:"Отремонтировали панель" },
-      { en:"Installed new thermostat", ru:"Заменен термостат" },
-      { en:"Rehung door", ru:"Переустановил дверь" },
-      { en:"Cleared ice/frost", ru:"Удален иней/лед" },
-      { en:"Updated firmware", ru:"Обновили прошивку" },
-      { en:"Replaced bulbs/LED", ru:"Поменяли лампы/LED" },
-      { en:"Reset circuit breaker", ru:"Включили автомат" },
-      { en:"Cleaned shelves/drawers", ru:"Проведен мелкий ремонт внутри" }
-    ]
-  },
-  dishwasher: {
-    brands: ["GE","Samsung","Whirlpool","LG","Kenmore","Bosch","Siemens","Electrolux","Beko","Miele",
-      "Hotpoint","Indesit","Ariston","Zanussi","Candy","Sharp","Viking","Kuppersbusch","Daewoo","Smeg"],
-    problems: [
-      {en:"Not draining water",ru:"Не сливает воду"},
-      {en:"Dishes not getting clean",ru:"Посуда не отмывается"},
-      {en:"Leaking",ru:"Течет"},
-      {en:"No power",ru:"Не включается"},
-      {en:"Filling with water continuously",ru:"Постоянно набирает воду"},
-      {en:"Door not latching",ru:"Дверь не закрывается"},
-      {en:"Weird noises",ru:"Странные звуки"},
-      {en:"Cycle doesn’t finish",ru:"Не завершает цикл"},
-      {en:"Leaving residue",ru:"Оставляет налет"},
-      {en:"Smells bad",ru:"Пахнет"},
-      {en:"Overflowing",ru:"Переливает воду"},
-      {en:"Buttons not responding",ru:"Кнопки не реагируют"},
-      {en:"Spray arms stuck",ru:"Распылители не крутятся"},
-      {en:"Not heating water",ru:"Не греет воду"},
-      {en:"Display error",ru:"Ошибка на дисплее"},
-      {en:"Lights blinking",ru:"Мигает лампа"},
-      {en:"Soap not dissolving",ru:"Порошок не растворяется"},
-      {en:"Racks off-rail",ru:"Полки не держатся"},
-      {en:"Drying poorly",ru:"Плохо сушит"}
-    ],
-    diagnosis:[
-      {en:"Clogged drain hose",ru:"Забит сливной шланг"},
-      {en:"Defective drain pump",ru:"Неисправен сливной насос"},
-      {en:"Broken door switch",ru:"Датчик двери неисправен"},
-      {en:"Control board failure",ru:"Проблема с платой"},
-      {en:"Blocked spray arms",ru:"Засор распылителей"},
-      {en:"Heater breakdown",ru:"Сломан нагреватель"},
-      {en:"Overflow float stuck",ru:"Поплавок перелива застрял"},
-      {en:"Bad inlet valve",ru:"Плохой впускной клапан"},
-      {en:"Wiring short",ru:"Короткое замыкание"},
-      {en:"Worn seals",ru:"Изношены уплотнители"},
-      {en:"Failed turbidity sensor",ru:"Сломан датчик мутности"},
-      {en:"Broken latch",ru:"Сломан замок"}
-    ],
-    actions:[
-      {en:"Cleaned hose",ru:"Промыли шланг"},
-      {en:"Replaced pump",ru:"Поменян насос"},
-      {en:"Fixed spray arms",ru:"Отремонтирован распылитель"},
-      {en:"Replaced latch",ru:"Поменяли замок"},
-      {en:"Cleaned/changed filter",ru:"Фильтр почищен/заменен"},
-      {en:"Replaced heater",ru:"Заменили нагреватель"},
-      {en:"Cleared float switch",ru:"Освобожден поплавок"},
-      {en:"Repaired wiring",ru:"Починили электрику"},
-      {en:"Changed seals",ru:"Обновили уплотнители"}
-    ]
-  },
-  washing_machine: {
-    brands: ["LG","Samsung","Whirlpool","Bosch","Electrolux","Indesit","Hotpoint","Candy","Beko","Zanussi", "Ardo","Siemens","Miele","AEG","Ariston","Vestfrost","Haier","Daewoo","Sharp","Panasonic"],
-    problems:[
-      {en:"Won't start", ru:"Не включается"},
-      {en:"Water leaks", ru:"Течет"},
-      {en:"Not spinning", ru:"Не крутит"},
-      {en:"No water intake", ru:"Нет набора воды"},
-      {en:"Won't drain", ru:"Не сливает"},
-      {en:"Jumps/vibrates", ru:"Прыгает/вибрирует"},
-      {en:"Very noisy", ru:"Шумит"},
-      {en:"Doesn't heat", ru:"Не греет"},
-      {en:"Short cycle", ru:"Слишком короткая стирка"},
-      {en:"Long cycle", ru:"Очень долго стирает"},
-      {en:"No final spin", ru:"Нет финального отжима"},
-      {en:"Stains on laundry", ru:"Пятна на белье"},
-      {en:"Controller error", ru:"Ошибка на панели"},
-      {en:"Drum stuck", ru:"Барабан заклинило"},
-      {en:"Door won't open", ru:"Дверца не открывается"},
-      {en:"Detergent not drawing", ru:"Не забирает порошок"},
-      {en:"Display blinks", ru:"Мигает дисплей"},
-      {en:"Doesn't finish", ru:"Не завершает"},
-      {en:"Locks mid-cycle", ru:"Зависает в середине"},
-      {en:"Low water pressure", ru:"Слабый напор воды"}
-    ],
-    diagnosis:[
-      {en:"Blocked drain pump", ru:"Забит насос"},
-      {en:"Pump motor fails", ru:"Сломан мотор насоса"},
-      {en:"Drive belt snapped", ru:"Порвался ремень"},
-      {en:"Shock absorbers broken", ru:"Износ амортизатора"},
-      {en:"Heating element burnt", ru:"Сгорел тен"},
-      {en:"Water valve issue", ru:"Клапан воды неисправен"},
-      {en:"Door interlock fault", ru:"Блокиратор двери"},
-      {en:"Pressure switch error", ru:"Датчик уровня воды"},
-      {en:"PCB/module defect", ru:"Ошибка платы"},
-      {en:"Worn bearings", ru:"Изношен подшипник"},
-      {en:"Drain filter blocked", ru:"Забит фильтр"},
-      {en:"Broken spider", ru:"Сломан крестовина"},
-      {en:"Control board fried", ru:"Плата сгорела"},
-      {en:"Clogged hose", ru:"Шланг забит"},
-      {en:"No power supply", ru:"Нет питания"}
-    ],
-    actions:[
-      {en:"Cleaned/replaced filter", ru:"Почищен/заменен фильтр"},
-      {en:"Replaced bearing", ru:"Заменен подшипник"},
-      {en:"Reinstalled drive belt", ru:"Новый ремень"},
-      {en:"Repaired wiring", ru:"Ремонт электрики"},
-      {en:"Fixed pump", ru:"Починили насос"},
-      {en:"Mounted new shock absorber", ru:"Поставили амортизатор"},
-      {en:"Changed heating element", ru:"Сменили тен"},
-      {en:"Replaced PCB/module", ru:"Заменили плату"},
-      {en:"Changed power cord", ru:"Провод заменён"},
-      {en:"Fixed door interlock", ru:"Починили блокиратор"},
-      {en:"Cleaned/changed hose", ru:"Почистили/заменили шланг"}
-    ]
-  },
-  dryer: {
-    brands: ["LG","Samsung","Whirlpool","Bosch","Electrolux","Hotpoint","Indesit","Maytag","AEG","Beko","Siemens","Miele","Candy","Sharp","Panasonic","Ariston","Zanussi","Haier","Ardo","Daewoo"],
-    problems:[
-      {en:"Not heating",ru:"Не греет"},
-      {en:"Does not start",ru:"Не включается"},
-      {en:"Drum not turning",ru:"Барабан не крутится"},
-      {en:"Unusual noise",ru:"Странный шум"},
-      {en:"Stops mid-cycle",ru:"Останавливается в середине"},
-      {en:"Display error",ru:"Ошибка на экране"},
-      {en:"Clothes still wet",ru:"Белье сырое"},
-      {en:"Vent blocked",ru:"Засорено вентиляция"},
-      {en:"Door won’t close",ru:"Дверь не закрывается"},
-      {en:"Burning smell",ru:"Запах гари"},
-      {en:"Drum squeaks",ru:"Скрипит барабан"},
-      {en:"Lint filter full",ru:"Фильтр пушистый"},
-      {en:"Control panel dead",ru:"Панель не реагирует"},
-      {en:"Time display wrong",ru:"Неверное время"},
-      {en:"Thermostat error",ru:"Ошибка термостата"},
-      {en:"Drum stuck",ru:"Барабан заклинило"},
-      {en:"Noisy bearing",ru:"Подшипник гудит"}
-    ],
-    diagnosis:[
-      {en:"Blown thermal fuse",ru:"Сгорел термопред"},
-      {en:"Broken drive belt",ru:"Ремень порвался"},
-      {en:"Clogged venting",ru:"Забиты воздуховоды"},
-      {en:"Defective door switch",ru:"Неисправен датчик двери"},
-      {en:"Burnt heating element",ru:"Сгорел тен"},
-      {en:"Broken drum support",ru:"Поддержкa сломана"},
-      {en:"Control board failure",ru:"Неисправна плата"},
-      {en:"Sensor error",ru:"Ошибка сенсора"},
-      {en:"Bearing worn",ru:"Износ подшипника"},
-      {en:"Dryness sensor faulty",ru:"Сенсор влажности неисправен"}
-    ],
-    actions:[
-      {en:"Replaced thermal fuse",ru:"Поменяли термопред"},
-      {en:"New drive belt installed",ru:"Поставлен новый ремень"},
-      {en:"Cleaned vent",ru:"Почищен канал"},
-      {en:"Changed door switch",ru:"Поменяли датчик двери"},
-      {en:"Installed new heater",ru:"Поставлен новый тен"},
-      {en:"Fixed drum support",ru:"Починили ось/ролики"},
-      {en:"Changed control board",ru:"Заменили модуль"},
-      {en:"Cleaned/changed sensor",ru:"Почистили/заменили сенсор"},
-      {en:"Replaced bearing",ru:"Заменен подшипник"}
-    ]
-  },
-  stove_oven: {
-    brands:["GE","Whirlpool","Bosch","Samsung","Electrolux","Beko","Hotpoint","Indesit","Zanussi","Ariston","Gorenje","Miele","Candy","Siemens","Sharp","Smeg","Panasonic","Vestfrost","Hansa","AEG"],
-    problems:[
-      {en:"No heating",ru:"Нет нагрева"},
-      {en:"Burners not igniting",ru:"Не зажигаются горелки"},
-      {en:"Error code display",ru:"Показывает ошибку"},
-      {en:"Oven not baking evenly",ru:"Неравномерная выпечка"},
-      {en:"Oven light out",ru:"Не горит лампа"},
-      {en:"Timer not working",ru:"Таймер не включается"},
-      {en:"Odors inside",ru:"Пахнет внутри"},
-      {en:"Poor temperature control",ru:"Плохо держит температуру"},
-      {en:"Cooktop glass cracked",ru:"Трещина на стекле"},
-      {en:"Control panel dead",ru:"Панель не работает"},
-      {en:"Door does not seal",ru:"Дверца не закрывается"},
-      {en:"Knobs loose",ru:"Крутилки люфтят"},
-      {en:"Fan noisy",ru:"Гудит вентилятор"},
-      {en:"Light flickers",ru:"Мигает лампа"}
-    ],
-    diagnosis:[
-      {en:"Faulty igniter",ru:"Неисправен воспламенитель"},
-      {en:"Defective thermostat",ru:"Плохой термостат"},
-      {en:"Control board issue",ru:"Некорректная плата"},
-      {en:"Heating element burnt",ru:"Сгорел тен"},
-      {en:"Broken door hinge",ru:"Петля сломана"},
-      {en:"Loose wires",ru:"Плохой контакт"},
-      {en:"Sensor failure",ru:"Поломка датчика"},
-      {en:"Fan motor dead",ru:"Вышел из строя вентилятор"}
-    ],
-    actions:[
-      {en:"Replaced igniter",ru:"Замена воспламенителя"},
-      {en:"Fixed / changed thermostat",ru:"Термостат исправили/заменили"},
-      {en:"Replaced control board",ru:"Поменяли модуль"},
-      {en:"Installed new heater",ru:"Установлен новый тен"},
-      {en:"Rehung door",ru:"Привинтили петлю"},
-      {en:"Tightened wiring",ru:"Подтянули провода"},
-      {en:"Changed sensor",ru:"Заменен датчик"},
-      {en:"Replaced fan motor",ru:"Обновили вентилятор"},
-      {en:"Replaced glass top",ru:"Стекло заменено"}
-    ]
-  },
-  microwave: {
-    brands:["Samsung","LG","Panasonic","Sharp","Whirlpool","Bosch","Beko","Hotpoint","Candy","Midea","Daewoo","Siemens","Electrolux","Zanussi","Toshiba","Gorenje","Vestfrost","Ardo","Smeg","Mystery"],
-    problems:[
-      {en:"No heating",ru:"Не греет"},
-      {en:"Sparking inside",ru:"Искрит"},
-      {en:"Turntable not rotating",ru:"Тарелка не крутится"},
-      {en:"Buttons not working",ru:"Кнопки не реагируют"},
-      {en:"Loud noise",ru:"Громко работает"},
-      {en:"Display broken",ru:"Не работает дисплей"},
-      {en:"Oven light burnt",ru:"Сгорел свет"},
-      {en:"No power",ru:"Нет питания"},
-      {en:"Door won’t close",ru:"Дверца не закрывается"},
-      {en:"Fuse blowing",ru:"Выбивает пробки"},
-      {en:"Stops mid-cycle",ru:"Останавливается в цикле"},
-      {en:"Smells burning",ru:"Запах гари"},
-      {en:"Burns food",ru:"Сжигает продукты"},
-      {en:"Doesn’t beep",ru:"Не пищит"}
-    ],
-    diagnosis:[
-      {en:"Magnetron failure",ru:"Неисправен магнетрон"},
-      {en:"Faulty door switch",ru:"Проблема двери"},
-      {en:"Broken turntable motor",ru:"Мотор тарелки сломан"},
-      {en:"Display module dead",ru:"Экран неисправен"},
-      {en:"Burnt wiring",ru:"Сгорели провода"},
-      {en:"Fuse blown",ru:"Пробка перегорела"},
-      {en:"Heater short-circuited",ru:"Короткое в нагревателе"},
-      {en:"Mainboard fried",ru:"Плата повреждена"},
-      {en:"Transformer burnt",ru:"Трансформатор неисправен"}
-    ],
-    actions:[
-      {en:"Replaced magnetron",ru:"Поменяли магнетрон"},
-      {en:"Changed door switch",ru:"Датчик двери"),
-      {en:"New turntable motor",ru:"Поставили мотор тарелки"},
-      {en:"Repaired display",ru:"Починили модуль"},
-      {en:"Replaced wiring",ru:"Поставили новую проводку"},
-      {en:"Replaced fuse",ru:"Заменили пробку"},
-      {en:"Repaired mainboard",ru:"Починили плату"},
-      {en:"Replaced transformer",ru:"Трансформатор заменён"}
-    ]
-  }
+    refrigerator: {
+        brands: ['GE','Samsung','Whirlpool','LG','Kenmore','KitchenAid','Frigidaire','Maytag','Bosch','Electrolux','Haier','Panasonic','Beko','Hotpoint','Indesit','Miele','Ariston','Sharp','Smeg','Hitachi'],
+        problems: [
+            { en:"Not cooling properly", ru:"Не охлаждает должным образом" },
+            { en:"Making loud noises", ru:"Издает громкие звуки" },
+            { en:"Leaking water", ru:"Течет вода" },
+            { en:"Ice maker not working", ru:"Льдогенератор не работает" },
+            { en:"Defrost issues", ru:"Не работает разморозка" },
+            { en:"Compressor running constantly", ru:"Компрессор работает постоянно" },
+            { en:"Odors in fridge", ru:"Запахи внутри" },
+            { en:"Food freezing", ru:"Замораживает продукты" },
+            { en:"Water dispenser failure", ru:"Не работает раздатчик воды" },
+            { en:"Control panel unresponsive", ru:"Панель не реагирует" },
+            { en:"Door not closing", ru:"Дверь не закрывается" },
+            { en:"Evaporator fan noise", ru:"Шум вентилятора испарителя" }
+        ],
+        diagnosis: [
+            { en:"Faulty compressor", ru:"Неисправный компрессор" },
+            { en:"Refrigerant leak", ru:"Утечка хладагента" },
+            { en:"Defrost timer failure", ru:"Неисправен таймер разморозки" },
+            { en:"Clogged drain", ru:"Засор дренажа" },
+            { en:"Broken fan motor", ru:"Сломан мотор вентилятора" }
+        ],
+        actions: [
+            { en:"Replaced compressor", ru:"Заменен компрессор" },
+            { en:"Repaired leak + refill", ru:"Заправлен фреон, устранена утечка" },
+            { en:"Cleared drain", ru:"Проведен прочистка дренажа" },
+            { en:"Installed new fan", ru:"Заменен вентилятор" },
+            { en:"Replaced door gasket", ru:"Заменили уплотнитель двери" }
+        ]
+    },
+    dishwasher: {
+        brands: ['GE','Samsung','Whirlpool','LG','Kenmore','Bosch','Siemens','Electrolux','Beko','Miele','Hotpoint','Indesit','Ariston','Zanussi','Candy','Sharp','Viking','Daewoo','Smeg'],
+        problems: [
+            { en:"Not draining water", ru:"Не сливает воду" },
+            { en:"Dishes not getting clean", ru:"Посуда не отмывается" },
+            { en:"Leaking", ru:"Течет" },
+            { en:"No power", ru:"Не включается" },
+            { en:"Filling with water continuously", ru:"Постоянно набирает воду" },
+            { en:"Door not latching", ru:"Дверь не закрывается" }
+        ],
+        diagnosis: [
+            {en:"Clogged drain hose",ru:"Забит сливной шланг"},
+            {en:"Defective drain pump",ru:"Неисправен сливной насос"},
+            {en:"Broken door switch",ru:"Датчик двери неисправен"},
+            {en:"Blocked spray arms",ru:"Засор распылителей"}
+        ],
+        actions: [
+            {en:"Cleaned hose",ru:"Промыли шланг"},
+            {en:"Replaced pump",ru:"Поменян насос"},
+            {en:"Replaced latch",ru:"Поменяли замок"},
+            {en:"Fixed spray arms",ru:"Отремонтирован распылитель"}
+        ]
+    },
+    washing_machine: {
+        brands: ['LG','Samsung','Whirlpool','Bosch','Electrolux','Indesit','Hotpoint','Candy','Beko','Zanussi', 'Ardo','Siemens','Miele','AEG','Ariston','Vestfrost','Haier','Daewoo','Sharp','Panasonic'],
+        problems:[
+            {en:"Won't start", ru:"Не включается"},
+            {en:"Water leaks", ru:"Течет"},
+            {en:"Not spinning", ru:"Не крутит"},
+            {en:"No water intake", ru:"Нет набора воды"},
+            {en:"Jumps/vibrates", ru:"Прыгает/вибрирует"},
+            {en:"Doesn't heat", ru:"Не греет"},
+            {en:"Stains on laundry", ru:"Пятна на белье"},
+            {en:"Controller error", ru:"Ошибка на панели"}
+        ],
+        diagnosis:[
+            {en:"Pump motor fails", ru:"Сломан мотор насоса"},
+            {en:"Drive belt snapped", ru:"Порвался ремень"},
+            {en:"Shock absorbers broken", ru:"Износ амортизатора"},
+            {en:"Heating element burnt", ru:"Сгорел тен"},
+            {en:"Door interlock fault", ru:"Блокиратор двери"}
+        ],
+        actions:[
+            {en:"Replaced bearing", ru:"Заменен подшипник"},
+            {en:"Reinstalled drive belt", ru:"Новый ремень"},
+            {en:"Fixed pump", ru:"Починили насос"},
+            {en:"Mounted new shock absorber", ru:"Поставили амортизатор"},
+            {en:"Changed heating element", ru:"Сменили тен"}
+        ]
+    },
+    dryer: {
+        brands: ["LG","Samsung","Whirlpool","Bosch","Electrolux","Hotpoint","Indesit","Maytag","AEG","Beko","Siemens","Miele","Candy","Sharp","Panasonic","Ariston","Zanussi","Haier","Ardo","Daewoo"],
+        problems:[
+            {en:"Not heating",ru:"Не греет"},
+            {en:"Does not start",ru:"Не включается"},
+            {en:"Drum not turning",ru:"Барабан не крутится"},
+            {en:"Unusual noise",ru:"Странный шум"},
+            {en:"Stops mid-cycle",ru:"Останавливается в середине"},
+            {en:"Door won’t close",ru:"Дверь не закрывается"}
+        ],
+        diagnosis:[
+            {en:"Blown thermal fuse",ru:"Сгорел термопред"},
+            {en:"Broken drive belt",ru:"Ремень порвался"},
+            {en:"Clogged venting",ru:"Забиты воздуховоды"},
+            {en:"Defective door switch",ru:"Неисправен датчик двери"}
+        ],
+        actions:[
+            {en:"Replaced thermal fuse",ru:"Поменяли термопред"},
+            {en:"New drive belt installed",ru:"Поставлен новый ремень"},
+            {en:"Cleaned vent",ru:"Почищен канал"},
+            {en:"Changed door switch",ru:"Поменяли датчик двери"}
+        ]
+    },
+    stove_oven: {
+        brands: ["GE","Whirlpool","Bosch","Samsung","Electrolux","Beko","Hotpoint","Indesit","Zanussi","Ariston","Gorenje","Miele","Candy","Siemens","Sharp","Smeg","Panasonic","Vestfrost","Hansa","AEG"],
+        problems:[
+            {en:"No heating",ru:"Нет нагрева"},
+            {en:"Burners not igniting",ru:"Не зажигаются горелки"},
+            {en:"Oven not baking evenly",ru:"Неравномерная выпечка"},
+            {en:"Door does not seal",ru:"Дверца не закрывается"},
+            {en:"Knobs loose",ru:"Крутилки люфтят"}
+        ],
+        diagnosis:[
+            {en:"Faulty igniter",ru:"Неисправен воспламенитель"},
+            {en:"Defective thermostat",ru:"Плохой термостат"},
+            {en:"Heating element burnt",ru:"Сгорел тен"},
+            {en:"Broken door hinge",ru:"Петля сломана"}
+        ],
+        actions:[
+            {en:"Replaced igniter",ru:"Замена воспламенителя"},
+            {en:"Fixed thermostat",ru:"Термостат исправили"},
+            {en:"Replaced heater",ru:"Установлен новый тен"},
+            {en:"Rehung door",ru:"Переустановили дверь"}
+        ]
+    },
+    microwave: {
+        brands:["Samsung","LG","Panasonic","Sharp","Whirlpool","Bosch","Beko","Hotpoint","Candy","Midea","Daewoo","Siemens","Electrolux","Zanussi","Toshiba","Gorenje","Vestfrost","Ardo","Smeg","Mystery"],
+        problems:[
+            {en:"No heating",ru:"Не греет"},
+            {en:"Sparking inside",ru:"Искрит"},
+            {en:"Turntable not rotating",ru:"Тарелка не крутится"},
+            {en:"Buttons not working",ru:"Кнопки не реагируют"},
+            {en:"Loud noise",ru:"Громко работает"}
+        ],
+        diagnosis:[
+            {en:"Magnetron failure",ru:"Неисправен магнетрон"},
+            {en:"Faulty door switch",ru:"Проблема двери"},
+            {en:"Broken turntable motor",ru:"Мотор тарелки сломан"}
+        ],
+        actions:[
+            {en:"Replaced magnetron",ru:"Поменяли магнетрон"},
+            {en:"Changed door switch",ru:"Датчик двери"},
+            {en:"New turntable motor",ru:"Поставили мотор тарелки"}
+        ]
+    }
 };
 
+// DOM
 const categorySelect = document.getElementById('category');
 const brandSelect = document.getElementById('brand');
 const problemSelect = document.getElementById('problem');
 const diagnosisSelect = document.getElementById('diagnosis');
 const actionSelect = document.getElementById('action');
 const form = document.getElementById('repairForm');
+const reportOutput = document.getElementById('reportOutput');
+const reportContent = document.getElementById('reportContent');
 const clearBtn = document.getElementById('clearBtn');
-const allReportsDiv = document.getElementById('allReports');
-const reportsBtnsRow = document.getElementById('reportsControlBtns');
-const copyAllBtn = document.getElementById('copyAllBtn');
-const clearAllBtn = document.getElementById('clearAllBtn');
-const copyLastBtn = document.getElementById('copyLastBtn');
+
+// NEW: отчёты сохраняются
 let reportsArr = [];
 
-function fillSelect(select, options, getValueFn, getTextFn) {
-  select.innerHTML = `<option value="">${select === brandSelect ? "Select Brand" : select === problemSelect ? "Select Problem" : select === diagnosisSelect ? "Select Diagnosis" : select === actionSelect ? "Select Action" : ""}</option>`;
-  for (const opt of options) {
-    const option = document.createElement('option');
-    option.value = getValueFn(opt);
-    option.textContent = getTextFn(opt);
-    select.appendChild(option);
-  }
-}
 categorySelect.addEventListener('change', () => {
-  const cat = categorySelect.value;
-  if (cat && applianceData[cat]) {
-    fillSelect(brandSelect, applianceData[cat].brands, x => x.toLowerCase().replace(/\s+/g,'_'), x => x);
-    fillSelect(problemSelect, applianceData[cat].problems, x => x.en.toLowerCase().replace(/\s+/g, '_'), x => `${x.en} / ${x.ru}`);
-    fillSelect(diagnosisSelect, applianceData[cat].diagnosis, x => x.en.toLowerCase().replace(/\s+/g, '_'), x => `${x.en} / ${x.ru}`);
-    fillSelect(actionSelect, applianceData[cat].actions, x => x.en.toLowerCase().replace(/\s+/g, '_'), x => `${x.en} / ${x.ru}`);
-  } else {
-    fillSelect(brandSelect, [], x=>x, x=>x);
-    fillSelect(problemSelect, [], x=>x, x=>x);
-    fillSelect(diagnosisSelect, [], x=>x, x=>x);
-    fillSelect(actionSelect, [], x=>x, x=>x);
-  }
+    const category = categorySelect.value;
+    brandSelect.innerHTML = '<option value="">Select Brand</option>';
+    problemSelect.innerHTML = '<option value="">Select Problem</option>';
+    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
+    actionSelect.innerHTML = '<option value="">Select Action</option>';
+
+    if (category && applianceData[category]) {
+        applianceData[category].brands.forEach(brand => {
+            const option = document.createElement('option');
+            option.value = brand.toLowerCase().replace(/\s+/g, '_');
+            option.textContent = brand;
+            brandSelect.appendChild(option);
+        });
+        applianceData[category].problems.forEach(problem => {
+            const option = document.createElement('option');
+            option.value = problem.en.toLowerCase().replace(/\s+/g, '_');
+            option.textContent = `${problem.en} / ${problem.ru}`;
+            problemSelect.appendChild(option);
+        });
+        applianceData[category].diagnosis.forEach(diagnosis => {
+            const option = document.createElement('option');
+            option.value = diagnosis.en.toLowerCase().replace(/\s+/g, '_');
+            option.textContent = `${diagnosis.en} / ${diagnosis.ru}`;
+            diagnosisSelect.appendChild(option);
+        });
+        applianceData[category].actions.forEach(action => {
+            const option = document.createElement('option');
+            option.value = action.en.toLowerCase().replace(/\s+/g, '_');
+            option.textContent = `${action.en} / ${action.ru}`;
+            actionSelect.appendChild(option);
+        });
+    }
 });
 
-document.querySelectorAll('.mode-btn').forEach(btn => btn.addEventListener('click', () => {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (btn.getAttribute('data-mode') === "client") {
-    document.querySelectorAll('.translation').forEach(el => el.classList.add('hidden'));
-  } else {
-    document.querySelectorAll('.translation').forEach(el => el.classList.remove('hidden'));
-  }
-}));
-
-function getReportObj() {
-  return {
-    category: categorySelect.options[categorySelect.selectedIndex].text,
-    brand: brandSelect.options[brandSelect.selectedIndex]?.text || '',
-    model: document.getElementById('model').value,
-    serial: document.getElementById('serial').value,
-    year: document.getElementById('year').value,
-    problem: problemSelect.options[problemSelect.selectedIndex]?.text || '',
-    diagnosis: diagnosisSelect.options[diagnosisSelect.selectedIndex]?.text || '',
-    action: actionSelect.options[actionSelect.selectedIndex]?.text || '',
-    status: document.getElementById('status').options[document.getElementById('status').selectedIndex]?.text || '',
-    notes: document.getElementById('notes').value
-  };
+// формирование отчета + запись в массив всех отчетов
+function getCurrentReport() {
+    return {
+        appliance: categorySelect.options[categorySelect.selectedIndex].text,
+        brand: brandSelect.options[brandSelect.selectedIndex]?.text || '',
+        model: document.getElementById('model').value.trim(),
+        serial: document.getElementById('serial').value.trim(),
+        year: document.getElementById('year').value.trim(),
+        problem: problemSelect.options[problemSelect.selectedIndex]?.text || '',
+        diagnosis: diagnosisSelect.options[diagnosisSelect.selectedIndex]?.text || '',
+        action: actionSelect.options[actionSelect.selectedIndex]?.text || '',
+        status: document.getElementById('status').options[document.getElementById('status').selectedIndex]?.text || '',
+        notes: document.getElementById('notes').value.trim()
+    };
 }
 
-function reportToHtml(rep) {
-  return `<div class="report-block"><b>${rep.category}</b><br>
-      <b>Brand:</b> ${rep.brand} &nbsp;<b>Model:</b> ${rep.model}<br>
-      <b>Serial#:</b> ${rep.serial} &nbsp;<b>Year:</b> ${rep.year}<br>
-      <b>Problem:</b> ${rep.problem}<br>
-      <b>Diagnosis:</b> ${rep.diagnosis}<br>
-      <b>Action:</b> ${rep.action}<br>
-      <b>Status:</b> ${rep.status}<br>
-      <b>Notes:</b> ${rep.notes}</div>`;
-}
-
-function reportToTxt(rep) {
-  return [
-    `${rep.category}`,
-    `Brand: ${rep.brand}, Model: ${rep.model}`,
-    `Serial#: ${rep.serial}, Year: ${rep.year}`,
-    `Problem: ${rep.problem}`,
-    `Diagnosis: ${rep.diagnosis}`,
-    `Action: ${rep.action}`,
-    `Status: ${rep.status}`,
-    `Notes: ${rep.notes}`
-  ].join("\n");
-}
-
+// отрисовка всех отчетов
 function renderAllReports() {
-  if (!reportsArr.length) {
-    allReportsDiv.innerHTML = "";
-    reportsBtnsRow.classList.add('hidden');
-    return;
-  }
-  allReportsDiv.innerHTML = reportsArr.map(reportToHtml).join("");
-  reportsBtnsRow.classList.remove('hidden');
+    let out = '';
+    reportsArr.forEach((r,idx) => {
+        out += `<div class="report-output" style="margin-top:24px;">
+            <div class="report-title">📄 Report #${idx+1}</div>
+            <div class="report-content">
+                <div class="report-line"><span class="report-label">Appliance Type:</span> <span class="report-value">${r.appliance}</span></div>
+                <div class="report-line"><span class="report-label">Brand:</span> <span class="report-value">${r.brand}</span></div>
+                <div class="report-line"><span class="report-label">Model:</span> <span class="report-value">${r.model}</span></div>
+                <div class="report-line"><span class="report-label">Serial Number:</span> <span class="report-value">${r.serial}</span></div>
+                <div class="report-line"><span class="report-label">Year of Manufacture:</span> <span class="report-value">${r.year}</span></div>
+                <div class="report-line"><span class="report-label">Problem:</span> <span class="report-value">${r.problem}</span></div>
+                <div class="report-line"><span class="report-label">Diagnosis:</span> <span class="report-value">${r.diagnosis}</span></div>
+                <div class="report-line"><span class="report-label">Action Taken:</span> <span class="report-value">${r.action}</span></div>
+                <div class="report-line"><span class="report-label">Status:</span> <span class="report-value">${r.status}</span></div>
+                <div class="report-line"><span class="report-label">Additional Notes:</span> <span class="report-value">${r.notes}</span></div>
+            </div>
+        </div>`;
+    });
+    document.getElementById('allReportsBlock').innerHTML = out;
+    document.getElementById('reportsControlBtns').classList.toggle('hidden', reportsArr.length === 0);
+}
+
+// формат для копирования
+function reportToText(r) {
+    return `
+[${r.appliance}]
+Brand: ${r.brand}
+Model: ${r.model}
+Serial#: ${r.serial}
+Year: ${r.year}
+Problem: ${r.problem}
+Diagnosis: ${r.diagnosis}
+Action: ${r.action}
+Status: ${r.status}
+Notes: ${r.notes}
+`.trim();
 }
 
 form.addEventListener('submit', e => {
-  e.preventDefault();
-  const repObj = getReportObj();
-  reportsArr.push(repObj);
-  renderAllReports();
-  form.reset();
-  brandSelect.innerHTML = '<option value="">Select Brand</option>';
-  problemSelect.innerHTML = '<option value="">Select Problem</option>';
-  diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
-  actionSelect.innerHTML = '<option value="">Select Action</option>';
+    e.preventDefault();
+    const report = getCurrentReport();
+    reportsArr.push(report);
+    renderAllReports();
+    form.reset();
+    brandSelect.innerHTML = '<option value="">Select Brand</option>';
+    problemSelect.innerHTML = '<option value="">Select Problem</option>';
+    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
+    actionSelect.innerHTML = '<option value="">Select Action</option>';
 });
 
 clearBtn.addEventListener('click', () => {
-  form.reset();
-  brandSelect.innerHTML = '<option value="">Select Brand</option>';
-  problemSelect.innerHTML = '<option value="">Select Problem</option>';
-  diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
-  actionSelect.innerHTML = '<option value="">Select Action</option>';
+    form.reset();
+    reportOutput.classList.add('hidden');
+    brandSelect.innerHTML = '<option value="">Select Brand</option>';
+    problemSelect.innerHTML = '<option value="">Select Problem</option>';
+    diagnosisSelect.innerHTML = '<option value="">Select Diagnosis</option>';
+    actionSelect.innerHTML = '<option value="">Select Action</option>';
 });
 
-clearAllBtn.addEventListener('click', () => {
-  reportsArr = [];
-  renderAllReports();
+// управление историями отчетов
+if (!document.getElementById('allReportsBlock')) {
+    // Вставим под form
+    let repBlock = document.createElement('div');
+    repBlock.id = 'reportsControlBtns';
+    repBlock.className = 'action-buttons hidden';
+    repBlock.innerHTML = `
+        <button type="button" class="btn btn-primary" id="copyAllBtn">📑 Copy All Reports</button>
+        <button type="button" class="btn btn-primary" id="copyLastBtn">📋 Copy Last Report</button>
+        <button type="button" class="btn btn-secondary" id="clearAllBtn">🗑️ Clear All Reports</button>
+    `;
+    form.parentNode.insertBefore(repBlock, form.nextSibling);
+
+    let allRepHtml = document.createElement('div');
+    allRepHtml.id = 'allReportsBlock';
+    form.parentNode.insertBefore(allRepHtml, repBlock.nextSibling);
+
+    document.getElementById('copyAllBtn').onclick = () => {
+        if (reportsArr.length)
+            navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));
+    }
+    document.getElementById('copyLastBtn').onclick = () => {
+        if (reportsArr.length)
+            navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));
+    }
+    document.getElementById('clearAllBtn').onclick = () => {
+        reportsArr.length = 0; renderAllReports();
+    };
+}
+
+// Режим клиент/техник — скрытие переводов
+const modeButtons = document.querySelectorAll('.mode-btn');
+modeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        modeButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        // убираем/возвращаем переводы
+        document.querySelectorAll('.translation').forEach(el => {
+            if (button.getAttribute('data-mode') === 'client') el.classList.add('hidden');
+            else el.classList.remove('hidden');
+        });
+    });
 });
 
-copyAllBtn.addEventListener('click', () => {
-  if (!reportsArr.length) return;
-  const txt = reportsArr.map(reportToTxt).join("\n\n---------------------\n\n");
-  navigator.clipboard.writeText(txt);
-  copyAllBtn.textContent = "✅ Copied!";
-  setTimeout(()=>{copyAllBtn.textContent="📄 Copy All Reports"},1500);
-});
-
-copyLastBtn.addEventListener('click', () => {
-  if (!reportsArr.length) return;
-  const last = reportsArr[reportsArr.length-1];
-  navigator.clipboard.writeText(reportToTxt(last));
-  copyLastBtn.textContent = "✅ Copied!";
-  setTimeout(()=>{copyLastBtn.textContent="📋 Copy Last Report"},1200);
-});
-  </script>
-</body>
-</html>
+</script>

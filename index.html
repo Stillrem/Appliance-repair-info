@@ -1,633 +1,643 @@
-<!--
-  ---- PART 1/4 START ----
-  Сохраняйте как report.html. После последней части (Part 4) всё объедините в один файл!
--->
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Отчет по ремонту техники | Repair Report</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <style>
-    html,body {
-      background:#f7fafc; min-height:100%; font-family:system-ui,sans-serif;
-      margin:0; padding:0; color:#222;
-    }
-    .main { max-width:820px; margin:24px auto; background:#fff; border-radius:12px; box-shadow:0 6px 24px #0001; padding:32px 20px 24px; }
-    h1, h2 { margin-top:0; }
-    .mode-row { display:flex; justify-content:flex-end; margin-bottom:8px;}
-    .mode-row label { font-weight:bold; margin-left:4px;}
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-bottom:17px;}
-    .form-row .col-span { grid-column:1/-1;}
-    label { font-size:15px; color:#444;}
-    select, input, textarea { font:inherit; border:1.2px solid #c3d0e0; border-radius:4px; padding:7px 8px; outline:none;}
-    select:focus, input:focus, textarea:focus { border-color:#3179e6; }
-    textarea {resize:vertical;min-height:62px;}
-    .cat-inline {display:flex;gap:8px;align-items:center;}
-    .add-btn, .del-btn, .copy-btn, .clear-btn, .report-btn {
-      background:#3179e6; color:#fff; border:none; padding:5px 13px; border-radius:4px; font-size:13.5px; cursor:pointer; margin-left:8px;transition:.12s;
-    }
-    .add-btn {background:#1bb93c;}
-    .del-btn {background:#ed5a5a;}
-    .report-btn {font-weight:bold;background:#f4b812;color:#222;}
-    .add-btn:hover, .del-btn:hover, .copy-btn:hover, .clear-btn:hover, .report-btn:hover {filter:brightness(1.07);}
-    .field-list {margin-top:6px;}
-    .field-list .custom-item { background:#f9ede0; border-radius:3px; padding:2px 7px; margin:0 6px 3px 0; display:inline-block; font-size:14px;}
-    .field-list .del-btn {padding:0 7px; margin:0 0 0 4px;}
-    .template-area {margin:11px 0 0;}
-    .template-label {font-size:14px; margin-bottom:3px;}
-    .history-block {margin-top:34px; padding:20px 18px 7px; background:#f2f5fa; border-radius:8px;}
-    .report-item {background:#fff; border:1px solid #dae6f4; border-radius:7px; margin:10px 0; padding:10px 12px;position:relative;}
-    .report-actions {position:absolute; right:16px; top:10px; display:flex; gap:7px;}
-    .foot-note {color:#6a879b; font-size:15px; margin:14px 3px 0;}
-    .status-row, .labels-row {display:flex; gap:18px; margin-bottom:10px;}
-    .status-row select, .labels-row select {min-width:135px;}
-    .small-btn {font-size:12.5px; padding:1px 7px; margin:0;}
-    @media(max-width:720px){
-      .main{padding:14px 3px;}
-      .form-row{grid-template-columns:1fr;}
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Appliance Repair Pro</title>
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#34c759" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Repair Pro" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+    <style>
+        /* ...ВСЕ ВАШИ CSS БЕЗ ИЗМЕНЕНИЙ... */
+        :root { --primary: #34c759; /* ...и далее как было выше... */ }
+        /* сюда — всё содержимое вашего <style> блока */
+    </style>
 </head>
 <body>
-  <div class="main">
-    <div class="mode-row">
-      <label>
-        <input type="checkbox" id="modeClient" />
-        <span id="modeLabel">Режим: Техник</span>
-      </label>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔧</div>
+            <h1 class="title">Appliance Repair Pro</h1>
+            <p class="subtitle">Professional Service Reports</p>
+
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="technician">👨‍🔧 Technician</button>
+                <button class="mode-btn" data-mode="client">👤 Client</button>
+            </div>
+        </div>
+
+        <form id="repairForm" autocomplete="off">
+            <div class="form-section">
+                <div class="section-title">🏠 Appliance Information</div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Appliance Type
+                        <span class="translation">Тип техники</span>
+                    </label>
+                    <select id="category" required>
+                        <option value="">Select Appliance Type</option>
+                        <option value="refrigerator">Refrigerator / Холодильник</option>
+                        <option value="dishwasher">Dishwasher / Посудомоечная машина</option>
+                        <option value="washing_machine">Washing Machine / Стиральная машина</option>
+                        <option value="dryer">Dryer / Сушилка</option>
+                        <option value="stove_oven">Stove/Oven / Плита/Духовка</option>
+                        <option value="microwave">Microwave / Микроволновка</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label">
+                            Brand
+                            <span class="translation">Бренд</span>
+                        </label>
+                        <select id="brand" required>
+                            <option value="">Select Brand</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">
+                            Model
+                            <span class="translation">Модель</span>
+                        </label>
+                        <input type="text" id="model" placeholder="Enter model number" required />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="label">
+                            Serial Number
+                            <span class="translation">Серийный номер</span>
+                        </label>
+                        <input type="text" id="serial" placeholder="Enter serial number" />
+                    </div>
+                    <div class="form-group">
+                        <label class="label">
+                            Month of Manufacture
+                            <span class="translation">Месяц выпуска</span>
+                        </label>
+                        <select id="month">
+                            <option value="">Select Month</option>
+                            <option>January / Январь</option>
+                            <option>February / Февраль</option>
+                            <option>March / Март</option>
+                            <option>April / Апрель</option>
+                            <option>May / Май</option>
+                            <option>June / Июнь</option>
+                            <option>July / Июль</option>
+                            <option>August / Август</option>
+                            <option>September / Сентябрь</option>
+                            <option>October / Октябрь</option>
+                            <option>November / Ноябрь</option>
+                            <option>December / Декабрь</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">
+                            Year of Manufacture
+                            <span class="translation">Год выпуска</span>
+                        </label>
+                        <input type="number" id="year" placeholder="2020" min="1990" max="2025" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">🔍 Service Details</div>
+
+                <div class="form-group" style="display:flex;align-items:flex-end;gap:8px;">
+                    <div style="flex:1">
+                        <label class="label">
+                            Problem
+                            <span class="translation">Проблема</span>
+                        </label>
+                        <select id="problem" required>
+                            <option value="">Select Problem</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="addProblemBtn" style="height:44px;padding:0 12px;min-width:44px;">+Add</button>
+                </div>
+
+                <div class="form-group" style="display:flex;align-items:flex-end;gap:8px;">
+                    <div style="flex:1">
+                        <label class="label">
+                            Diagnosis
+                            <span class="translation">Диагноз</span>
+                        </label>
+                        <select id="diagnosis" required>
+                            <option value="">Select Diagnosis</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="addDiagnosisBtn" style="height:44px;padding:0 12px;min-width:44px;">+Add</button>
+                </div>
+
+                <div class="form-group" style="display:flex;align-items:flex-end;gap:8px;">
+                    <div style="flex:1">
+                        <label class="label">
+                            Action Taken
+                            <span class="translation">Выполненные действия</span>
+                        </label>
+                        <select id="action" required>
+                            <option value="">Select Action</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="addActionBtn" style="height:44px;padding:0 12px;min-width:44px;">+Add</button>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Status
+                        <span class="translation">Статус</span>
+                    </label>
+                    <select id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="completed">✅ Fixed 100% / Полностью исправлено</option>
+                        <option value="waiting">⏳ Waiting for Part / Ожидание запчасти</option>
+                        <option value="temporary">🔧 Temporary Fix / Временное решение</option>
+                        <option value="unrepairable">❌ Not Repairable / Не подлежит ремонту</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Additional Notes
+                        <span class="translation">Дополнительные заметки</span>
+                    </label>
+                    <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="label">
+                        Price
+                        <span class="translation">Стоимость</span>
+                    </label>
+                    <input type="number" id="price" placeholder="Enter price" min="0" step="1" />
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">📋 Generate Report</button>
+                <button type="button" class="btn btn-secondary" id="clearBtn">🗑️ Clear Form</button>
+            </div>
+        </form>
+
+        <div id="reportOutput" class="report-output hidden">
+            <div class="report-title">📄 Service Report</div>
+            <div id="reportContent" class="report-content"></div>
+        </div>
+
+        <div class="templates">
+            <div class="templates-title">💬 Customer Message Templates</div>
+            <button class="template-btn" data-template="completion">
+                <div class="template-main">✅ Service completed successfully - Your appliance is working perfectly</div>
+                <div class="template-translation">✅ Обслуживание успешно завершено - Ваша техника работает отлично</div>
+            </button>
+            <button class="template-btn" data-template="parts">
+                <div class="template-main">🔧 Part ordered - We'll return within 3-5 business days to complete the repair</div>
+                <div class="template-translation">🔧 Запчасть заказана - Вернемся через 3-5 рабочих дней для завершения ремонта</div>
+            </button>
+            <button class="template-btn" data-template="estimate">
+                <div class="template-main">💰 Repair estimate provided - Please review and let us know your decision</div>
+                <div class="template-translation">💰 Смета ремонта предоставлена - Пожалуйста, рассмотрите и сообщите решение</div>
+            </button>
+            <button class="template-btn" data-template="warranty">
+                <div class="template-main">🛡️ Repair covered under warranty - No charge for today's service</div>
+                <div class="template-translation">🛡️ Ремонт покрывается гарантией - Сегодняшнее обслуживание бесплатно</div>
+            </button>
+        </div>
     </div>
-    <h1 id="mainTitle">Отчет по ремонту техники</h1>
-    <form id="repairForm" autocomplete="off">
-      <div class="form-row">
-        <div>
-          <label id="catLabel" for="category">Категория техники</label>
-          <div class="cat-inline">
-            <select id="category"></select>
-            <button type="button" class="add-btn small-btn" id="addCategoryBtn" title="Добавить категорию">+ Add</button>
-          </div>
-          <div class="field-list" id="categoryList"></div>
-        </div>
-        <div>
-          <label id="brandLabel" for="brand">Бренд</label>
-          <div class="cat-inline">
-            <select id="brand"></select>
-            <button type="button" class="add-btn small-btn" id="addBrandBtn">+ Add</button>
-          </div>
-          <div class="field-list" id="brandList"></div>
-        </div>
-        <div>
-          <label id="modelLabel" for="model">Модель</label>
-          <input id="model" name="model" type="text" maxlength="60" required>
-        </div>
-        <div>
-          <label id="serialLabel" for="serial">Серийный номер</label>
-          <input id="serial" name="serial" type="text" maxlength="58">
-        </div>
-        <div>
-          <label for="releaseMonth" id="releaseMonthLabel">Месяц выпуска</label>
-          <select id="releaseMonth"></select>
-        </div>
-        <div>
-          <label for="releaseYear" id="releaseYearLabel">Год выпуска</label>
-          <select id="releaseYear"></select>
-        </div>
-      </div>
 
-      <div class="form-row">
-        <div class="col-span">
-          <label id="problemLabel" for="problem">Проблема</label>
-          <div class="cat-inline">
-            <select id="problem"></select>
-            <button type="button" class="add-btn small-btn" id="addProblemBtn">+ Add</button>
-          </div>
-          <div class="field-list" id="problemList"></div>
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-text">📱 Install this app on your home screen for quick access!</div>
+        <div class="install-buttons">
+            <button class="install-btn" id="installBtn">Install</button>
+            <button class="close-btn" id="closePrompt">Close</button>
         </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label id="diagLabel" for="diagnosis">Диагноз</label>
-          <div class="cat-inline">
-            <select id="diagnosis"></select>
-            <button type="button" class="add-btn small-btn" id="addDiagnosisBtn">+ Add</button>
-          </div>
-          <div class="field-list" id="diagnosisList"></div>
-        </div>
-        <div>
-          <label id="actionsLabel" for="actions">Что сделано</label>
-          <div class="cat-inline">
-            <select id="actions"></select>
-            <button type="button" class="add-btn small-btn" id="addActionsBtn">+ Add</button>
-          </div>
-          <div class="field-list" id="actionsList"></div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label id="priceLabel" for="price">Стоимость ремонта (₽)</label>
-          <input id="price" name="price" type="number" min="0" max="500000" step="1" required>
-        </div>
-        <div>
-          <label id="statusLabel" for="status">Статус</label>
-          <select id="status">
-            <option>Готово</option>
-            <option>В работе</option>
-            <option>Ожидание клиента</option>
-            <option>Требуется повторный визит</option>
-            <option>Ожидание детали</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-span">
-          <label id="notesLabel" for="notes">Комментарии / Примечания</label>
-          <textarea id="notes" maxlength="800"></textarea>
-        </div>
-      </div>
-      <div class="form-row">
-        <button type="submit" class="report-btn" id="makeReportBtn">Создать отчет</button>
-        <button type="button" class="clear-btn" id="clearFormBtn">Очистить форму</button>
-      </div>
-    </form>
-
-    <div class="template-area">
-      <div class="template-label" id="templateTitle">Шаблон сообщения клиенту:</div>
-      <textarea id="templateOutput" readonly></textarea>
-      <button class="copy-btn" id="copyTemplateBtn">Скопировать шаблон</button>
     </div>
-    <div class="history-block">
-      <b id="historyTitle">История отчетов (localStorage):</b>
-      <div id="reportsArea"></div>
-      <button class="small-btn copy-btn" id="copyAllBtn">Копировать все</button>
-      <button class="small-btn clear-btn" id="clearHistoryBtn">Очистить историю</button>
-    </div>
-    <div class="foot-note" id="footNote">
-      Все данные сохраняются только у вас в браузере, никакая информация не передается на сервер.
-    </div>
-  </div>
-<script>
-/* ---- PART 1/4 END ---- */
-</script>
 
-      <script>
-/* ---- PART 2/4 START ---- */
-
-/** ——— Языковые ресурсы и массивы данных для динамики ——— **/
-
-const i18n = {
-  ru: {
-    modeTech:    "Режим: Техник",
-    modeClient:  "Режим: Клиент",
-    mainTitle:   "Отчет по ремонту техники",
-    category:    "Категория техники",
-    brand:       "Бренд",
-    model:       "Модель",
-    serial:      "Серийный номер",
-    problem:     "Проблема",
-    diagnosis:   "Диагноз",
-    actions:     "Что сделано",
-    price:       "Стоимость ремонта (₽)",
-    month:       "Месяц выпуска",
-    year:        "Год выпуска",
-    status:      "Статус",
-    notes:       "Комментарии / Примечания",
-    reportBtn:   "Создать отчет",
-    clear:       "Очистить форму",
-    templateTitle:"Шаблон сообщения клиенту:",
-    copy:        "Скопировать шаблон",
-    history:     "История отчетов (localStorage):",
-    copyAll:     "Копировать все",
-    clearHistory:"Очистить историю",
-    footNote:    "Все данные сохраняются только у вас в браузере, никакая информация не передается на сервер.",
-    ready:       "Готово",
-    wip:         "В работе",
-    waitC:       "Ожидание клиента",
-    revisit:     "Требуется повторный визит",
-    waitPart:    "Ожидание детали",
-    add:         "+ Добавить",
-    del:         "Удалить"
-  },
-  en: {
-    modeTech:    "Mode: Technician",
-    modeClient:  "Mode: Client",
-    mainTitle:   "Appliance Repair Report",
-    category:    "Appliance Category",
-    brand:       "Brand",
-    model:       "Model",
-    serial:      "Serial Number",
-    problem:     "Problem",
-    diagnosis:   "Diagnosis",
-    actions:     "Performed Actions",
-    price:       "Repair Price ($)",
-    month:       "Release Month",
-    year:        "Release Year",
-    status:      "Status",
-    notes:       "Comments / Notes",
-    reportBtn:   "Create Report",
-    clear:       "Clear Form",
-    templateTitle:"Message template for client:",
-    copy:        "Copy template",
-    history:     "Report History (localStorage):",
-    copyAll:     "Copy all",
-    clearHistory:"Clear history",
-    footNote:    "All data is saved only in your browser. Nothing is transferred to any server.",
-    ready:       "Ready",
-    wip:         "In Progress",
-    waitC:       "Waiting for Client",
-    revisit:     "Repeat Visit Needed",
-    waitPart:    "Waiting for Part",
-    add:         "+ Add",
-    del:         "Delete"
-  }
+  <script>
+const applianceData = {
+    refrigerator: {
+        brands: ['GE','Samsung','Whirlpool','LG','Kenmore','KitchenAid','Frigidaire','Maytag','Bosch','Electrolux','Haier','Panasonic','Beko','Hotpoint','Indesit','Miele','Ariston','Sharp','Smeg','Hitachi'],
+        problems: [
+            { en:"Not cooling properly", ru:"Не охлаждает должным образом" },
+            { en:"Making loud noises", ru:"Издает громкие звуки" },
+            { en:"Leaking water", ru:"Течет вода" },
+            { en:"Ice maker not working", ru:"Льдогенератор не работает" },
+            { en:"Defrost issues", ru:"Не работает разморозка" },
+            { en:"Compressor running constantly", ru:"Компрессор работает постоянно" },
+            { en:"Odors in fridge", ru:"Запахи внутри" },
+            { en:"Food freezing", ru:"Замораживает продукты" },
+            { en:"Water dispenser failure", ru:"Не работает раздатчик воды" },
+            { en:"Control panel unresponsive", ru:"Панель не реагирует" },
+            { en:"Door not closing", ru:"Дверь не закрывается" },
+            { en:"Evaporator fan noise", ru:"Шум вентилятора испарителя" }
+        ],
+        diagnosis: [
+            { en:"Faulty compressor", ru:"Неисправный компрессор" },
+            { en:"Refrigerant leak", ru:"Утечка хладагента" },
+            { en:"Defrost timer failure", ru:"Неисправен таймер разморозки" },
+            { en:"Clogged drain", ru:"Засор дренажа" },
+            { en:"Broken fan motor", ru:"Сломан мотор вентилятора" }
+        ],
+        actions: [
+            { en:"Replaced compressor", ru:"Заменен компрессор" },
+            { en:"Repaired leak + refill", ru:"Заправлен фреон, устранена утечка" },
+            { en:"Cleared drain", ru:"Проведен прочистка дренажа" },
+            { en:"Installed new fan", ru:"Заменен вентилятор" },
+            { en:"Replaced door gasket", ru:"Заменили уплотнитель двери" }
+        ]
+    },
+    dishwasher: {
+        brands: ['GE','Samsung','Whirlpool','LG','Kenmore','Bosch','Siemens','Electrolux','Beko','Miele','Hotpoint','Indesit','Ariston','Zanussi','Candy','Sharp','Viking','Daewoo','Smeg'],
+        problems: [
+            { en:"Not draining water", ru:"Не сливает воду" },
+            { en:"Dishes not getting clean", ru:"Посуда не отмывается" },
+            { en:"Leaking", ru:"Течет" },
+            { en:"No power", ru:"Не включается" },
+            { en:"Filling with water continuously", ru:"Постоянно набирает воду" },
+            { en:"Door not latching", ru:"Дверь не закрывается" }
+        ],
+        diagnosis: [
+            {en:"Clogged drain hose",ru:"Забит сливной шланг"},
+            {en:"Defective drain pump",ru:"Неисправен сливной насос"},
+            {en:"Broken door switch",ru:"Датчик двери неисправен"},
+            {en:"Blocked spray arms",ru:"Засор распылителей"}
+        ],
+        actions: [
+            {en:"Cleaned hose",ru:"Промыли шланг"},
+            {en:"Replaced pump",ru:"Поменян насос"},
+            {en:"Replaced latch",ru:"Поменяли замок"},
+            {en:"Fixed spray arms",ru:"Отремонтирован распылитель"}
+        ]
+    },
+    washing_machine: {
+        brands: ['LG','Samsung','Whirlpool','Bosch','Electrolux','Indesit','Hotpoint','Candy','Beko','Zanussi', 'Ardo','Siemens','Miele','AEG','Ariston','Vestfrost','Haier','Daewoo','Sharp','Panasonic'],
+        problems:[
+            {en:"Won't start", ru:"Не включается"},
+            {en:"Water leaks", ru:"Течет"},
+            {en:"Not spinning", ru:"Не крутит"},
+            {en:"No water intake", ru:"Нет набора воды"},
+            {en:"Jumps/vibrates", ru:"Прыгает/вибрирует"},
+            {en:"Doesn't heat", ru:"Не греет"},
+            {en:"Stains on laundry", ru:"Пятна на белье"},
+            {en:"Controller error", ru:"Ошибка на панели"}
+        ],
+        diagnosis:[
+            {en:"Pump motor fails", ru:"Сломан мотор насоса"},
+            {en:"Drive belt snapped", ru:"Порвался ремень"},
+            {en:"Shock absorbers broken", ru:"Износ амортизатора"},
+            {en:"Heating element burnt", ru:"Сгорел тен"},
+            {en:"Door interlock fault", ru:"Блокиратор двери"}
+        ],
+        actions:[
+            {en:"Replaced bearing", ru:"Заменен подшипник"},
+            {en:"Reinstalled drive belt", ru:"Новый ремень"},
+            {en:"Fixed pump", ru:"Починили насос"},
+            {en:"Mounted new shock absorber", ru:"Поставили амортизатор"},
+            {en:"Changed heating element", ru:"Сменили тен"}
+        ]
+    },
+    dryer: {
+        brands: ["LG","Samsung","Whirlpool","Bosch","Electrolux","Hotpoint","Indesit","Maytag","AEG","Beko","Siemens","Miele","Candy","Sharp","Panasonic","Ariston","Zanussi","Haier","Ardo","Daewoo"],
+        problems:[
+            {en:"Not heating",ru:"Не греет"},
+            {en:"Does not start",ru:"Не включается"},
+            {en:"Drum not turning",ru:"Барабан не крутится"},
+            {en:"Unusual noise",ru:"Странный шум"},
+            {en:"Stops mid-cycle",ru:"Останавливается в середине"},
+            {en:"Door won’t close",ru:"Дверь не закрывается"}
+        ],
+        diagnosis:[
+            {en:"Blown thermal fuse",ru:"Сгорел термопред"},
+            {en:"Broken drive belt",ru:"Ремень порвался"},
+            {en:"Clogged venting",ru:"Забиты воздуховоды"},
+            {en:"Defective door switch",ru:"Неисправен датчик двери"}
+        ],
+        actions:[
+            {en:"Replaced thermal fuse",ru:"Поменяли термопред"},
+            {en:"New drive belt installed",ru:"Поставлен новый ремень"},
+            {en:"Cleaned vent",ru:"Почищен канал"},
+            {en:"Changed door switch",ru:"Поменяли датчик двери"}
+        ]
+    },
+    stove_oven: {
+        brands: ["GE","Whirlpool","Bosch","Samsung","Electrolux","Beko","Hotpoint","Indesit","Zanussi","Ariston","Gorenje","Miele","Candy","Siemens","Sharp","Smeg","Panasonic","Vestfrost","Hansa","AEG"],
+        problems:[
+            {en:"No heating",ru:"Нет нагрева"},
+            {en:"Burners not igniting",ru:"Не зажигаются горелки"},
+            {en:"Oven not baking evenly",ru:"Неравномерная выпечка"},
+            {en:"Door does not seal",ru:"Дверца не закрывается"},
+            {en:"Knobs loose",ru:"Крутилки люфтят"}
+        ],
+        diagnosis:[
+            {en:"Faulty igniter",ru:"Неисправен воспламенитель"},
+            {en:"Defective thermostat",ru:"Плохой термостат"},
+            {en:"Heating element burnt",ru:"Сгорел тен"},
+            {en:"Broken door hinge",ru:"Петля сломана"}
+        ],
+        actions:[
+            {en:"Replaced igniter",ru:"Замена воспламенителя"},
+            {en:"Fixed thermostat",ru:"Термостат исправили"},
+            {en:"Replaced heater",ru:"Установлен новый тен"},
+            {en:"Rehung door",ru:"Переустановили дверь"}
+        ]
+    },
+    microwave: {
+        brands:["Samsung","LG","Panasonic","Sharp","Whirlpool","Bosch","Beko","Hotpoint","Candy","Midea","Daewoo","Siemens","Electrolux","Zanussi","Toshiba","Gorenje","Vestfrost","Ardo","Smeg","Mystery"],
+        problems:[
+            {en:"No heating",ru:"Не греет"},
+            {en:"Sparking inside",ru:"Искрит"},
+            {en:"Turntable not rotating",ru:"Тарелка не крутится"},
+            {en:"Buttons not working",ru:"Кнопки не реагируют"},
+            {en:"Loud noise",ru:"Громко работает"}
+        ],
+        diagnosis:[
+            {en:"Magnetron failure",ru:"Неисправен магнетрон"},
+            {en:"Faulty door switch",ru:"Проблема двери"},
+            {en:"Broken turntable motor",ru:"Мотор тарелки сломан"}
+        ],
+        actions:[
+            {en:"Replaced magnetron",ru:"Поменяли магнетрон"},
+            {en:"Changed door switch",ru:"Датчик двери"},
+            {en:"New turntable motor",ru:"Поставили мотор тарелки"}
+        ]
+    }
 };
 
-// !! Более 50 наименований для каждой — сокр. примеры, при необходимости отправлю весь массив дополнительным сообщением или дам код-генератор
-
-const categories = [
-  { ru:"Холодильник", en:"Refrigerator" },
-  { ru:"Посудомоечная машина", en:"Dishwasher" },
-  { ru:"Стиральная машина", en:"Washing Machine" },
-  { ru:"Сушилка", en:"Dryer" },
-  { ru:"Плита/Духовка", en:"Range/Oven" },
-  { ru:"Микроволновка", en:"Microwave" }
-];
-
-// демо-бренды: повторяются для всех категорий (дополните своими, можно в custom)
-const brands = [
-  "Samsung", "LG", "Bosch", "Siemens", "Whirlpool", "Electrolux", "Indesit", "Hotpoint", "Ariston",
-  "Kenmore", "Frigidaire", "GE", "KitchenAid", "Maytag", "Panasonic", "Daewoo", "Beko", "Midea",
-  "Haier", "AEG", "Sharp", "Candy", "Zanussi", "VESTEL", "Blomberg", "ASKO", "Hitachi", "Ardo", "Gorenje",
-  // ...ещё 20+
-];
-
-function bigProblemList(category) {
-  // Для каждой категории свои более 50 пунктов (тут около 10, остальное аналогично расширяйте)
-  if (category.startsWith("Холод") || category.startsWith("Refriger")) return [
-    "Не холодит", "Морозит слабо", "Не включается", "Шумит вентилятор",
-    "Не запускается компрессор", "Зависает дисплей", "Мигает ошибка", "Течет вода", "Иней на стенке", "Сильно греются стенки",
-    "Проблема с датчиком", "Не горит свет", "Перепады температуры", "Посторонние звуки", "Вода в морозилке",
-    "Лёд на уплотнителе", "Сломан контроллер", "Запах внутри", "Стук при запуске", "Сломан дисплей",
-    // ...добавьте 30+
-  ];
-  if (category.startsWith("Посуд") || category.startsWith("Dish")) return [
-    "Не сливает", "Плохо моет", "Не нагревает воду", "Вода не заливается", "Мигает индикатор", "Не открывается дверь", "Протекает", 
-    "Не реагирует на кнопки","Не вращаются коромысла","Гудит во время цикла","Не растворяется таблетка",
-    "Плохой слив", "Царапины на посуде", "Похоже течь", "Не отмывает жир", "Пенообразование", "Перебои в работе",
-    // ...+40
-  ];
-  if (category.startsWith("Стирал") || category.startsWith("Washing")) return [
-    "Не набирает воду", "Не отжимает", "Выдает ошибку", "Гудит насос", "Не включается", "Не крутится барабан", "Вода не нагревается",
-    "Течь по манжете", "Бьет током корпус", "Шум при отжиме", "Праздный запуск", "Порошок не смывается", "Барабан не крутится", "Грязная манжета",
-    // ...+40
-  ];
-  if (category.startsWith("Суши") || category.startsWith("Dryer")) return [
-    "Не сушит", "Перегревается", "Не запускается", "Остановился цикл", "Течет вода", "Много ворса", "Шум вентилятор", "Плохо сушит белье",
-    "Запах внутри", "Загрузка не определяется", "Включается и выключается", "Не нагревается", "Ошибки на дисплее", "Готовое белье влажное",
-    // ...+40
-  ];
-  if (category.startsWith("Плита") || category.startsWith("Range")) return [
-    "Не греет конфорка", "Нет искры", "Не включается плита", "Газ не подается", "Загорелся индикатор", "Не открывается духовка",
-    "Греет слишком сильно", "Проблема с таймером", "Неправильная температура", "Нет электроподжига", "Гаснут конфорки", "Дым из духовки",
-    // ...+40
-  ];
-  if (category.startsWith("Микро") || category.startsWith("Micro")) return [
-    "Не греет", "Не запускается", "Выдает ошибку", "Греется корпус", "Искрит внутри", "Не крутится тарелка", "Дым при работе",
-    "Шумит трансформатор", "Дверца не закрывается", "Треск внутри", "Включается и сразу отключается", "Сбой сенсора", "Течет конденсат",
-    // ...+40
-  ];
-  // на случай новой custom категории
-  return [
-    "Общая неисправность", "Требует диагностики", "Нет питания", "Нестабильная работа", "Проблемы с управлением",
-    // ...ещё 5+
-  ];
+// Ключи для хранения custom-данных и истории в localStorage:
+const LS_KEYS = {
+    PROBLEMS: 'arpro_custom_problems',
+    DIAGNOSIS: 'arpro_custom_diagnosis',
+    ACTIONS: 'arpro_custom_actions',
+    REPORTS: 'arpro_reports_history'
+};
+// Вспомогательные функции для custom-данных
+function loadCustom(type){
+    try{ return JSON.parse(localStorage.getItem(type)) || {}; } catch(e){return {};}
 }
-function bigDiagnosisList(category) {
-  if (category.startsWith("Холод") || category.startsWith("Refriger")) return [
-    "Неисправен компрессор", "Требуется заправка фреоном", "Утечка хладагента", "Неисправен модуль", 
-    "Сломан датчик температуры", "Неисправен вентилятор", "Заклинило реле", "Проблема с платой управления", "Неисправен ТЭН оттайки",
-    "Плохой уплотнитель двери", "Поломка проводки", "Сбит настройки", "Проблема конденсатора", "Сломан дисплей",
-    // ...+40
-  ];
-  if (category.startsWith("Посуд") || category.startsWith("Dish")) return [
-    "Сломан насос", "Неисправен ТЭН", "Поломка датчика уровня воды", "Перекрыт слив", "Засор фильтра", "Сломан замок дверцы",
-    "Окисление проводки", "Неисправна плата", "Сломан дозатор", "Выход из строя клапана", "Сломан двигатель", "Неисправен таймер",
-    // ...+40
-  ];
-  if (category.startsWith("Стирал") || category.startsWith("Washing")) return [
-    "Сломан ТЭН", "Неисправна помпа", "Неисправен программатор", "Повреждён ремень", "Проблема с датчиком вибрации", "Перекос бака",
-    "Проблема с мотором", "Поломка люка", "Износ щёток двигателя", "Пробита манжета", "Сломан прессостат",
-    // ...+40
-  ];
-  // ...аналогично другие категории
-  return ["Требуется дополнительная диагностика", "Нет данных"];
+function saveCustom(type,obj){
+    localStorage.setItem(type,JSON.stringify(obj));
 }
-function bigActionsList(category) {
-  if (category.startsWith("Холод") || category.startsWith("Refriger")) return [
-    "Заменён компрессор", "Добавлен хладагент", "Почищена система", "Установлен новый датчик", "Отремонтирован модуль управления",
-    "Заменена плата управления", "Регулировка дверцы", "Замена термостата", "Протянута проводка", "Установка ТЭНа оттайки",
-    // ...+40
-  ];
-  if (category.startsWith("Посуд") || category.startsWith("Dish")) return [
-    "Заменён ТЭН", "Промыта система", "Заменён насос", "Замена фильтра", "Почищен разбрызгиватель", "Замена замка дверцы",
-    "Установлен новый дозатор", "Восстановление проводки", "Замена клапана", "Проведена диагностика платы управления",
-    // ...+40
-  ];
-  if (category.startsWith("Стирал") || category.startsWith("Washing")) return [
-    "Заменён ТЭН", "Промыта помпа", "Замена ремня привода", "Установлена новая манжета", "Отрегулировано крепление бака",
-    "Почищен фильтр", "Восстановлена электропроводка", "Заменён программатор", "Смазан подшипник", "Восстановлены посадочные места",
-    // ...+40
-  ];
-  // ... остальные категории
-  return [
-    "Диагностика и консультация", "Мелкий ремонт", "Работа не выполнена", "Общая профилактика"
-  ];
+function loadReports(){
+    try{ return JSON.parse(localStorage.getItem(LS_KEYS.REPORTS)) || [];}catch(e){return[];}
+}
+function saveReports(arr){
+    localStorage.setItem(LS_KEYS.REPORTS,JSON.stringify(arr));
 }
 
-// на английском — автоматически
-function engList(list) {
-  return list.map(s => s
-    .replace("Не", "Not ").replace("Нет", "No ")
-    .replace("Сломан", "Broken ").replace("Неисправен", "Faulty ")
-    //... ещё автоперевод? Можно править или расширять вручную
-  );
-}
-function statusOptions(lang) {
-  return (lang === 'ru') ? [
-    "Готово", "В работе", "Ожидание клиента", "Требуется повторный визит", "Ожидание детали"
-  ] : [
-    "Ready", "In Progress", "Waiting for Client", "Repeat Visit Needed", "Waiting for Part"
-  ];
-}
+let reportsArr = loadReports();
 
-/** ------- Генерация дат ------- **/
-function makeMonths(lang) {
-  const monthsRU = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
-  const monthsEN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  return lang == "ru" ? monthsRU : monthsEN;
+// === DOM Elements ===
+const categorySelect = document.getElementById('category');
+const brandSelect = document.getElementById('brand');
+const problemSelect = document.getElementById('problem');
+const diagnosisSelect = document.getElementById('diagnosis');
+const actionSelect = document.getElementById('action');
+const form = document.getElementById('repairForm');
+const clearBtn = document.getElementById('clearBtn');
+
+// --------- Кастомные списки ----------------
+let customProblems = loadCustom(LS_KEYS.PROBLEMS);
+let customDiagnosis = loadCustom(LS_KEYS.DIAGNOSIS);
+let customActions = loadCustom(LS_KEYS.ACTIONS);
+
+// ------- ФУНКЦИИ смены и отрисовок ---------
+function reloadSelect(select, arr, customs, key){
+    select.innerHTML = `<option value="">Select ${key.charAt(0).toUpperCase()+key.slice(1)}</option>`;
+    arr.forEach(obj=>{
+        select.insertAdjacentHTML('beforeend',
+            `<option>${obj.en} / ${obj.ru}</option>`
+        );
+    });
+    // Кастомные для категории
+    const cc = customs[categorySelect.value]||[];
+    cc.forEach(({en,ru},i)=>{
+        select.insertAdjacentHTML('beforeend',
+            `<option data-custom="1" data-idx="${i}">${en}${ru?' / '+ru:''} ★</option>`);
+    });
 }
-function makeYears() {
-  let arr = [];
-  let y = (new Date()).getFullYear();
-  for (let i = 0; i < 25; ++i) arr.push(y - i);
-  return arr;
-}
-
-/** ------- Языковой переключатель ------- **/
-let modeClient = false; // false — technician/ru, true — client/en
-function switchLangUI(toClient) {
-  const lang = toClient ? 'en' : 'ru';
-
-  document.getElementById("modeLabel").innerText   = i18n[lang][toClient?"modeClient":"modeTech"];
-  document.getElementById("mainTitle").innerText   = i18n[lang]["mainTitle"];
-  document.getElementById("catLabel").innerText    = i18n[lang]["category"];
-  document.getElementById("brandLabel").innerText  = i18n[lang]["brand"];
-  document.getElementById("modelLabel").innerText  = i18n[lang]["model"];
-  document.getElementById("serialLabel").innerText = i18n[lang]["serial"];
-  document.getElementById("problemLabel").innerText= i18n[lang]["problem"];
-  document.getElementById("diagLabel").innerText   = i18n[lang]["diagnosis"];
-  document.getElementById("actionsLabel").innerText= i18n[lang]["actions"];
-  document.getElementById("priceLabel").innerText  = i18n[lang]["price"];
-  document.getElementById("releaseMonthLabel").innerText = i18n[lang]["month"];
-  document.getElementById("releaseYearLabel").innerText = i18n[lang]["year"];
-  document.getElementById("notesLabel").innerText  = i18n[lang]["notes"];
-  document.getElementById("statusLabel").innerText = i18n[lang]["status"];
-  document.getElementById("makeReportBtn").innerText = i18n[lang]["reportBtn"];
-  document.getElementById("clearFormBtn").innerText  = i18n[lang]["clear"];
-  document.getElementById("templateTitle").innerText = i18n[lang]["templateTitle"];
-  document.getElementById("copyTemplateBtn").innerText = i18n[lang]["copy"];
-  document.getElementById("historyTitle").innerText  = i18n[lang]["history"];
-  document.getElementById("copyAllBtn").innerText    = i18n[lang]["copyAll"];
-  document.getElementById("clearHistoryBtn").innerText = i18n[lang]["clearHistory"];
-  document.getElementById("footNote").innerText      = i18n[lang]["footNote"];
-
-  // Перегенерируем статусы и "months/years"
-  let statusSel = document.getElementById("status");
-  statusSel.innerHTML = "";
-  statusOptions(lang).forEach(v => {
-    let option = document.createElement("option");
-    option.textContent = v;
-    statusSel.appendChild(option);
-  });
-  document.getElementById("releaseMonth").innerHTML = makeMonths(lang).map(m=>`<option>${m}</option>`).join("");
-  document.getElementById("releaseYear").innerHTML = makeYears().map(y=>`<option>${y}</option>`).join("");
+function updateAllCategoryFields(){
+    const c = categorySelect.value;
+    if(!c || !applianceData[c]) {
+        brandSelect.innerHTML='<option value="">Select Brand</option>';
+        reloadSelect(problemSelect,[],customProblems,'problem');
+        reloadSelect(diagnosisSelect,[],customDiagnosis,'diagnosis');
+        reloadSelect(actionSelect,[],customActions,'action');
+        return;
+    }
+    // Brands
+    brandSelect.innerHTML='<option value="">Select Brand</option>';
+    applianceData[c].brands.forEach(br=>{
+        let op=document.createElement('option');
+        op.value=br;
+        op.textContent=br;
+        brandSelect.appendChild(op);
+    });
+    // Problem-type selects
+    reloadSelect(problemSelect,applianceData[c].problems,customProblems,'problem');
+    reloadSelect(diagnosisSelect,applianceData[c].diagnosis,customDiagnosis,'diagnosis');
+    reloadSelect(actionSelect,applianceData[c].actions,customActions,'action');
 }
 
-/* ---- PART 2/4 END ---- */
-
-            /* ---- PART 3/4 START ---- */
-
-// --- LocalStorage helpers ---
-function lsGet(key, def=[]) {
-  try { return JSON.parse(localStorage.getItem(key)) ?? def } catch { return def }
+// --- Добавить кастомный пункт ---
+function addCustomField(type,select,collection,transl){
+    let en = prompt(`Enter your custom ${type} in English:`);
+    if(!en) return;
+    let ru = prompt(`Перевод на русский (${type}):`)||'';
+    let arr = collection[categorySelect.value] || [];
+    arr.push({en,ru});
+    collection[categorySelect.value]=arr;
+    saveCustom(LS_KEYS[type.toUpperCase()],collection);
+    updateAllCategoryFields();
+    // active select new
+    select.selectedIndex=select.options.length-1;
 }
-function lsSet(key, val) {
-  localStorage.setItem(key, JSON.stringify(val));
+function removeCustomField(type,select,collection){
+    // удалить кастомный пункт
+    let idx = select.selectedIndex;
+    let opt = select.options[idx];
+    if(idx>-1 && opt && opt.dataset.custom){
+        if(confirm('Remove this custom entry?')){
+            let arr = collection[categorySelect.value] || [];
+            arr.splice(opt.dataset.idx,1);
+            collection[categorySelect.value]=arr;
+            saveCustom(LS_KEYS[type.toUpperCase()],collection);
+            updateAllCategoryFields();
+        }
+    }
 }
 
-// ----- Глобальные переменные для custom пунктов -----
-let custom = lsGet('customFields', {
-  category:[], brand:[], problem:{}, diagnosis:{}, actions:{}
+// === HANDLERS select, custom add & remove ===
+categorySelect.addEventListener('change',()=>{
+    updateAllCategoryFields();
 });
 
-// unique push
-function pushUnique(arr, val) {
-  if (!arr.includes(val)) arr.push(val);
-}
+document.getElementById('addProblemBtn').onclick=()=>{
+    addCustomField('problems',problemSelect,customProblems,'Problem');
+};
+document.getElementById('addDiagnosisBtn').onclick=()=>{
+    addCustomField('diagnosis',diagnosisSelect,customDiagnosis,'Diagnosis');
+};
+document.getElementById('addActionBtn').onclick=()=>{
+    addCustomField('actions',actionSelect,customActions,'Action');
+};
 
-// --- Рендер селекторов + кастомных списков ---
-function fillSelect(id, list, customList, onDel, addBtnId) {
-  const sel = document.getElementById(id);
-  sel.innerHTML = "";
-  // Стандартные значения
-  list.forEach(val => {
-    let opt = document.createElement("option");
-    opt.textContent = val;
-    sel.appendChild(opt);
-  });
-  // Кастом значения
-  if (customList && customList.length) {
-    customList.forEach(val => {
-      let opt = document.createElement("option");
-      opt.textContent = val;
-      opt.style.color = "#2237cc";
-      sel.appendChild(opt);
+// Удаление своего пункта при зажатии Alt+клик по селекту
+[problemSelect,diagnosisSelect,actionSelect].forEach((sel,i)=>{
+    sel.addEventListener('keydown',e=>{
+        if(e.key==='Delete'){
+            ['problems','diagnosis','actions'].forEach((t,n)=>{
+                if(i===n) removeCustomField(t,sel,
+                    t==='problems'?customProblems:t==='diagnosis'?customDiagnosis:customActions );
+            });
+        }
     });
-  }
-  // Отдельно отрисуем кастомные элементы с кнопкой удаления
-  let fieldListEl = document.getElementById(id+"List");
-  if (fieldListEl) {
-    fieldListEl.innerHTML = "";
-    if (customList && customList.length) {
-      customList.forEach((val, idx) => {
-        let div = document.createElement("span");
-        div.className = "custom-item";
-        div.textContent = val;
-        let del = document.createElement("button");
-        del.className = "del-btn";
-        del.innerText = "×";
-        del.title = "Удалить";
-        del.onclick = () => { onDel(idx); }
-        div.appendChild(del);
-        fieldListEl.appendChild(div);
-      });
-    }
-  }
-  if (addBtnId) {
-    document.getElementById(addBtnId).onclick = () => {
-      let newVal = prompt((modeClient ? "Enter new" : "Добавить новый")+" "+id);
-      if (!newVal || newVal.length<2) return;
-      pushUnique(custom[id] ?? (custom[id]=[]), newVal.trim());
-      lsSet('customFields', custom);
-      rebuildDynamicForm();
-    }
-  }
+});
+
+// -------- ОТЧЕТЫ, история, копирование --------
+function getCurrentReport(){
+    return {
+        date:new Date().toLocaleString(),
+        appliance: categorySelect.options[categorySelect.selectedIndex]?.text ?? '',
+        brand: brandSelect.options[brandSelect.selectedIndex]?.text ?? '',
+        model: document.getElementById('model').value.trim(),
+        serial: document.getElementById('serial').value.trim(),
+        month: document.getElementById('month').value,
+        year: document.getElementById('year').value.trim(),
+        problem: problemSelect.options[problemSelect.selectedIndex]?.text ?? '',
+        diagnosis: diagnosisSelect.options[diagnosisSelect.selectedIndex]?.text ?? '',
+        action: actionSelect.options[actionSelect.selectedIndex]?.text ?? '',
+        status: document.getElementById('status').options[document.getElementById('status').selectedIndex]?.text ?? '',
+        notes: document.getElementById('notes').value.trim(),
+        price: document.getElementById('price').value.trim()
+    };
+}
+function reportToText(r){
+    return `[${r.appliance}]
+Brand: ${r.brand}
+Model: ${r.model}
+Serial#: ${r.serial}
+Month: ${r.month}
+Year: ${r.year}
+Problem: ${r.problem}
+Diagnosis: ${r.diagnosis}
+Action: ${r.action}
+Status: ${r.status}
+Notes: ${r.notes}
+Price: ${r.price}
+Date: ${r.date}`.trim();
+}
+function renderAllReports(){
+    let out = '';
+    reportsArr.forEach((r,idx) => out+=`
+        <div class="report-output" style="margin-top:24px;">
+          <div class="report-title">📄 Report #${idx+1}</div>
+          <div class="report-content">
+             <div class="report-line"><span class="report-label">Date:</span> <span class="report-value">${r.date||''}</span></div>
+             <div class="report-line"><span class="report-label">Appliance Type:</span> <span class="report-value">${r.appliance}</span></div>
+             <div class="report-line"><span class="report-label">Brand:</span> <span class="report-value">${r.brand}</span></div>
+             <div class="report-line"><span class="report-label">Model:</span> <span class="report-value">${r.model}</span></div>
+             <div class="report-line"><span class="report-label">Serial:</span> <span class="report-value">${r.serial}</span></div>
+             <div class="report-line"><span class="report-label">Month of Manufacture:</span> <span class="report-value">${r.month}</span></div>
+             <div class="report-line"><span class="report-label">Year of Manufacture:</span> <span class="report-value">${r.year}</span></div>
+             <div class="report-line"><span class="report-label">Problem:</span> <span class="report-value">${r.problem}</span></div>
+             <div class="report-line"><span class="report-label">Diagnosis:</span> <span class="report-value">${r.diagnosis}</span></div>
+             <div class="report-line"><span class="report-label">Action Taken:</span> <span class="report-value">${r.action}</span></div>
+             <div class="report-line"><span class="report-label">Status:</span> <span class="report-value">${r.status}</span></div>
+             <div class="report-line"><span class="report-label">Additional Notes:</span> <span class="report-value">${r.notes}</span></div>
+             <div class="report-line"><span class="report-label">Price:</span> <span class="report-value">${r.price}</span></div>
+          </div>
+        </div>`);
+    document.getElementById('allReportsBlock').innerHTML = out;
+    document.getElementById('reportsControlBtns').classList.toggle('hidden', reportsArr.length === 0);
+}
+// --- Управляющие кнопки ---
+
+if (!document.getElementById('allReportsBlock')) {
+    // Вставим под form
+    let repBlock = document.createElement('div');
+    repBlock.id = 'reportsControlBtns';
+    repBlock.className = 'action-buttons hidden';
+    repBlock.innerHTML = `
+        <button type="button" class="btn btn-primary" id="copyAllBtn">📑 Copy All Reports</button>
+        <button type="button" class="btn btn-primary" id="copyLastBtn">📋 Copy Last Report</button>
+        <button type="button" class="btn btn-secondary" id="clearAllBtn">🗑️ Clear All Reports</button>
+    `;
+    form.parentNode.insertBefore(repBlock, form.nextSibling);
+
+    let allRepHtml = document.createElement('div');
+    allRepHtml.id = 'allReportsBlock';
+    form.parentNode.insertBefore(allRepHtml, repBlock.nextSibling);
+
+    // Управление копированием/очисткой
+    repBlock.querySelector('#copyAllBtn').onclick = () => {
+        if(reportsArr.length) navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'));
+    };
+    repBlock.querySelector('#copyLastBtn').onclick = () => {
+        if(reportsArr.length) navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]));
+    };
+    repBlock.querySelector('#clearAllBtn').onclick = () => {
+        if(confirm('Clear ALL reports?')){
+            reportsArr.length = 0; renderAllReports(); saveReports(reportsArr);
+        }
+    };
 }
 
-// Обновить все списки исходя из текущей категории
-function rebuildDynamicForm() {
-  let selCat = document.getElementById("category").value || categories[0].ru;
-  let catEn = categories.find(c=>c.ru==selCat||c.en==selCat)?.en || selCat;
-  let isRu = !modeClient;
-  // Категории
-  let catList = categories.map(c => isRu?c.ru:c.en);
-  fillSelect("category", catList, custom.category, (idx)=>{
-    custom.category.splice(idx,1); lsSet('customFields',custom); rebuildDynamicForm();
-  }, "addCategoryBtn");
-  // Бренды
-  fillSelect("brand", brands, custom.brand, (idx)=>{
-    custom.brand.splice(idx,1); lsSet('customFields',custom); rebuildDynamicForm();
-  }, "addBrandBtn");
-  // Проблемы
-  let plist = bigProblemList(selCat);
-  let plistE = modeClient ? engList(plist) : plist;
-  fillSelect("problem", plistE, (custom.problem[catEn]||[]), (idx)=>{
-    (custom.problem[catEn]??=[]).splice(idx,1); lsSet('customFields',custom); rebuildDynamicForm();
-  }, "addProblemBtn");
-  document.getElementById("addProblemBtn").onclick = () => {
-    let input = prompt(modeClient?"Enter new problem":"Добавить новую проблему");
-    if (!input || input.length < 2) return;
-    pushUnique(custom.problem[catEn]??(custom.problem[catEn]=[]), input.trim());
-    lsSet('customFields', custom);
-    rebuildDynamicForm();
-  };
-  // Диагнозы
-  let dlist = bigDiagnosisList(selCat);
-  let dlistE = modeClient ? engList(dlist) : dlist;
-  fillSelect("diagnosis", dlistE, (custom.diagnosis[catEn]||[]), (idx)=>{
-    (custom.diagnosis[catEn]??=[]).splice(idx,1); lsSet('customFields',custom); rebuildDynamicForm();
-  }, "addDiagnosisBtn");
-  document.getElementById("addDiagnosisBtn").onclick = () => {
-    let input = prompt(modeClient?"Enter new diagnosis":"Добавить новый диагноз");
-    if (!input || input.length < 2) return;
-    pushUnique(custom.diagnosis[catEn]??(custom.diagnosis[catEn]=[]), input.trim());
-    lsSet('customFields', custom);
-    rebuildDynamicForm();
-  };
-  // Действия
-  let alist = bigActionsList(selCat);
-  let alistE = modeClient ? engList(alist) : alist;
-  fillSelect("actions", alistE, (custom.actions[catEn]||[]), (idx)=>{
-    (custom.actions[catEn]??=[]).splice(idx,1); lsSet('customFields',custom); rebuildDynamicForm();
-  }, "addActionsBtn");
-  document.getElementById("addActionsBtn").onclick = () => {
-    let input = prompt(modeClient?"Enter new action":"Добавить новое действие");
-    if (!input || input.length < 2) return;
-    pushUnique(custom.actions[catEn]??(custom.actions[catEn]=[]), input.trim());
-    lsSet('customFields', custom);
-    rebuildDynamicForm();
-  };
-}
+// --- сабмит и очистка формы ---
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const report = getCurrentReport();
+    reportsArr.push(report);
+    saveReports(reportsArr);
+    renderAllReports();
+    form.reset();
+    updateAllCategoryFields();
+});
+clearBtn.addEventListener('click', () => {
+    form.reset();
+    // обнулим селекты после сброса
+    updateAllCategoryFields();
+});
+// --- Восстановление истории ---
+window.addEventListener('DOMContentLoaded',()=>{
+    renderAllReports();
+    updateAllCategoryFields();
+    // Режим по умолчанию — Technician
+    document.querySelectorAll('.translation').forEach(el=>el.classList.remove('hidden'));
+    // ENTER удаляет кастом пункт если выбран (для удобства)
+    [problemSelect,diagnosisSelect,actionSelect].forEach((sel,i)=>{
+        sel.onkeydown=e=>{
+            if(e.key==='Delete'){
+                ['problems','diagnosis','actions'].forEach((t,n)=>{
+                    if(i===n) removeCustomField(t,sel,
+                        t==='problems'?customProblems:t==='diagnosis'?customDiagnosis:customActions );
+                });
+            }
+        };
+    })
+});
 
-// Смена языка и перегенерация формы
-document.getElementById("modeClient").onchange = function() {
-  modeClient = this.checked;
-  switchLangUI(modeClient);
-  rebuildDynamicForm();
-  document.getElementById("templateOutput").value = "";
-};
+// --- Переключение режима ---
+const modeButtons = document.querySelectorAll('.mode-btn');
+modeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        modeButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const isClient = button.getAttribute('data-mode') === 'client';
+        document.querySelectorAll('.translation').forEach(el=>{
+            if(isClient) el.classList.add('hidden');
+            else el.classList.remove('hidden');
+        });
+    });
+});
 
-// Категория — динамика бренда/полей
-document.getElementById("category").onchange = function() {
-  rebuildDynamicForm();
-  document.getElementById("brand").selectedIndex = 0;
-  document.getElementById("problem").selectedIndex = 0;
-  document.getElementById("diagnosis").selectedIndex = 0;
-  document.getElementById("actions").selectedIndex = 0;
-};
-
-/** ---- История отчетов ---- **/
-
-function loadReports() {
-  return lsGet("reports",[]);
-}
-function saveReport(rep) {
-  let rs = loadReports();
-  rs.push(rep);
-  lsSet("reports", rs);
-  return rs;
-}
-function removeReport(idx) {
-  let rs = loadReports();
-  rs.splice(idx, 1);
-  lsSet("reports", rs);
-}
-function clearReports() {
-  lsSet("reports", []);
-}
-
-// --- Отрисовка истории
-function renderHistory() {
-  let historyBlock = document.getElementById("reportsArea");
-  let rps = loadReports();
-  historyBlock.innerHTML = "";
-  if (!rps.length) {
-    historyBlock.innerHTML = `<div style="color:#888;margin:10px 0 12px">История пуста</div>`;
-    return;
-  }
-  rps.slice().reverse().forEach((rp, i) => {
-    let ix = rps.length-1-i;
-    let div = document.createElement("div");
-    div.className = "report-item";
-    div.innerHTML =
-      `<div><b>${rp.category}</b> (${rp.brand} ${rp.model})<br>${rp.problem}, ${rp.diagnosis}, ${rp.actions}</div>
-       <div>${rp.month} ${rp.year}; <b>${rp.price}</b>₽; [${rp.status}]</div>
-       <div>${rp.notes?'<i>'+rp.notes+'</i>':''}</div>
-      <div class="report-actions">
-        <button class="small-btn copy-btn" title="Скопировать" onclick="navigator.clipboard.writeText(\`${makeTemplate(rp)}\`)">📋</button>
-        <button class="small-btn del-btn" title="Удалить" onclick="removeReport(${ix});renderHistory();">🗑</button>
-      </div>`;
-    historyBlock.appendChild(div);
-  });
-}
-
-/** ---- Генерация шаблона для клиента ---- **/
-function makeTemplate(obj) {
-  if (modeClient) {
-    return `Category: ${obj.category}
-Brand: ${obj.brand}
-Model: ${obj.model}
-Problem: ${obj.problem}
-Diagnosis: ${obj.diagnosis}
-Action: ${obj
-
-          /* ---- PART 4/4 START ---- */
-window.onload = function() {
-  // Заполнение месяцев/годов
-  switchLangUI(modeClient);
-  document.getElementById("releaseMonth").innerHTML = makeMonths("ru").map(m=>`<option>${m}</option>`).join("");
-  document.getElementById("releaseYear").innerHTML = makeYears().map(y=>`<option>${y}</option>`).join("");
-  // Категории, бренды, базовые проблемы/диагнозы для первой категории
-  rebuildDynamicForm();
-  renderHistory();
-  // Значение по умолчанию для формы
-  document.getElementById("category").selectedIndex = 0;
-  document.getElementById("brand").selectedIndex = 0;
-  document.getElementById("problem").selectedIndex = 0;
-  document.getElementById("diagnosis").selectedIndex = 0;
-  document.getElementById("actions").selectedIndex = 0;
-};
-/* ---- PART 4/4 END ---- */
 </script>
 </body>
 </html>
-</script>

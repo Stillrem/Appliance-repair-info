@@ -1,216 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
 <title>Appliance Repair Pro</title>
-<meta name="theme-color" content="#34c759"/>
+<meta name="theme-color" content="#34c759" />
+<!--
+─────────────────────────────
+      STYLES & THEME
+───────────────────────────── -->
 <style>
-:root{--primary:#34c759;--primary-dark:#30d158;--danger:#ff453a;--input-bg:#2c2c2e;--input-border:#454545}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#000;color:#fff;}
-.container{max-width:600px;padding:18px;margin:auto;}
-.header{text-align:center;margin-bottom:30px;padding:20px 0;}
-.logo{width:60px;height:60px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:15px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 32px rgba(52,199,89,.3);}
-.title{font-size:28px;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.subtitle{color:#8e8e93;font-size:16px;font-weight:500;}
-.mode-toggle{display:flex;background:#1c1c1e;border-radius:12px;padding:4px;margin:25px 0;box-shadow:inset 0 1px 3px rgba(0,0,0,.3);}
-.mode-btn{flex:1;padding:12px 16px;border:none;background:transparent;color:#8e8e93;border-radius:8px;font-weight:600;font-size:15px;transition:.3s;cursor:pointer;}
-.mode-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(52,199,89,.3);}
-.form-section{background:#1c1c1e;border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid #2c2c2e;}
-.section-title{font-size:18px;font-weight:700;color:var(--primary);margin-bottom:20px;}
-.form-group{margin-bottom:20px;}
-.label{display:block;font-weight:600;margin-bottom:8px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
-.form-group-row{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
-select,input,textarea{width:100%;padding:16px;background:var(--input-bg);border:1.5px solid var(--input-border);border-radius:12px;color:#fff;font-size:16px;transition:.3s;}
-select{background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:20px;padding-right:50px;cursor:pointer;}
-select:focus,input:focus,textarea:focus{outline:none;border-color:var(--primary);}
-input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-textarea{min-height:80px;}
-.action-buttons{display:flex;gap:12px;margin-top:30px;}
-.btn{flex:1;padding:16px 24px;border:none;border-radius:12px;font-weight:600;font-size:16px;transition:.3s;cursor:pointer;}
-.btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;}
-.btn-secondary{background:#2c2c2e;color:#fff;}
-.plus-add-btn,.trash-btn{display:inline-flex;align-items:center;justify-content:center;text-align:center;}
-.plus-add-btn{background:var(--primary);color:#fff;border:none;border-radius:50%;width:29px;height:29px;font-size:19px;cursor:pointer;margin-left:7px;}
-.plus-add-btn:hover{background:var(--primary-dark);}
-.trash-btn{background:var(--danger);color:#fff;border:none;border-radius:50%;width:29px;height:29px;font-size:16px;cursor:pointer;margin-left:7px;}
-.trash-btn:hover{background:#ff796a;}
-.custom-list{margin:5px 0 0 0;padding:0;list-style:none;}
-.custom-choice{padding:0 0 0 3px;margin-bottom:3px;display:flex;align-items:center;justify-content:space-between;color:#a7a7ab;}
-@media (max-width:480px){.container{padding:11px;}.form-row,.form-group-row{grid-template-columns:1fr;}.btn{padding:12px;}}
-.report-output{background:#1c1c1e;border-radius:16px;padding:24px;margin-top:28px;border:1px solid #2c2c2e;}
-.report-title{font-size:20px;font-weight:700;margin-bottom:20px;color:var(--primary);}
-.report-line{margin-bottom:10px;}
-.report-label{font-weight:600;color:#8e8e93;font-size:14px;text-transform:uppercase;}
-.report-value{font-size:16px;color:#fff;}
-.templates-title{font-size:18px;font-weight:700;color:var(--primary);margin-bottom:15px;}
-.template-btn{width:100%;margin-bottom:11px;padding:11px;border-radius:8px;background:#2c2c2e;color:#fff;text-align:left;font-size:15px;border:none;cursor:pointer;}
-.template-btn:hover{background:#3a3a3c;}
+:root {
+  --primary: #34c759;
+  --primary-dark: #30d158;
+  --danger: #ff453a;
+  --input-bg: #212123;
+  --input-border: #454545;
+  --section-bg: #19191b;
+  --border: #2c2c2e;
+  --accent-grad: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  --shadow: 0 8px 32px rgba(52,199,89,.12);
+}
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #121214;
+  color: #fff;
+  min-height: 100vh;
+  margin: 0;
+}
+.container {
+  max-width: 720px;
+  min-height: 97vh;
+  margin: 0 auto;
+  padding: 38px 22px;
+  background:rgba(0,0,0,.07);
+}
+.header {
+  text-align: center;
+  margin-bottom: 37px;
+  padding: 2rem 0 1.1rem;
+}
+.logo {
+  width: 68px;
+  height: 68px;
+  background: var(--accent-grad);
+  box-shadow:0 8px 32px rgba(52,199,89,.28);
+  border-radius: 18px;
+  margin: 0 auto 15px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+}
+.title {
+  font-size: 33px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle {
+  color: #83e1ad;
+  font-size: 18px;
+  letter-spacing: 1px;
+  opacity:.92;
+  font-weight: 500;
+}
+.mode-toggle {
+  display: flex;
+  background: #212123;
+  border-radius: 12px;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.22);
+  padding: 4px;
+  margin: 33px 0 0 0;
+}
+.mode-btn {
+  flex: 1;
+  padding: 13px 15px;
+  border: none;
+  background: transparent;
+  color: #9cefbe;
+  border-radius: 8px;
+  font-weight:600;
+  font-size: 16px;
+  transition: .23s;
+  cursor:pointer;
+  box-shadow:none;
+  letter-spacing:.4px;
+}
+.mode-btn.active {
+  background: var(--accent-grad);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(52,199,89,.14);
+}
+.form-section {
+  background: var(--section-bg);
+  border-radius: 22px;
+  padding: 31px 23px 29px 23px;
+  margin-bottom: 26px;
+  border: 1.6px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.section-title {
+  font-size:20px;
+  font-weight:700;
+  color: var(--primary);
+  margin-bottom:22px;
+  letter-spacing:.4px;
+  padding-bottom:2px
+}
+.form-group {margin-bottom:22px;}
+.label {
+  display:block;
+  font-weight: 600;
+  margin-bottom:8px;
+  font-size:17px;
+}
+.translation {
+  display: block;
+  color: #53f191;
+  font-size: 14px;
+  font-style: italic;
+  opacity:0.7;
+  margin-top: 2px;
+  font-weight:400;
+  letter-spacing:.2px;
+}
+.translation.hidden{display:none;}
+select,input,textarea {
+  width:100%;
+  padding:15px 16px;
+  background:var(--input-bg);
+  border:1.5px solid var(--input-border);
+  border-radius:12px;
+  color:#e2ffe5;
+  font-size:16.2px;
+  font-family:inherit;
+  transition:.23s;
+  resize:none;
+}
+select:focus,input:focus,textarea:focus {
+  outline:none;
+  border-color: var(--primary);
+  box-shadow:0 0 0 3px rgba(52,199,89,.07);
+}
+select {
+  background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'/%3e%3c/svg%3e");
+  background-repeat:no-repeat;
+  background-position:right 18px center;
+  background-size:22px;
+  padding-right:49px;
+  cursor:pointer;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance:none; }
+input[type=number] {-moz-appearance: textfield;}
+textarea {min-height: 85px;}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px;}
+.form-group-row {display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+.inline-btns { display: flex; gap:.5em; position: absolute; right:15px; top:50%; transform: translateY(-50%);}
+.action-buttons { display:flex; gap:14px; margin-top:32px;}
+.btn {
+  flex:1;
+  padding:17px 24px;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  font-size:17px;
+  transition:.23s;
+  cursor:pointer;
+  background:none;
+}
+.btn-primary{background:var(--accent-grad);color:#fff;box-shadow:0 4px 16px rgba(52,199,89,.24);}
+.btn-primary:hover {box-shadow:0 7px 28px rgba(52,199,89,.18);transform:translateY(-1px);}
+.btn-secondary {background:#232324;color:#d4f3d2;}
+.btn-secondary:hover {background:#2a2a2b;}
+.plus-add-btn, .trash-btn {
+  display:inline-flex;align-items:center;justify-content:center;text-align:center;
+}
+.plus-add-btn {
+  background: var(--primary);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  width:32px;height:32px;
+  font-size:20px;
+  cursor:pointer;
+  margin-left:10px;
+  box-shadow:0 3px 12px rgba(52,199,89,0.12);
+  transition:.13s;
+}
+.plus-add-btn:hover {background: var(--primary-dark);}
+.trash-btn {
+  background: var(--danger);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  width:32px;height:32px;
+  font-size:17px;
+  cursor:pointer;
+  margin-left:10px;
+  transition:.13s;
+}
+.trash-btn:hover {background:#ff6d67;}
+.custom-list {margin:6px 0 0 0;padding:0;}
+.custom-choice {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:3px;
+  font-size: 15.5px;
+  color:#b2e6ca;
+  padding-left:3px;
+}
+.report-output {
+  background: var(--section-bg);
+  border-radius: 20px;
+  padding: 30px 22px;
+  margin-top:32px;
+  border: 1.7px solid var(--primary-dark);
+  box-shadow:0 2px 4px rgba(63,233,153,.04);
+}
+.report-title {font-size:21px;font-weight:700;margin-bottom:20px;color:var(--primary);}
+.report-content {line-height:1.82;}
+.report-line {margin-bottom:13px;padding:12px 0;border-bottom:1px solid #232326;}
+.report-line:last-child {border-bottom:none;margin-bottom:0;}
+.report-label {font-weight:600;color:#8e8e93;font-size:15px;text-transform:uppercase;letter-spacing:.5px;}
+.report-value {font-size:17px;color:#f5fff2;}
+#allReportsBlock{margin-bottom:40px;}
+.templates {margin-top:40px;}
+.templates-title {font-size:19.5px;font-weight:700;color:var(--primary);margin-bottom:15px;}
+.template-btn {
+  width:100%;margin-bottom:12px;padding:16px;
+  background:#212123;border:1px solid #2c2c2e;
+  border-radius:12px;color:#fff;text-align:left;font-size:16px;
+  cursor:pointer;transition:.23s;
+}
+.template-btn:hover {background:#232329;}
+@media (max-width:700px){.container{max-width:100%;}.form-row,.form-group-row{grid-template-columns:1fr;gap:14px;}}
+@media (max-width:500px){.container{padding:10px;}.report-output{padding:17px 7px;}}
 .hidden{display:none;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-thumb{background:#1f722f;}
+::-webkit-scrollbar-track{background:#111;}
 </style>
 </head>
 <body>
 <div class="container">
-<div class="header">
-<div class="logo">🔧</div>
-<h1 class="title">Appliance Repair Pro</h1>
-<p class="subtitle">Professional Service Reports</p>
-<div class="mode-toggle">
-  <button class="mode-btn active" data-mode="technician">Technician</button>
-  <button class="mode-btn" data-mode="client">Client</button>
-</div>
-</div>
-<form id="repairForm">
-  <div class="form-section">
-    <div class="section-title">Appliance Information</div>
-    <div class="form-group">
-      <label class="label">Appliance Type</label>
-      <select id="category" required></select>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="label">Brand</label>
-        <select id="brand" required></select>
+  <!-- ==== HEADER ==== -->
+  <div class="header">
+      <div class="logo">🔧</div>
+      <h1 class="title">Appliance Repair Pro</h1>
+      <p class="subtitle">Professional Service Reports</p>
+      <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="technician" type="button">Technician</button>
+          <button class="mode-btn" data-mode="client" type="button">Client</button>
       </div>
+  </div>
+  <!-- ==== FORM ==== -->
+  <form id="repairForm" autocomplete="off" spellcheck="false">
+    <div class="form-section">
+      <div class="section-title">Appliance Information</div>
       <div class="form-group">
-        <label class="label">Model</label>
-        <input type="text" id="model" placeholder="Enter model number" required />
+        <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
+        <select id="category" required></select>
       </div>
-    </div>
-    <div class="form-group-row">
-      <div class="form-group">
-        <label class="label">Serial Number</label>
-        <input type="text" id="serial" placeholder="Enter serial number" />
+      <div class="form-row">
+        <div class="form-group">
+          <label class="label">Brand <span class="translation">Бренд</span></label>
+          <select id="brand" required></select>
+        </div>
+        <div class="form-group">
+          <label class="label">Model <span class="translation">Модель</span></label>
+          <input type="text" id="model" placeholder="Enter model number" required maxlength="50" />
+        </div>
       </div>
-      <div class="form-group" style="margin-bottom:0;">
-        <label class="label">Year / Month</label>
-        <div style="display:flex;gap:7px;">
-          <input type="number" id="year" min="1990" max="2099" step="1" placeholder="YYYY">
-          <input type="number" id="month" min="1" max="12" step="1" placeholder="MM">
+      <div class="form-group-row">
+        <div class="form-group">
+          <label class="label">Serial Number <span class="translation">Серийный номер</span></label>
+          <input type="text" id="serial" placeholder="Enter serial number" maxlength="60"/>
+        </div>
+        <div class="form-group">
+          <label class="label">Year / Month <span class="translation">Год / Месяц выпуска</span></label>
+          <div style="display:flex;gap:10px;">
+            <input type="number" id="year" min="1980" max="2100" placeholder="YYYY" maxlength="4">
+            <input type="number" id="month" min="1" max="12" placeholder="MM" maxlength="2">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="form-section">
-    <div class="section-title">Service Details</div>
-    <div class="form-group">
-      <label class="label">Problem</label>
-      <div style="display:flex;align-items:center;">
-        <select id="problem" required style="flex:1;"></select>
-        <button type="button" class="plus-add-btn" id="add-problem-btn">+</button>
+    <div class="form-section">
+      <div class="section-title">Service Details</div>
+      <div class="form-group">
+        <label class="label">Problem <span class="translation">Проблема</span></label>
+        <div style="display:flex;align-items:center;">
+          <select id="problem" required style="flex:1;"></select>
+          <button type="button" class="plus-add-btn" id="add-problem-btn" title="Add new Problem">+</button>
+        </div>
+        <ul id="problem-custom-list" class="custom-list"></ul>
       </div>
-      <ul id="problem-custom-list" class="custom-list"></ul>
-    </div>
-    <div class="form-group">
-      <label class="label">Diagnosis</label>
-      <div style="display:flex;align-items:center;">
-        <select id="diagnosis" required style="flex:1;"></select>
-        <button type="button" class="plus-add-btn" id="add-diagnosis-btn">+</button>
+      <div class="form-group">
+        <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
+        <div style="display:flex;align-items:center;">
+          <select id="diagnosis" required style="flex:1;"></select>
+          <button type="button" class="plus-add-btn" id="add-diagnosis-btn" title="Add new Diagnosis">+</button>
+        </div>
+        <ul id="diagnosis-custom-list" class="custom-list"></ul>
       </div>
-      <ul id="diagnosis-custom-list" class="custom-list"></ul>
-    </div>
-    <div class="form-group">
-      <label class="label">Action Taken</label>
-      <div style="display:flex;align-items:center;">
-        <select id="action" required style="flex:1;"></select>
-        <button type="button" class="plus-add-btn" id="add-action-btn">+</button>
+      <div class="form-group">
+        <label class="label">Action Taken <span class="translation">Выполненные работы</span></label>
+        <div style="display:flex;align-items:center;">
+          <select id="action" required style="flex:1;"></select>
+          <button type="button" class="plus-add-btn" id="add-action-btn" title="Add new Action">+</button>
+        </div>
+        <ul id="action-custom-list" class="custom-list"></ul>
       </div>
-      <ul id="action-custom-list" class="custom-list"></ul>
+      <div class="form-group">
+        <label class="label">Status <span class="translation">Статус</span></label>
+        <select id="status" required></select>
+      </div>
+      <div class="form-group">
+        <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
+        <textarea id="notes" placeholder="Enter any additional details or recommendations..." maxlength="300"></textarea>
+      </div>
     </div>
-    <div class="form-group">
-      <label class="label">Status</label>
-      <select id="status" required></select>
+    <div class="action-buttons">
+      <button type="submit" class="btn btn-primary" id="genBtn">Generate Report</button>
+      <button type="button" class="btn btn-secondary" id="clearBtn">Clear Form</button>
     </div>
-    <div class="form-group">
-      <label class="label">Additional Notes</label>
-      <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
-    </div>
+  </form>
+  <div id="reportsControlBtns" class="action-buttons hidden" style="margin-top:28px;">
+    <button type="button" class="btn btn-primary" id="copyAllBtn">Copy All Reports</button>
+    <button type="button" class="btn btn-primary" id="copyLastBtn">Copy Last Report</button>
+    <button type="button" class="btn btn-secondary" id="clearAllBtn">Clear All Reports</button>
   </div>
-  <div class="action-buttons">
-    <button type="submit" class="btn btn-primary">Generate Report</button>
-    <button type="button" class="btn btn-secondary" id="clearBtn">Clear Form</button>
+  <div id="allReportsBlock"></div>
+  <div class="templates">
+    <div class="templates-title">Customer Message Templates</div>
+    <button class="template-btn" type="button">✅ Service completed successfully - Your appliance is working perfectly</button>
+    <button class="template-btn" type="button">🔧 Part ordered - We'll return within 3-5 business days to complete the repair</button>
+    <button class="template-btn" type="button">💰 Repair estimate provided - Please review and let us know your decision</button>
+    <button class="template-btn" type="button">🛡️ Repair covered under warranty - No charge for today's service</button>
   </div>
-</form>
-<div id="reportsControlBtns" class="action-buttons hidden" style="margin-top:24px;">
-  <button type="button" class="btn btn-primary" id="copyAllBtn">Copy All Reports</button>
-  <button type="button" class="btn btn-primary" id="copyLastBtn">Copy Last Report</button>
-  <button type="button" class="btn btn-secondary" id="clearAllBtn">Clear All Reports</button>
-</div>
-<div id="allReportsBlock"></div>
-<div class="templates">
-  <div class="templates-title">Customer Message Templates</div>
-  <button class="template-btn" type="button">✅ Service completed successfully - Your appliance is working perfectly</button>
-  <button class="template-btn" type="button">🔧 Part ordered - We'll return within 3-5 business days to complete the repair</button>
-  <button class="template-btn" type="button">💰 Repair estimate provided - Please review and let us know your decision</button>
-  <button class="template-btn" type="button">🛡️ Repair covered under warranty - No charge for today's service</button>
-</div>
 </div>
 <script>
-// ===== DATA =====
+// ==================== DATA =======================
 const applianceData = {
-  refrigerator: {
-    brands: ['GE','Samsung','Whirlpool','LG','Kenmore','KitchenAid','Frigidaire','Maytag','Bosch','Electrolux','Haier','Panasonic','Beko','Hotpoint','Indesit','Miele','Ariston','Sharp','Smeg','Hitachi'],
-    problems: [ {en:"Not cooling properly"}, {en:"Making loud noises"}, {en:"Leaking water"}, {en:"Ice maker not working"}, {en:"Defrost issues"}, {en:"Compressor running constantly"}, {en:"Odors in fridge"}, {en:"Food freezing"}, {en:"Water dispenser failure"}, {en:"Control panel unresponsive"}, {en:"Door not closing"}, {en:"Evaporator fan noise"} ],
-    diagnosis:[{en:"Faulty compressor"},{en:"Refrigerant leak"},{en:"Defrost timer failure"},{en:"Clogged drain"},{en:"Broken fan motor"}],
-    actions:[{en:"Replaced compressor"},{en:"Repaired leak + refill"},{en:"Cleared drain"},{en:"Installed new fan"},{en:"Replaced door gasket"}]
-  },
-  dishwasher: {
-    brands:['GE','Samsung','Whirlpool','LG','Kenmore','Bosch','Siemens','Electrolux','Beko','Miele','Hotpoint','Indesit','Ariston','Zanussi','Candy','Sharp','Viking','Daewoo','Smeg'],
-    problems:[{en:"Not draining water"},{en:"Dishes not getting clean"},{en:"Leaking"},{en:"No power"},{en:"Filling with water continuously"},{en:"Door not latching"}],
-    diagnosis:[{en:"Clogged drain hose"},{en:"Defective drain pump"},{en:"Broken door switch"},{en:"Blocked spray arms"}],
-    actions:[{en:"Cleaned hose"},{en:"Replaced pump"},{en:"Replaced latch"},{en:"Fixed spray arms"}]
-  },
-  washing_machine: {
-    brands:['LG','Samsung','Whirlpool','Bosch','Electrolux','Indesit','Hotpoint','Candy','Beko','Zanussi','Ardo','Siemens','Miele','AEG','Ariston','Vestfrost','Haier','Daewoo','Sharp','Panasonic'],
-    problems:[{en:"Won't start"},{en:"Water leaks"},{en:"Not spinning"},{en:"No water intake"},{en:"Jumps/vibrates"},{en:"Doesn't heat"},{en:"Stains on laundry"},{en:"Controller error"}],
-    diagnosis:[{en:"Pump motor fails"},{en:"Drive belt snapped"},{en:"Shock absorbers broken"},{en:"Heating element burnt"},{en:"Door interlock fault"}],
-    actions:[{en:"Replaced bearing"},{en:"Reinstalled drive belt"},{en:"Fixed pump"},{en:"Mounted new shock absorber"},{en:"Changed heating element"}]
-  },
-  dryer: {
-    brands:["LG","Samsung","Whirlpool","Bosch","Electrolux","Hotpoint","Indesit","Maytag","AEG","Beko","Siemens","Miele","Candy","Sharp","Panasonic","Ariston","Zanussi","Haier","Ardo","Daewoo"],
-    problems:[{en:"Not heating"},{en:"Does not start"},{en:"Drum not turning"},{en:"Unusual noise"},{en:"Stops mid-cycle"},{en:"Door won’t close"}],
-    diagnosis:[{en:"Blown thermal fuse"},{en:"Broken drive belt"},{en:"Clogged venting"},{en:"Defective door switch"}],
-    actions:[{en:"Replaced thermal fuse"},{en:"New drive belt installed"},{en:"Cleaned vent"},{en:"Changed door switch"}]
-  },
-  stove_oven: {
-    brands:["GE","Whirlpool","Bosch","Samsung","Electrolux","Beko","Hotpoint","Indesit","Zanussi","Ariston","Gorenje","Miele","Candy","Siemens","Sharp","Smeg","Panasonic","Vestfrost","Hansa","AEG"],
-    problems:[{en:"No heating"},{en:"Burners not igniting"},{en:"Oven not baking evenly"},{en:"Door does not seal"},{en:"Knobs loose"}],
-    diagnosis:[{en:"Faulty igniter"},{en:"Defective thermostat"},{en:"Heating element burnt"},{en:"Broken door hinge"}],
-    actions:[{en:"Replaced igniter"},{en:"Fixed thermostat"},{en:"Replaced heater"},{en:"Rehung door"}]
-  },
-  microwave: {
-    brands:["Samsung","LG","Panasonic","Sharp","Whirlpool","Bosch","Beko","Hotpoint","Candy","Midea","Daewoo","Siemens","Electrolux","Zanussi","Toshiba","Gorenje","Vestfrost","Ardo","Smeg","Mystery"],
-    problems:[{en:"No heating"},{en:"Sparking inside"},{en:"Turntable not rotating"},{en:"Buttons not working"},{en:"Loud noise"}],
-    diagnosis:[{en:"Magnetron failure"},{en:"Faulty door switch"},{en:"Broken turntable motor"}],
-    actions:[{en:"Replaced magnetron"},{en:"Changed door switch"},{en:"New turntable motor"}]
-  }
+refrigerator: { // --- МАССИВЫ ДЛЯ ОДНОГО ТИПА
+  brands: ['GE','Samsung','Whirlpool','LG','Kenmore','KitchenAid','Frigidaire','Maytag','Bosch','Electrolux','Haier','Panasonic','Beko','Hotpoint','Indesit','Miele','Ariston','Sharp','Smeg','Hitachi'],
+  problems: [ {en:"Not cooling properly"}, {en:"Making loud noises"}, {en:"Leaking water"}, {en:"Ice maker not working"}, {en:"Defrost issues"}, {en:"Compressor running constantly"}, {en:"Odors in fridge"}, {en:"Food freezing"}, {en:"Water dispenser failure"}, {en:"Control panel unresponsive"}, {en:"Door not closing"}, {en:"Evaporator fan noise"}, {en:"Display error code"}, {en:"Frost buildup in freezer"}, {en:"Ice build-up in fresh food compartment"}, {en:"Lights not working"}, {en:"Door seal damaged"}, {en:"Water filter clog"}, {en:"Unusual vibration"}, {en:"Fan cycling frequently"}, {en:"Temperature fluctuates"} ],
+  diagnosis:[{en:"Faulty compressor"},{en:"Refrigerant leak"},{en:"Defrost timer failure"},{en:"Clogged drain"},{en:"Broken fan motor"},{en:"Thermostat failure"},{en:"Damaged door gasket"},{en:"Blocked condenser coils"},{en:"Faulty temperature sensor"},{en:"Blown fuse"},{en:"Malfunctioning PCB"},{en:"Evaporator issues"}],
+  actions:[{en:"Replaced compressor"},{en:"Repaired leak + refill"},{en:"Cleared drain"},{en:"Installed new fan"},{en:"Replaced door gasket"},{en:"Reset control board"},{en:"Replaced thermostat"},{en:"Cleaned condenser coils"},{en:"Replaced temperature sensor"},{en:"Replaced fuse"},{en:"Replaced main PCB"}]
+},
+dishwasher: {
+  brands:['GE','Samsung','Whirlpool','LG','Kenmore','Bosch','Siemens','Electrolux','Beko','Miele','Hotpoint','Indesit','Ariston','Zanussi','Candy','Sharp','Viking','Daewoo','Smeg'],
+  problems:[{en:"Not draining water"},{en:"Dishes not getting clean"},{en:"Leaking"},{en:"No power"},{en:"Filling with water continuously"},{en:"Door not latching"},{en:"Water remains after cycle"},{en:"Spray arms not moving"},{en:"Display error"},{en:"Cycle not finishing"},{en:"Overflows"}],
+  diagnosis:[{en:"Clogged drain hose"},{en:"Defective drain pump"},{en:"Broken door switch"},{en:"Blocked spray arms"},{en:"Clogged filter"},{en:"Inlet valve failure"},{en:"Worn float switch"},{en:"Burned out heater element"},{en:"Faulty circulation pump"}],
+  actions:[{en:"Cleaned hose"},{en:"Replaced pump"},{en:"Replaced latch"},{en:"Fixed spray arms"},{en:"Cleaned filter"},{en:"Replaced valve"},{en:"Replaced float switch"},{en:"Replaced heater"},{en:"Repaired circulation pump"}]
+},
+washing_machine: {
+  brands:['LG','Samsung','Whirlpool','Bosch','Electrolux','Indesit','Hotpoint','Candy','Beko','Zanussi','Ardo','Siemens','Miele','AEG','Ariston','Vestfrost','Haier','Daewoo','Sharp','Panasonic'],
+  problems:[{en:"Won't start"},{en:"Water leaks"},{en:"Not spinning"},{en:"No water intake"},{en:"Jumps/vibrates"},{en:"Doesn't heat"},{en:"Stains on laundry"},{en:"Controller error"},{en:"Door not locking"},{en:"Foaming"},{en:"Noisy during spin"},{en:"Cycle not completing"},{en:"Unpleasant smell"},{en:"Display error"},{en:"Buttons not working"},{en:"Stops mid cycle"},{en:"Lint not removed"},{en:"Drum stuck"},{en:"Overflowing"}],
+  diagnosis:[{en:"Pump motor fails"},{en:"Drive belt snapped"},{en:"Shock absorbers broken"},{en:"Heating element burnt"},{en:"Door interlock fault"},{en:"Blocked drain pump"},{en:"PCB failure"},{en:"Worn bearings"},{en:"Water inlet valve jammed"},{en:"Leaking door gasket"}],
+  actions:[{en:"Replaced bearing"},{en:"Reinstalled drive belt"},{en:"Fixed pump"},{en:"Mounted new shock absorber"},{en:"Changed heating element"},{en:"Cleaned drain filter"},{en:"Replaced PCB"},{en:"Lubricated drum"},{en:"Replaced valve"},{en:"Cleaned and deodorized"}]
+},
+dryer: {
+  brands:["LG","Samsung","Whirlpool","Bosch","Electrolux","Hotpoint","Indesit","Maytag","AEG","Beko","Siemens","Miele","Candy","Sharp","Panasonic","Ariston","Zanussi","Haier","Ardo","Daewoo"],
+  problems:[{en:"Not heating"},{en:"Does not start"},{en:"Drum not turning"},{en:"Unusual noise"},{en:"Stops mid-cycle"},{en:"Door won’t close"},{en:"Display error"},{en:"Long drying time"},{en:"Overheating"},{en:"Lint filter error"}],
+  diagnosis:[{en:"Blown thermal fuse"},{en:"Broken drive belt"},{en:"Clogged venting"},{en:"Defective door switch"},{en:"Heating element burnout"},{en:"Faulty timer"},{en:"Blocked filter"},{en:"PCB error"}],
+  actions:[{en:"Replaced thermal fuse"},{en:"New drive belt installed"},{en:"Cleaned vent"},{en:"Changed door switch"},{en:"Changed element"},{en:"Fixed timer"},{en:"Cleaned filter"},{en:"Reset PCB"}]
+},
+stove_oven: {
+  brands:["GE","Whirlpool","Bosch","Samsung","Electrolux","Beko","Hotpoint","Indesit","Zanussi","Ariston","Gorenje","Miele","Candy","Siemens","Sharp","Smeg","Panasonic","Vestfrost","Hansa","AEG"],
+  problems:[{en:"No heating"},{en:"Burners not igniting"},{en:"Oven not baking evenly"},{en:"Door does not seal"},{en:"Knobs loose"},{en:"Temperature incorrect"},{en:"Clock not working"},{en:"No display"},{en:"Oven light out"}],
+  diagnosis:[{en:"Faulty igniter"},{en:"Defective thermostat"},{en:"Heating element burnt"},{en:"Broken door hinge"},{en:"PCB malfunction"},{en:"Loose connector"}],
+  actions:[{en:"Replaced igniter"},{en:"Fixed thermostat"},{en:"Replaced heater"},{en:"Rehung door"},{en:"Repaired PCB"},{en:"Tightened connectors"}]
+},
+microwave: {
+  brands:["Samsung","LG","Panasonic","Sharp","Whirlpool","Bosch","Beko","Hotpoint","Candy","Midea","Daewoo","Siemens","Electrolux","Zanussi","Toshiba","Gorenje","Vestfrost","Ardo","Smeg","Mystery"],
+  problems:[{en:"No heating"},{en:"Sparking inside"},{en:"Turntable not rotating"},{en:"Buttons not working"},{en:"Loud noise"},{en:"Display not working"},{en:"Stops midcycle"},{en:"Door stuck"},{en:"Bulb out"},{en:"Smell when cooking"}],
+  diagnosis:[{en:"Magnetron failure"},{en:"Faulty door switch"},{en:"Broken turntable motor"},{en:"PCB issue"},{en:"Burned fuse"},{en:"Damaged wave guide"}],
+  actions:[{en:"Replaced magnetron"},{en:"Changed door switch"},{en:"New turntable motor"},{en:"Soldered PCB"},{en:"Changed fuse"},{en:"Cleaned wave guide"}]
+}
 };
 const STATUS_LIST = [
-  {val:"",en:"Select Status"},
-  {val:"completed",en:"✅ Fixed 100%"},
-  {val:"waiting",en:"⏳ Waiting for Part"},
-  {val:"temporary",en:"🔧 Temporary Fix"},
-  {val:"unrepairable",en:"❌ Not Repairable"}
+  {val:"",en:"Select Status",ru:"Выберите статус"},
+  {val:"completed",en:"✅ Fixed 100%",ru:"✅ Полностью исправлено"},
+  {val:"waiting",en:"⏳ Waiting for Part",ru:"⏳ Ожидание запчасти"},
+  {val:"temporary",en:"🔧 Temporary Fix",ru:"🔧 Временное решение"},
+  {val:"unrepairable",en:"❌ Not Repairable",ru:"❌ Не подлежит ремонту"}
 ];
-const LOCAL_CUSTOM_KEY = "custom_appliance_adds_v3";
-function getAdditions(){try{return JSON.parse(localStorage.getItem(LOCAL_CUSTOM_KEY)||"{}");}catch{return {}}}
-function setAdditions(obj){localStorage.setItem(LOCAL_CUSTOM_KEY,JSON.stringify(obj));}
+const CUSTOM_KEY = "appl_report_custom_v5";
+// ===== UTILITIES =====
+function getAdditions(){try{return JSON.parse(localStorage.getItem(CUSTOM_KEY)||"{}");}catch{return {}}}
+function setAdditions(obj){localStorage.setItem(CUSTOM_KEY,JSON.stringify(obj));}
 function isClientMode(){return document.querySelector('.mode-btn[data-mode="client"]').classList.contains('active');}
-
-function fillAllSelects() {
-  let catSel=document.getElementById("category");
-  let prev=catSel.value;
+function fillAllSelects(){
+  let catSel=document.getElementById("category"),prev=catSel.value;
   catSel.innerHTML="<option value=''>Select Appliance Type</option>";
-  Object.keys(applianceData).forEach(cat=>{catSel.appendChild(new Option(cat.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase()),cat))});
-  catSel.value=prev;
-  fillBrand();
+  Object.keys(applianceData).forEach(cat=>{
+    let label=cat.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());
+    catSel.appendChild(new Option(label,cat));
+  });
+  catSel.value=prev; fillBrand();
   ["problem","diagnosis","action"].forEach(fillCustomSelect);
   fillStatus();
 }
 function fillBrand(){
-  let cat=document.getElementById("category").value,
-  brandSel=document.getElementById("brand");
+  let cat=document.getElementById("category").value,brandSel=document.getElementById("brand");
   brandSel.innerHTML=`<option value="">Select Brand</option>`;
   if(cat&&applianceData[cat])applianceData[cat].brands.forEach(b=>brandSel.appendChild(new Option(b,b)));
 }
@@ -224,22 +422,23 @@ function fillCustomSelect(type){
   sel=document.getElementById(type);
   sel.innerHTML=`<option value="">Select ${type.charAt(0).toUpperCase()+type.slice(1)}</option>`;
   let arr=cat&&applianceData[cat]&&applianceData[cat][type]?[...applianceData[cat][type]]:[];
-  let adds=getAdditions();if(adds[cat]&&adds[cat][type])arr=arr.concat(adds[cat][type]);
+  let adds=getAdditions();
+  if(adds[cat]&&adds[cat][type])arr=arr.concat(adds[cat][type]);
   arr.forEach(item=>sel.appendChild(new Option(item.en,item.en)));
   renderCustomList(type,cat,adds);
 }
 function renderCustomList(type,cat,adds){
   let ul=document.getElementById(type+"-custom-list");
-  ul.innerHTML="";
-  cat=cat||document.getElementById("category").value;adds=adds||getAdditions();
+  ul.innerHTML=""; cat=cat||document.getElementById("category").value; adds=adds||getAdditions();
   if(adds[cat]&&adds[cat][type])adds[cat][type].forEach((item,i)=>{
-    let li=document.createElement("li");
-    li.className="custom-choice";
-    li.textContent=item.en;
+    let li=document.createElement("li");li.className="custom-choice";li.textContent=item.en;
     let del=document.createElement("button");del.className="trash-btn";del.textContent='🗑';
     del.onclick=()=>{if(confirm("Delete?")){adds[cat][type].splice(i,1);setAdditions(adds);fillCustomSelect(type);}};
     li.appendChild(del);ul.appendChild(li);
   });
+}
+function showTranslations(show){
+  document.querySelectorAll('.translation').forEach(span=>show?span.classList.remove('hidden'):span.classList.add('hidden'));
 }
 document.getElementById('add-problem-btn').onclick=()=>addCustomItem('problem');
 document.getElementById('add-diagnosis-btn').onclick=()=>addCustomItem('diagnosis');
@@ -248,15 +447,14 @@ function addCustomItem(type){
   let cat=document.getElementById("category").value;
   if(!cat)return alert("Select Appliance Type first!");
   let val=prompt("Enter new "+type+" (English):");
-  if(!val||!val.trim())return;val=val.trim();
+  if(!val||!val.trim())return; val=val.trim();
   let arr=applianceData[cat][type]?applianceData[cat][type].map(x=>x.en.toLowerCase()):[];
   let adds=getAdditions();
   let arr2=adds[cat]&&adds[cat][type]?adds[cat][type].map(x=>x.en.toLowerCase()):[];
   if(arr.includes(val.toLowerCase())||arr2.includes(val.toLowerCase()))return alert("Already exists!");
-  if(!adds[cat])adds[cat]={};if(!adds[cat][type])adds[cat][type]=[];
-  adds[cat][type].push({en:val});setAdditions(adds);fillCustomSelect(type);
+  if(!adds[cat])adds[cat]={}; if(!adds[cat][type])adds[cat][type]=[];
+  adds[cat][type].push({en:val}); setAdditions(adds); fillCustomSelect(type);
 }
-// === Report history ===
 let reportsArr=[];
 function saveReports(){localStorage.setItem('applianceReports',JSON.stringify(reportsArr));}
 function loadReports(){try{reportsArr=JSON.parse(localStorage.getItem('applianceReports')||"[]");}catch{reportsArr=[];}}
@@ -264,19 +462,19 @@ function renderAllReports(){
   let blk=document.getElementById('allReportsBlock'),ctrl=document.getElementById('reportsControlBtns');
   if(reportsArr.length===0){blk.innerHTML='';ctrl.classList.add('hidden');return;}
   let out='';
-  reportsArr.forEach(r=>{
-    out+=`<div class="report-output"><div class="report-title">Service Report</div>
-      <div class="report-line"><span class="report-label">Appliance Type:</span><span class="report-value">${r.appliance}</span></div>
-      <div class="report-line"><span class="report-label">Brand:</span><span class="report-value">${r.brand}</span></div>
-      <div class="report-line"><span class="report-label">Model:</span><span class="report-value">${r.model}</span></div>
-      <div class="report-line"><span class="report-label">Serial Number:</span><span class="report-value">${r.serial}</span></div>
-      <div class="report-line"><span class="report-label">Year:</span><span class="report-value">${r.year}${r.month?', month: '+String(r.month).padStart(2,'0'):''}</span></div>
-      <div class="report-line"><span class="report-label">Problem:</span><span class="report-value">${r.problem}</span></div>
-      <div class="report-line"><span class="report-label">Diagnosis:</span><span class="report-value">${r.diagnosis}</span></div>
-      <div class="report-line"><span class="report-label">Action Taken:</span><span class="report-value">${r.action}</span></div>
-      <div class="report-line"><span class="report-label">Status:</span><span class="report-value">${r.status}</span></div>
-      <div class="report-line"><span class="report-label">Notes:</span><span class="report-value">${r.notes}</span></div>
-    </div>`;
+  reportsArr.forEach((r,idx)=>{
+    out+=`<div class="report-output"><div class="report-title">Service Report #${idx+1}</div>
+      <div class="report-line"><span class="report-label">Appliance Type:</span> <span class="report-value">${r.appliance}</span></div>
+      <div class="report-line"><span class="report-label">Brand:</span> <span class="report-value">${r.brand}</span></div>
+      <div class="report-line"><span class="report-label">Model:</span> <span class="report-value">${r.model}</span></div>
+      <div class="report-line"><span class="report-label">Serial Number:</span> <span class="report-value">${r.serial}</span></div>
+      <div class="report-line"><span class="report-label">Year:</span> <span class="report-value">${r.year}${r.month?', month: '+String(r.month).padStart(2,'0'):''}</span></div>
+      <div class="report-line"><span class="report-label">Problem:</span> <span class="report-value">${r.problem}</span></div>
+      <div class="report-line"><span class="report-label">Diagnosis:</span> <span class="report-value">${r.diagnosis}</span></div>
+      <div class="report-line"><span class="report-label">Action Taken:</span> <span class="report-value">${r.action}</span></div>
+      <div class="report-line"><span class="report-label">Status:</span> <span class="report-value">${r.status}</span></div>
+      <div class="report-line"><span class="report-label">Notes:</span> <span class="report-value">${r.notes}</span></div>
+     </div>`;
   });
   blk.innerHTML=out;ctrl.classList.remove('hidden');
 }
@@ -307,7 +505,11 @@ function getFormVals(){
     notes:document.getElementById('notes').value.trim()
   }
 }
-function resetForm(){document.getElementById('repairForm').reset();fillBrand();['problem','diagnosis','action'].forEach(fillCustomSelect);}
+function resetForm(){
+  document.getElementById('repairForm').reset();
+  fillBrand();
+  ['problem','diagnosis','action'].forEach(fillCustomSelect);
+}
 document.getElementById('category').addEventListener('change',()=>{fillBrand();['problem','diagnosis','action'].forEach(fillCustomSelect)});
 document.getElementById('repairForm').addEventListener('submit',e=>{
   e.preventDefault();
@@ -317,21 +519,23 @@ document.getElementById('repairForm').addEventListener('submit',e=>{
   resetForm();
 });
 document.getElementById('clearBtn').addEventListener('click',resetForm);
-document.getElementById('copyAllBtn').addEventListener('click',()=>{if(reportsArr.length)navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n====\n\n'))});
+document.getElementById('copyAllBtn').addEventListener('click',()=>{if(reportsArr.length)navigator.clipboard.writeText(reportsArr.map(reportToText).join('\n\n----\n\n'))});
 document.getElementById('copyLastBtn').addEventListener('click',()=>{if(reportsArr.length)navigator.clipboard.writeText(reportToText(reportsArr[reportsArr.length-1]))});
 document.getElementById('clearAllBtn').addEventListener('click',()=>{reportsArr.length=0;saveReports();renderAllReports();});
 document.querySelectorAll('.mode-btn').forEach(button=>{
   button.addEventListener('click',()=>{
     document.querySelectorAll('.mode-btn').forEach(btn=>btn.classList.remove('active'));
     button.classList.add('active');
+    // Hide translations for client:
+    showTranslations(!isClientMode());
     fillAllSelects();
   });
 });
 document.querySelectorAll('.template-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{document.getElementById('notes').value=btn.textContent;});
 });
-// === Init
+// ==== INIT ====
+showTranslations(!isClientMode());
 loadReports();renderAllReports();fillAllSelects();
 </script>
-</body>
-</html>
+</body></html>

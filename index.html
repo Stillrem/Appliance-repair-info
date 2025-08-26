@@ -157,7 +157,7 @@
       <div class="form-group input-dollar">
         <label class="label">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
         <span class="dollar-sign" aria-label="Dollar">$</span>
-        <input type="number" id="cs" placeholder="0" min="0" step="1" inputmode="numeric" />
+        <input type="number" id="sc" placeholder="0" min="0" step="1" inputmode="numeric" />
       </div>
     </div>
 
@@ -520,7 +520,7 @@ function lineENRU(label,en,ru){
 }
 function reportToPlainText(r){
   const lines=[
-    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\\d+$/,'')})`,
+    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\d+$/,'')})`,
     `Appliance: ${r.categoryLabel}`,
     `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
     `Model: ${r.model||'-'}`,
@@ -566,7 +566,7 @@ function makeReportObj(){
 function makeReportBlock(r, idx){
   const title=(r.mode==='technician'?'Technician Report':'Client Report');
   let html=`<div class="report-output" data-idx="${idx}">
-    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\\d+$/,'')})</span></div>
+    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\d+$/,'')})</span></div>
     <div class="report-content">`;
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);

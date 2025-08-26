@@ -79,7 +79,7 @@
       <div class="section-title">🏠 Appliance Information</div>
       <div class="form-group">
         <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
-        <select id="category" required>
+        <select id="category">
           <option value="">Select Appliance Type</option>
           <option value="refrigerator">Refrigerator / Холодильник</option>
           <option value="dishwasher">Dishwasher / ПММ</option>
@@ -93,14 +93,14 @@
         <div class="form-group">
           <label class="label">Brand <span class="translation">Бренд</span></label>
           <div class="select-group">
-            <select id="brand" required><option value="">Select Brand</option></select>
+            <select id="brand"><option value="">Select Brand</option></select>
             <button type="button" class="custom-add-btn" title="Add Brand" id="addBrandBtn">+</button>
             <button type="button" class="custom-del-btn" id="delCustomBrand" style="display:none;" title="Delete this custom option">🗑️</button>
           </div>
         </div>
         <div class="form-group">
           <label class="label">Model <span class="translation">Модель</span></label>
-          <input type="text" id="model" placeholder="Enter model number" required />
+          <input type="text" id="model" placeholder="Enter model number"/>
         </div>
       </div>
       <div class="form-row">
@@ -120,7 +120,7 @@
       <div class="form-group">
         <label class="label">Problem <span class="translation">Проблема</span></label>
         <div class="select-group">
-          <select id="problem" required style="flex:1"><option value="">Select Problem</option></select>
+          <select id="problem" style="flex:1"><option value="">Select Problem</option></select>
           <button type="button" class="custom-add-btn" title="Add Problem" id="addProblemBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomProblem" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
@@ -128,7 +128,7 @@
       <div class="form-group">
         <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
         <div class="select-group">
-          <select id="diagnosis" required style="flex:1"><option value="">Select Diagnosis</option></select>
+          <select id="diagnosis" style="flex:1"><option value="">Select Diagnosis</option></select>
           <button type="button" class="custom-add-btn" title="Add Diagnosis" id="addDiagnosisBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomDiagnosis" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
@@ -136,14 +136,14 @@
       <div class="form-group">
         <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
         <div class="select-group">
-          <select id="action" required style="flex:1"><option value="">Select Action</option></select>
+          <select id="action" style="flex:1"><option value="">Select Action</option></select>
           <button type="button" class="custom-add-btn" title="Add Action" id="addActionBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomAction" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
       <div class="form-group">
         <label class="label">Status <span class="translation">Статус</span></label>
-        <select id="status" required>
+        <select id="status">
           <option value="">Select Status</option>
           <option value="✅ Fixed 100%">✅ Fixed 100% / Полностью исправлено</option>
           <option value="⏳ Waiting for Part">⏳ Waiting for Part / Ожидание запчасти</option>
@@ -243,14 +243,13 @@ function merged(cat,key,base){
   return (base||[]).concat(customs);
 }
 function optionLabel(item,key){
-  if(typeof item==='string') return item; // бренды
+  if(typeof item==='string') return item;
   const en=item.en;
   const ru=item.ru||item.en;
-  // В Technician показываем EN / RU, в Client — EN
   return currentMode==='technician' ? `${en} / ${ru}` : en;
 }
 function optionValue(item){
-  return (typeof item==='string')?item:item.en; // значение всегда EN
+  return (typeof item==='string')?item:item.en;
 }
 function fillSelect(select, baseArr, cat, key){
   const prev=select.value;
@@ -262,7 +261,6 @@ function fillSelect(select, baseArr, cat, key){
     opt.value=val; opt.textContent=lbl;
     select.appendChild(opt);
   });
-  // восстановить выбор, если есть
   if(prev && [...select.options].some(op=>op.value===prev)) select.value=prev;
 }
 function updateLists(){
@@ -304,7 +302,6 @@ function promptAddCustom(type){
   customOptions[type][cat].push(obj);
   localStorage.setItem('customOptionsV3',JSON.stringify(customOptions));
   updateLists();
-  // сразу выбрать добавленное
   els[type].value=en;
   checkCustomDelBtns();
 }
@@ -316,15 +313,12 @@ function delCustomOption(key,cat,val){
   updateLists();
 }
 
-// формат года
 function prettyYear(val){
   if(!val) return '';
   const m=val.replace(/[^\d]/g,'').slice(0,6);
   if(m.length===6) return m.slice(0,2)+'.'+m.slice(2,6);
   return val;
 }
-
-// ПОИСК RU — учитывает базу + кастомы (фикс)
 function findRu(key,cat,val){
   if(!val) return '';
   const baseMap={problem:problemsMap,diagnosis:diagnosisMap,action:actionsMap}[key]||{};
@@ -343,7 +337,7 @@ function makeReportObj(){
     mode:currentMode,
     category:cat,
     brand:els.brand.value,
-    brand_ru: els.brand.value, // бренды без перевода
+    brand_ru: els.brand.value,
     model:els.model.value.trim(),
     serial:els.serial.value.trim(),
     year:prettyYear(els.year.value.trim()),
@@ -366,18 +360,18 @@ function lineENRU(label,en,ru){
 function reportToPlainText(r){
   const lines=[
     `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\\d+$/,'')})`,
-    `Appliance: ${r.category}`,
-    `Brand: ${r.brand}`,
-    `Model: ${r.model}`,
-    `Serial: ${r.serial}`,
-    `Year: ${r.year}`,
-    `Problem: ${r.problem}${(currentMode==='technician'&&r.problem_ru&&r.problem_ru!==r.problem)?' / '+r.problem_ru:''}`,
-    `Diagnosis: ${r.diagnosis}${(currentMode==='technician'&&r.diagnosis_ru&&r.diagnosis_ru!==r.diagnosis)?' / '+r.diagnosis_ru:''}`,
-    `Action: ${r.action}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
-    `Status: ${r.status}`,
+    r.category?`Appliance: ${r.category}`:null,
+    r.brand?`Brand: ${r.brand}`:null,
+    r.model?`Model: ${r.model}`:null,
+    r.serial?`Serial: ${r.serial}`:null,
+    r.year?`Year: ${r.year}`:null,
+    r.problem?`Problem: ${r.problem}${(currentMode==='technician'&&r.problem_ru&&r.problem_ru!==r.problem)?' / '+r.problem_ru:''}`:null,
+    r.diagnosis?`Diagnosis: ${r.diagnosis}${(currentMode==='technician'&&r.diagnosis_ru&&r.diagnosis_ru!==r.diagnosis)?' / '+r.diagnosis_ru:''}`:null,
+    r.action?`Action: ${r.action}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`:null,
+    r.status?`Status: ${r.status}`:null,
     `Notes: ${r.notes||'-'}`,
     `Price: $${r.price||'0'}`
-  ];
+  ].filter(Boolean);
   return lines.join('\n');
 }
 function makeReportBlock(r, idx){
@@ -394,7 +388,7 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Diagnosis',r.diagnosis,r.diagnosis_ru);
   html+=lineENRU('Action',r.action,r.action_ru);
   html+=lineENRU('Status',r.status,'');
-  html+=lineENRU('Notes',r.notes,'');
+  html+=lineENRU('Notes',r.notes||'-','');
   html+=lineENRU('Price', (r.price?('$'+r.price):'$0'),'');
   html+=`</div>
     <div class="report-actions">
@@ -494,7 +488,6 @@ function updateModeButtons(){
   Array.from(document.querySelectorAll('.translation')).forEach(el=>{
     el.classList.toggle('hidden', currentMode==='client');
   });
-  // перерисовать подписи в селектах под режим
   updateLists();
   renderReports();
 }
@@ -524,16 +517,9 @@ els.clearBtn.onclick=()=>{
   ['model','serial','year','notes','price'].forEach(k=>els[k].value='');
 };
 
-/* Submit -> generate report */
+/* Submit -> generate report (без проверок) */
 els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
-  if(!els.category.value) return alert('Choose Appliance Type');
-  if(!els.brand.value) return alert('Choose Brand');
-  if(!els.problem.value) return alert('Choose Problem');
-  if(!els.diagnosis.value) return alert('Choose Diagnosis');
-  if(!els.action.value) return alert('Choose Action');
-  if(!els.status.value) return alert('Choose Status');
-
   const r=makeReportObj();
   allReports.push(r);
   localStorage.setItem('repairReportsV3',JSON.stringify(allReports));

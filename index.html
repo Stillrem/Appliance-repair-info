@@ -279,7 +279,7 @@ const els={
   category:$('category'), brand:$('brand'), model:$('model'),
   serial:$('serial'), year:$('year'),
   problem:$('problem'), diagnosis:$('diagnosis'), action:$('action'),
-  status:$('status'), notes:$('notes'), price:$('price'),
+  status:$('status'), notes:$('notes'), sc:$('sc'),
   genBtn:$('genBtn'), clearBtn:$('clearBtn'),
   addCategoryBtn:$('addCategoryBtn'), delCustomCategory:$('delCustomCategory'),
   addBrandBtn:$('addBrandBtn'), delCustomBrand:$('delCustomBrand'),
@@ -698,7 +698,7 @@ els.clearBtn.onclick=()=>{
   els.repairForm.reset();
   localStorage.removeItem(FORM_KEY);
   updateLists();
-  ['model','serial','year','notes','cs'].forEach(k=>els[k].value='');
+  ['model','serial','year','notes','sc'].forEach(k=>els[k].value='');
   checkDelButtons();
 };
 

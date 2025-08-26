@@ -5,10 +5,7 @@
   <title>Appliance Repair Pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <style>
-  :root {
-    --primary:#34c759;--primary-dark:#30d158;--background:#111;--surface:#232324;--surface-2:#29292B;
-    --surface-3:#323236;--text:#fff;--text-secondary:#bcbcc7;--border:#34343B;--shadow:rgba(0,0,0,0.24);
-  }
+  :root{--primary:#34c759;--primary-dark:#30d158;--background:#111;--surface:#232324;--surface-2:#29292B;--surface-3:#323236;--text:#fff;--text-secondary:#bcbcc7;--border:#34343B;--shadow:rgba(0,0,0,0.24);}
   *{box-sizing:border-box}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--background);color:var(--text);margin:0;}
   .container{max-width:640px;margin:0 auto;min-height:100vh;padding:24px 6vw 36px;}
@@ -77,14 +74,16 @@
   <form id="repairForm" autocomplete="off">
     <div class="form-section">
       <div class="section-title">🏠 Appliance Information</div>
+
       <div class="form-group">
         <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
         <div class="select-group">
           <select id="category"><option value="">Select Appliance Type</option></select>
-          <button type="button" class="custom-add-btn" title="Add Appliance Type" id="addCategoryBtn">+</button>
-          <button type="button" class="custom-del-btn" id="delCustomCategory" style="display:none;" title="Delete this custom option">🗑️</button>
+          <button type="button" class="custom-add-btn" id="addCategoryBtn" title="Add Appliance Type">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomCategory" style="display:none;" title="Delete this custom type">🗑️</button>
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="label">Brand <span class="translation">Бренд</span></label>
@@ -99,6 +98,7 @@
           <input type="text" id="model" placeholder="Enter model number"/>
         </div>
       </div>
+
       <div class="form-row">
         <div class="form-group">
           <label class="label">Serial Number <span class="translation">Серийный номер</span></label>
@@ -106,45 +106,50 @@
         </div>
         <div class="form-group">
           <label class="label">Year of Manufacture <span class="translation">Месяц и год выпуска (MM.YYYY или MM/YYYY)</span></label>
-          <input type="text" id="year" placeholder="MM.YYYY или MM/YYYY" pattern="^(0[1-9]|1[0-2])[./](19|20)\d\d$" maxlength="7"/>
+          <input type="text" id="year" placeholder="MM.YYYY или MM/YYYY" maxlength="7"/>
         </div>
       </div>
     </div>
 
     <div class="form-section">
       <div class="section-title">🔍 Service Details</div>
+
       <div class="form-group">
         <label class="label">Problem <span class="translation">Проблема</span></label>
         <div class="select-group">
-          <select id="problem" style="flex:1"><option value="">Select Problem</option></select>
+          <select id="problem"><option value="">Select Problem</option></select>
           <button type="button" class="custom-add-btn" title="Add Problem" id="addProblemBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomProblem" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
+
       <div class="form-group">
         <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
         <div class="select-group">
-          <select id="diagnosis" style="flex:1"><option value="">Select Diagnosis</option></select>
+          <select id="diagnosis"><option value="">Select Diagnosis</option></select>
           <button type="button" class="custom-add-btn" title="Add Diagnosis" id="addDiagnosisBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomDiagnosis" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
+
       <div class="form-group">
         <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
         <div class="select-group">
-          <select id="action" style="flex:1"><option value="">Select Action</option></select>
+          <select id="action"><option value="">Select Action</option></select>
           <button type="button" class="custom-add-btn" title="Add Action" id="addActionBtn">+</button>
           <button type="button" class="custom-del-btn" id="delCustomAction" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
+
       <div class="form-group">
         <label class="label">Status <span class="translation">Статус</span></label>
         <div class="select-group">
           <select id="status"><option value="">Select Status</option></select>
-          <button type="button" class="custom-add-btn" title="Add Status" id="addStatusBtn">+</button>
-          <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom option">🗑️</button>
+          <button type="button" class="custom-add-btn" id="addStatusBtn" title="Add Status">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom status">🗑️</button>
         </div>
       </div>
+
       <div class="form-group">
         <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
         <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
@@ -166,23 +171,17 @@
 </div>
 
 <script>
-/* ================== BASE CATEGORIES & STATUSES (EN–RU) ================== */
-const BASE_CATEGORIES=[
-  {value:'refrigerator', en:'Refrigerator', ru:'Холодильник'},
-  {value:'dishwasher',   en:'Dishwasher',  ru:'ПММ'},
-  {value:'washing_machine', en:'Washing Machine', ru:'Стиралка'},
-  {value:'dryer',        en:'Dryer',       ru:'Сушилка'},
-  {value:'stove_oven',   en:'Stove/Oven',  ru:'Плита–Духовка'},
-  {value:'microwave',    en:'Microwave',   ru:'Микроволновка'}
-];
-const BASE_STATUS=[
-  {en:'✅ Fixed 100%',    ru:'Полностью исправлено'},
-  {en:'⏳ Waiting for Part', ru:'Ожидание запчасти'},
-  {en:'🔧 Temporary Fix', ru:'Временное решение'},
-  {en:'❌ Not Repairable',ru:'Не подлежит ремонту'}
+/* ========= BUILT-IN CATEGORIES (fixed) ========= */
+const builtinCategories = [
+  {key:'refrigerator', en:'Refrigerator', ru:'Холодильник'},
+  {key:'dishwasher', en:'Dishwasher', ru:'ПММ'},
+  {key:'washing_machine', en:'Washing Machine', ru:'Стиралка'},
+  {key:'dryer', en:'Dryer', ru:'Сушилка'},
+  {key:'stove_oven', en:'Stove/Oven', ru:'Плита–Духовка'},
+  {key:'microwave', en:'Microwave', ru:'Микроволновка'}
 ];
 
-/* ================== DATA (EN–RU) for brand/problem/diagnosis/action ================== */
+/* ========= DATA (EN–RU) for built-ins ========= */
 /* Refrigerator */
 const brandsFridge = ["LG","Samsung","Whirlpool","GE","Bosch","Siemens","Electrolux","Frigidaire","KitchenAid","Maytag","Hitachi","Liebherr","Sharp","Indesit","Hotpoint","Viking","Beko","Kenmore","Haier","Panasonic","Zanussi","Daewoo","Gorenje","Amana","Candy","Ariston","Miele","Sub-Zero","Smeg","Turboair","Vestfrost","Atlant","Nord","Vestel","Krups","Schaub Lorenz","Blomberg","Grundig","Crosley","Hisense","Toshiba","Winia","Baumatic","Bomann","Brandt","Fisher & Paykel","Teka","Neff","Silverline"];
 const problemsFridge = [{en:"Not cooling",ru:"Не охлаждает"},{en:"Leaking water",ru:"Течет вода"},{en:"Frost in freezer",ru:"Иней в морозильнике"},{en:"Noisy operation",ru:"Сильный шум"},{en:"Ice maker failure",ru:"Льдогенератор не работает"},{en:"Door not closing",ru:"Дверь не закрывается"},{en:"Fridge compartment warm",ru:"Отделение не холодит"},{en:"Display dead",ru:"Дисплей не работает"},{en:"Self-defrost failure",ru:"Нет саморазморозки"},{en:"Water on floor",ru:"Течет на пол"},{en:"Too much frost",ru:"Много инея"},{en:"Interior light out",ru:"Нет подсветки"},{en:"Lower drawer stuck",ru:"Застрял ящик"},{en:"Compressor hot",ru:"Компрессор греется"},{en:"Clicking noise",ru:"Щелчки"},{en:"Broken shelf",ru:"Треснута полка"},{en:"Alarm beeping",ru:"Сигнал тревоги"},{en:"Vegetables freezing",ru:"Овощи замерзают"},{en:"Not dispensing water",ru:"Нет воды из диспенсера"},{en:"No power",ru:"Не включается"},{en:"Bulb burns often",ru:"Часто перегорает лампочка"},{en:"Temperature fluctuates",ru:"Температура скачет"},{en:"Fan runs nonstop",ru:"Вентилятор постоянно работает"},{en:"Cracks in lining",ru:"Трещины в обшивке"},{en:"High energy use",ru:"Высокое энергопотребление"},{en:"Water leaking inside",ru:"Течет внутри"},{en:"Display flashing",ru:"Мигает дисплей"},{en:"Error code",ru:"Ошибка на дисплее"},{en:"Unusual smell",ru:"Странный запах"},{en:"Too cold",ru:"Слишком холодно"},{en:"No cold air",ru:"Нет холода внутри"},{en:"Weak cooling",ru:"Слабое охлаждение"},{en:"Freezer too warm",ru:"Морозилка не морозит"},{en:"Compressor won’t start",ru:"Компрессор не запускается"},{en:"Water leaks when opening",ru:"Течет при открытии"},{en:"Humidity too high",ru:"Повышена влажность"},{en:"Defrost not working",ru:"Не работает оттайка"},{en:"Drawer stuck",ru:"Ящик заклинило"},{en:"Water dispenses slowly",ru:"Медленно льет воду"},{en:"Door alarm stuck",ru:"Сигнал тревоги навсегда"},{en:"No ice",ru:"Нет льда"},{en:"No sound",ru:"Совсем не шумит"},{en:"Light too dim",ru:"Тусклый свет"},{en:"Broken hinge",ru:"Петля сломана"},{en:"Breaks circuit",ru:"Выбивает автомат"},{en:"Panel buttons not working",ru:"Не работают кнопки панели"},{en:"Plastics cracked",ru:"Пластик потрескался"},{en:"Humidity control failure",ru:"Не регулируется влажность"},{en:"Cooling cycles short",ru:"Короткие циклы охлаждения"},{en:"Water filter clogged",ru:"Засорился водяной фильтр"}];
@@ -207,17 +206,69 @@ const problemsDryer=[{en:"No heat",ru:"Нет нагрева"},{en:"Does not sta
 const diagnosisDryer=[{en:"Heater element burnt",ru:"Сгорел нагреватель"},{en:"Thermostat faulty",ru:"Неисправен термостат"},{en:"Control module dead",ru:"Сломана плата управления"},{en:"Door switch defect",ru:"Замок двери неисправен"},{en:"Fan jammed",ru:"Заклинил вентилятор"},{en:"Fuse blown",ru:"Сгорел предохранитель"},{en:"Drum belt snapped",ru:"Оборван ремень барабана"},{en:"Motor brushes worn",ru:"Износились щётки мотора"},{en:"Display controller failed",ru:"Сбой контроллера дисплея"},{en:"Filter sensor misaligned",ru:"Датчик фильтра не корректен"},{en:"Relay stuck",ru:"Реле залипло"},{en:"Temp sensor failed",ru:"Сломан датчик температуры"},{en:"Wire burnt",ru:"Провод сгорел"},{en:"Panel PCB failed",ru:"Сбои в плате панели"},{en:"Pressure switch open",ru:"Разорван прессостат"},{en:"Vent hose blocked",ru:"Перекрыт шланг выхода"},{en:"Bearings worn",ru:"Износ подшипников"},{en:"Door lock open",ru:"Замок двери не замыкается"},{en:"Water sensor faulty",ru:"Ошибка датчика влаги"},{en:"Lid switch nonactive",ru:"Не сработал концевик"}];
 const actionsDryer=[{en:"Heater changed",ru:"Поменян нагреватель"},{en:"Thermostat replaced",ru:"Поставлен новый термостат"},{en:"Control block replaced",ru:"Заменён блок управления"},{en:"Lock adjusted",ru:"Отрегулирован замок"},{en:"Fan freed",ru:"Освобождён вентилятор"},{en:"Fuse switched",ru:"Предохранитель заменён"},{en:"Drum belt replaced",ru:"Меняли ремень барабана"},{en:"Brushes replaced",ru:"Щётки мотора заменены"},{en:"Display reset",ru:"Сделан сброс дисплея"},{en:"Sensor realigned",ru:"Датчик фильтра скорректирован"},{en:"Relay released",ru:"Реле сброшено"},{en:"Temp sensor changed",ru:"Датчик замены температуры"},{en:"Wires insulated",ru:"Проводка заизолирована"},{en:"Panel board reflashed",ru:"Плата панели перепрошита"},{en:"Pressostat set",ru:"Поставлен прессостат"},{en:"Vent cleaned",ru:"Очищен выход"},{en:"Bearings changed",ru:"Сменяли подшипники"},{en:"Lock replaced",ru:"Замок поставлен"},{en:"Water sensor fixed",ru:"Датчик влаги отремонтирован"},{en:"Lid switch pressed",ru:"Концевик заменён"}];
 
+/* Stove/Oven */
+const brandsStove=["Bosch","Siemens","Samsung","LG","Whirlpool","GE","Electrolux","Beko","Hotpoint","Indesit","Ariston","Miele","Candy","Amica","Zanussi","Hansa","Gorenje","Ardo","Daewoo","Blomberg","Smeg","Vestel","Sharp","Fagor","Panasonic","Frigidaire","Maytag","Kenmore","Hisense","Grundig","Turboair","Silverline","Bomann","Brandt","Teka","Krups","Schaub Lorenz","Winia","Viking","Elikor"];
+const problemsStove=[{en:"No heating",ru:"Не греет"},{en:"Display not working",ru:"Дисплей не работает"},{en:"One burner dead",ru:"Одна конфорка не работает"},{en:"Door not closing",ru:"Дверца не закрывается"},{en:"Circuit tripping",ru:"Выбивает автомат"},{en:"Gas smell",ru:"Запах газа"},{en:"Clicks but not igniting",ru:"Щелкает, не зажигает"},{en:"Fan noise",ru:"Шум вентилятора"},{en:"Oven lamp blown",ru:"Лампочка духовки не горит"},{en:"Defective timer",ru:"Неисправен таймер"},{en:"Doesn't start",ru:"Не запускается"},{en:"Overheating",ru:"Перегревается"},{en:"Touch controls dead",ru:"Сенсор не работает"},{en:"Temperature uneven",ru:"Неравномерный нагрев"},{en:"Grill not heating",ru:"Гриль не работает"},{en:"Error code E5",ru:"Ошибка E5"},{en:"Programming failure",ru:"Ошибка при программировании"},{en:"Broken handle",ru:"Сломана ручка"},{en:"Knob stuck",ru:"Заклинило ручку"},{en:"Strong smell",ru:"Резкий запах при работе"},{en:"Glass cracked",ru:"Трещина на стекле"},{en:"Fan not spinning",ru:"Вентилятор молчит"},{en:"Rubber seal off",ru:"Отошел уплотнитель"},{en:"Burners work weak",ru:"Горелки слабо греют"},{en:"Timer resets",ru:"Сбрасывает таймер"},{en:"Heating always on",ru:"Греет постоянно"},{en:"Hard to switch modes",ru:"Плохо переключается"},{en:"Child lock stuck",ru:"Не снимается блокировка"}];
+const diagnosisStove=[{en:"Thermostat fault",ru:"Неисправен термостат"},{en:"Heater broken",ru:"Нагреватель неисправен"},{en:"Control module dead",ru:"Плата управления сломана"},{en:"Switch stuck",ru:"Кнопка/ручка залипла"},{en:"Sensor failed",ru:"Датчик не работает"},{en:"Fan burnt",ru:"Вентилятор сгорел"},{en:"Wiring shorted",ru:"Проводка в коротком замыкании"},{en:"PCB relay failure",ru:"Сломано реле платы"},{en:"Valve jammed",ru:"Клапан залип"},{en:"Circuits overheated",ru:"Перегрелись дорожки"},{en:"Display no power",ru:"Нет питания дисплея"},{en:"Seal broken",ru:"Уплотнитель порван"},{en:"Timer burnt",ru:"Таймер выгорел"},{en:"Oven light blown",ru:"Лампочка сгорела"},{en:"Fuse blown",ru:"Сгорел предохранитель"},{en:"Relay stuck",ru:"Реле зависло"},{en:"Child lock jammed",ru:"Заклинило блокировку"},{en:"Glass cracked",ru:"Трещина стекла"},{en:"Handle not fixed",ru:"Ручка не закреплена"}];
+const actionsStove=[{en:"Thermostat changed",ru:"Заменён термостат"},{en:"Heater swapped",ru:"Поменян нагреватель"},{en:"Module reflashed",ru:"Прошита плата"},{en:"Switch replaced",ru:"Поменяли кноп/ручку"},{en:"Sensor replaced",ru:"Датчик заменён"},{en:"Fan replaced",ru:"Вентилятор заменён"},{en:"Wiring repaired",ru:"Проводка восстановлена"},{en:"PCB relay replaced",ru:"Сменено реле платы"},{en:"Valve cleaned",ru:"Почистили клапан"},{en:"Timer fixed",ru:"Таймер восстановлен"},{en:"Seal installed",ru:"Поставлен уплотн."},{en:"Fuse replaced",ru:"Поставили новый предохр."},{en:"Display reset",ru:"Перезапущен дисплей"},{en:"Heating module updated",ru:"Обновлен блок нагрева"},{en:"Glass changed",ru:"Поменяли стекло"},{en:"Handle fixed",ru:"Ручка закреплена"},{en:"Child lock reset",ru:"Сброшен блокиратор"}];
+
 /* Microwave */
 const brandsMicrowave=["Samsung","LG","Panasonic","Sharp","Bosch","Whirlpool","Electrolux","Daewoo","Midea","BBK","Candy","Hotpoint","Toshiba","Gorenje","Redmond","Rolsen","SUPRA","Mystery","Moulinex","Kenwood","Siemens","Hansa","Vitek","Kuppersberg","Smeg","Ariston","Miele","Beko","Grundig","Russell Hobbs","Brandt","Krups","Schaub Lorenz","Elikor","Silverline","Winia","Bomann","Ardo","Baumatic","Vesel","Hisense","Crosley","Fagor"];
 const problemsMicrowave=[{en:"Not heating",ru:"Не греет"},{en:"No power",ru:"Не включается"},{en:"Sparking inside",ru:"Искрит в камере"},{en:"Turntable not spinning",ru:"Поддон не вращается"},{en:"Error code",ru:"Код ошибки"},{en:"Display not working",ru:"Дисплей не горит"},{en:"Strange noise",ru:"Посторонний звук"},{en:"Buttons not working",ru:"Кнопки не работают"},{en:"Door won't open",ru:"Дверца не открывается"},{en:"Light not working",ru:"Нет подсветки"},{en:"Plate stuck",ru:"Застрял поддон"},{en:"Starts by itself",ru:"Самопроизвольно включается"},{en:"Fuse blows",ru:"Выбивает предохранитель"},{en:"Lid cracked",ru:"Трещина крышки"},{en:"Smoke inside",ru:"Дым в камере"},{en:"Timer not running",ru:"Не идёт таймер"},{en:"Heating uneven",ru:"Неравномерный нагрев"},{en:"Fan noisy",ru:"Шум от вентилятора"},{en:"Panel dead",ru:"Панель управления мертва"},{en:"No signal beep",ru:"Нет сигнала окончания"},{en:"Not opening after cycle",ru:"Не открывается после цикла"},{en:"Steam inside",ru:"Пар внутри"},{en:"Paint peels",ru:"Отшелушивается краска"},{en:"Rubber seal loose",ru:"Манжета отходит"},{en:"Heavy vibration",ru:"Сильно вибрирует"}];
 const diagnosisMicrowave=[{en:"Fuse blown",ru:"Пробит предохранитель"},{en:"Magnetron defective",ru:"Неисправен магнетрон"},{en:"High-voltage cap faulty",ru:"Неисправен ВЧ-конденсатор"},{en:"Door latch broken",ru:"Поломан язычок двери"},{en:"Panel cracked",ru:"Трещина панели"},{en:"PCB not powered",ru:"Нет питания на плате"},{en:"Switch burnt",ru:"Выгорел контакт"},{en:"Wiring melted",ru:"Проводка оплавилась"},{en:"Waveguide cover burnt",ru:"Обгорела крышка волновода"},{en:"Turntable motor stuck",ru:"Заклинило мотор поддона"},{en:"Light bulb burnt",ru:"Сгорела лампочка"},{en:"Transformer dead",ru:"Вышел из строя трансформатор"},{en:"Fan broken",ru:"Вентилятор не работает"},{en:"Temp sensor open",ru:"Обрыв термодатчика"},{en:"Power relay stuck",ru:"Залип реле"},{en:"Paint chipped",ru:"Отходит эмаль"},{en:"Door sensor failed",ru:"Датчик двери неисправен"}];
 const actionsMicrowave=[{en:"Fuse replaced",ru:"Сменён предохранитель"},{en:"Magnetron swapped",ru:"Заменён магнетрон"},{en:"HV cap replaced",ru:"Сменён ВЧ-конденсатор"},{en:"Door latch fixed",ru:"Исправлен язычок"},{en:"Panel restored",ru:"Починена панель"},{en:"Switch changed",ru:"Заменен контакт"},{en:"Wiring insulated",ru:"Изолирована проводка"},{en:"Waveguide cover replaced",ru:"Сменена крышка волновода"},{en:"Turntable motor repaired",ru:"Починен мотор поддона"},{en:"Light bulb changed",ru:"Смена лампочки"},{en:"Transformer changed",ru:"Поменяли трансформатор"},{en:"Fan replaced",ru:"Заменён вентилятор"},{en:"Temp sensor replaced",ru:"Заменен термодатчик"},{en:"Power relay replaced",ru:"Заменено реле"},{en:"Paint restored",ru:"Восстановлена эмаль"},{en:"Door sensor fixed",ru:"Исправлен датчик двери"}];
 
-/* Maps */
-const brandsMap={refrigerator:brandsFridge,dishwasher:brandsDishwasher,washing_machine:brandsWasher,dryer:brandsDryer,stove_oven:brandsStove,microwave:brandsMicrowave};
-const problemsMap={refrigerator:problemsFridge,dishwasher:problemsDishwasher,washing_machine:problemsWasher,dryer:problemsDryer,stove_oven:problemsStove,microwave:problemsMicrowave};
-const diagnosisMap={refrigerator:diagnosisFridge,dishwasher:diagnosisDishwasher,washing_machine:diagnosisWasher,dryer:diagnosisDryer,stove_oven:diagnosisStove,microwave:diagnosisMicrowave};
-const actionsMap={refrigerator:actionsFridge,dishwasher:actionsDishwasher,washing_machine:actionsWasher,dryer:actionsDryer,stove_oven:actionsStove,microwave:actionsMicrowave};
+/* Maps for built-ins */
+const builtinBrands = {refrigerator:brandsFridge,dishwasher:brandsDishwasher,washing_machine:brandsWasher,dryer:brandsDryer,stove_oven:brandsStove,microwave:brandsMicrowave};
+const builtinProblems = {refrigerator:problemsFridge,dishwasher:problemsDishwasher,washing_machine:problemsWasher,dryer:problemsDryer,stove_oven:problemsStove,microwave:problemsMicrowave};
+const builtinDiagnosis = {refrigerator:diagnosisFridge,dishwasher:diagnosisDishwasher,washing_machine:diagnosisWasher,dryer:diagnosisDryer,stove_oven:diagnosisStove,microwave:diagnosisMicrowave};
+const builtinActions = {refrigerator:actionsFridge,dishwasher:actionsDishwasher,washing_machine:actionsWasher,dryer:actionsDryer,stove_oven:actionsStove,microwave:actionsMicrowave};
+
+/* ===== Universal defaults for NEW custom categories ===== */
+const universalProblems = [
+  {en:"Not working",ru:"Не работает"},
+  {en:"No power",ru:"Нет питания"},
+  {en:"Unusual noise",ru:"Посторонний шум"},
+  {en:"Error on display",ru:"Ошибка на дисплее"},
+  {en:"Leaking",ru:"Есть течь"},
+  {en:"Overheating",ru:"Перегрев"},
+  {en:"Not heating/cooling",ru:"Не греет/не охлаждает"},
+  {en:"Stops mid-cycle",ru:"Останавливается в процессе"},
+  {en:"Door/cover issue",ru:"Проблема с дверцей/крышкой"},
+  {en:"Smells bad",ru:"Неприятный запах"}
+];
+const universalDiagnosis = [
+  {en:"Fuse blown",ru:"Предохранитель сгорел"},
+  {en:"Control board fault",ru:"Неисправна плата управления"},
+  {en:"Wiring damaged",ru:"Повреждена проводка"},
+  {en:"Sensor failed",ru:"Сломан датчик"},
+  {en:"Relay stuck",ru:"Залипло реле"},
+  {en:"Motor issue",ru:"Проблема с мотором"},
+  {en:"Valve blocked",ru:"Клапан забит"},
+  {en:"Pump jammed",ru:"Насос заклинило"},
+  {en:"Thermostat faulty",ru:"Неисправен термостат"},
+  {en:"Power supply issue",ru:"Нестабильное питание"}
+];
+const universalActions = [
+  {en:"Reset device",ru:"Сброс устройства"},
+  {en:"Repaired wiring",ru:"Восстановлена проводка"},
+  {en:"Replaced fuse",ru:"Заменён предохранитель"},
+  {en:"Reflashed control board",ru:"Перепрошита плата"},
+  {en:"Sensor replaced",ru:"Заменён датчик"},
+  {en:"Cleaned filters",ru:"Очищены фильтры"},
+  {en:"Valve cleaned",ru:"Почищен клапан"},
+  {en:"Pump repaired",ru:"Отремонтирован насос"},
+  {en:"Adjusted door/cover",ru:"Отрегулирована дверца/крышка"},
+  {en:"User instructed",ru:"Проведён инструктаж клиента"}
+];
+
+/* ===== Status list (built-in + custom) ===== */
+const builtinStatuses = [
+  {en:"✅ Fixed 100%", ru:"Полностью исправлено"},
+  {en:"⏳ Waiting for Part", ru:"Ожидание запчасти"},
+  {en:"🔧 Temporary Fix", ru:"Временное решение"},
+  {en:"❌ Not Repairable", ru:"Не подлежит ремонту"}
+];
 
 /* ================== STATE ================== */
 let currentMode='technician';
@@ -231,197 +282,236 @@ const els={
   status:$('status'), notes:$('notes'), price:$('price'),
   genBtn:$('genBtn'), clearBtn:$('clearBtn'),
   addCategoryBtn:$('addCategoryBtn'), delCustomCategory:$('delCustomCategory'),
+  addBrandBtn:$('addBrandBtn'), delCustomBrand:$('delCustomBrand'),
+  addProblemBtn:$('addProblemBtn'), delCustomProblem:$('delCustomProblem'),
+  addDiagnosisBtn:$('addDiagnosisBtn'), delCustomDiagnosis:$('delCustomDiagnosis'),
+  addActionBtn:$('addActionBtn'), delCustomAction:$('delCustomAction'),
   addStatusBtn:$('addStatusBtn'), delCustomStatus:$('delCustomStatus'),
-  delCustomBrand:$('delCustomBrand'), delCustomProblem:$('delCustomProblem'),
-  delCustomDiagnosis:$('delCustomDiagnosis'), delCustomAction:$('delCustomAction'),
-  addBrandBtn:$('addBrandBtn'), addProblemBtn:$('addProblemBtn'),
-  addDiagnosisBtn:$('addDiagnosisBtn'), addActionBtn:$('addActionBtn'),
   reportsBlock:$('allReportsBlock')
 };
 
-let customOptions = JSON.parse(localStorage.getItem('customOptionsV4')||'{}');
-if(!customOptions.brand||!customOptions.problem||!customOptions.diagnosis||!customOptions.action||!customOptions.category||!customOptions.status){
-  customOptions={brand:{},problem:{},diagnosis:{},action:{},category:[],status:[]};
+/* ===== Storage schema (V4) =====
+customOptionsV4 = {
+  category: [{key,en,ru}, ...],
+  brand: { [key]: [ "Brand", ... ] },
+  problem: { [key]: [ {en,ru}, ... ] },
+  diagnosis: { [key]: [ {en,ru}, ... ] },
+  action: { [key]: [ {en,ru}, ... ] },
+  status: [ {en,ru}, ... ]
 }
-let allReports = JSON.parse(localStorage.getItem('repairReportsV3')||'[]');
+*/
+let custom = JSON.parse(localStorage.getItem('customOptionsV4')||'{}');
+if(!custom.category) custom.category=[];
+if(!custom.brand) custom.brand={};
+if(!custom.problem) custom.problem={};
+if(!custom.diagnosis) custom.diagnosis={};
+if(!custom.action) custom.action={};
+if(!custom.status) custom.status=[];
 
-/* ================== HELPERS ================== */
-function merged(cat,key,base){
-  if(key==='category') return (base||[]).concat(customOptions.category||[]);
-  if(key==='status')   return (base||[]).concat(customOptions.status||[]);
-  const customs=((customOptions[key]||{})[cat]||[]);
-  return (base||[]).concat(customs);
+/* ---- Migration from V3 (if exists) ---- */
+(function migrateV3(){
+  const v3 = localStorage.getItem('customOptionsV3');
+  if(!v3) return;
+  try{
+    const old = JSON.parse(v3);
+    // move brand/problem/diagnosis/action per existing categories
+    ['brand','problem','diagnosis','action'].forEach(k=>{
+      const obj = old[k]||{};
+      Object.keys(obj).forEach(cat=>{
+        custom[k][cat] = (custom[k][cat]||[]).concat(obj[cat]);
+      });
+    });
+    localStorage.removeItem('customOptionsV3');
+    localStorage.setItem('customOptionsV4',JSON.stringify(custom));
+  }catch(e){}
+})();
+
+let allReports = JSON.parse(localStorage.getItem('repairReportsV3')||'[]'); // совместимость
+
+/* ===== Helpers ===== */
+function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,40)||('cat_'+Date.now()); }
+function categoryList(){ return [...builtinCategories, ...custom.category]; }
+
+function mapsFor(catKey){
+  // built-in fallback
+  const brands = (builtinBrands[catKey]||[]).concat( (custom.brand[catKey]||[]) );
+  const problems = (builtinProblems[catKey]||[]).concat( (custom.problem[catKey]||[]) );
+  const diagnosis = (builtinDiagnosis[catKey]||[]).concat( (custom.diagnosis[catKey]||[]) );
+  const actions = (builtinActions[catKey]||[]).concat( (custom.action[catKey]||[]) );
+  return {brands,problems,diagnosis,actions};
 }
-function optionLabel(item,key){
-  if(typeof item==='string') return item;
-  const en=item.en;
-  const ru=item.ru||item.en;
-  return currentMode==='technician' ? `${en} / ${ru}` : en;
+
+function ensureCustomCategory(catKey, en, ru){
+  // add to list if not exists
+  if(!custom.category.find(c=>c.key===catKey)){
+    custom.category.push({key:catKey,en,ru});
+  }
+  // seed defaults if empty
+  if(!custom.problem[catKey]||custom.problem[catKey].length===0) custom.problem[catKey]=JSON.parse(JSON.stringify(universalProblems));
+  if(!custom.diagnosis[catKey]||custom.diagnosis[catKey].length===0) custom.diagnosis[catKey]=JSON.parse(JSON.stringify(universalDiagnosis));
+  if(!custom.action[catKey]||custom.action[catKey].length===0) custom.action[catKey]=JSON.parse(JSON.stringify(universalActions));
+  if(!custom.brand[catKey]) custom.brand[catKey]=[];
+  persistCustom();
 }
-function optionValue(item,key){
-  if(item.value) return item.value;                // base category values
-  if(key==='category') return 'custom:'+item.en;   // custom category
-  return (typeof item==='string')?item:item.en;    // others
-}
-function fillSelect(select, baseArr, cat, key){
-  const prev=select.value;
-  select.innerHTML=`<option value="">Select ${key.charAt(0).toUpperCase()+key.slice(1)}</option>`;
-  merged(cat,key,baseArr).forEach(o=>{
-    const val=optionValue(o,key);
-    const lbl=optionLabel(o,key);
-    const opt=document.createElement('option');
-    opt.value=val; opt.textContent=lbl;
-    select.appendChild(opt);
+
+function persistCustom(){ localStorage.setItem('customOptionsV4',JSON.stringify(custom)); }
+
+/* fill select helpers */
+function fillCategory(){
+  const current=els.category.value;
+  els.category.innerHTML='<option value="">Select Appliance Type</option>';
+  categoryList().forEach(c=>{
+    const label = `${c.en} / ${c.ru}`;
+    els.category.innerHTML += `<option value="${c.key}">${label}</option>`;
   });
-  if(prev && [...select.options].some(op=>op.value===prev)) select.value=prev;
+  if(current && categoryList().some(c=>c.key===current)) els.category.value=current;
 }
 
-/* ----- Categories & Statuses render ----- */
-function refreshCategories(){
-  fillSelect(els.category, BASE_CATEGORIES, null, 'category');
-}
-function refreshStatuses(){
-  fillSelect(els.status, BASE_STATUS, null, 'status');
+function fillSelectENorObj(select, arr, placeholder){
+  select.innerHTML = `<option value="">${placeholder}</option>`;
+  arr.forEach(o=>{
+    if(typeof o==='string'){
+      select.innerHTML += `<option value="${o}">${o}</option>`;
+    }else{
+      select.innerHTML += `<option value="${o.en}">${o.en} / ${o.ru}</option>`;
+    }
+  });
 }
 
-/* ----- Lists depending on category ----- */
+function fillStatus(){
+  const list = [...builtinStatuses, ...(custom.status||[])];
+  fillSelectENorObj(els.status, list, 'Select Status');
+}
+
+/* main update */
 function updateLists(){
+  fillCategory();
   const cat=els.category.value;
-  if(!cat || !(cat in brandsMap)){
-    ['brand','problem','diagnosis','action'].forEach(k=>els[k].innerHTML=`<option value="">Select ${k.charAt(0).toUpperCase()+k.slice(1)}</option>`);
-    checkCustomDelBtns();
+  if(!cat){
+    ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
+    fillStatus();
+    checkDelButtons();
     return;
   }
-  fillSelect(els.brand,brandsMap[cat],cat,'brand');
-  fillSelect(els.problem,problemsMap[cat],cat,'problem');
-  fillSelect(els.diagnosis,diagnosisMap[cat],cat,'diagnosis');
-  fillSelect(els.action,actionsMap[cat],cat,'action');
-  checkCustomDelBtns();
+  const {brands,problems,diagnosis,actions} = mapsFor(cat);
+  fillSelectENorObj(els.brand, brands, 'Select Brand');
+  fillSelectENorObj(els.problem, problems, 'Select Problem');
+  fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
+  fillSelectENorObj(els.action, actions, 'Select Action');
+  fillStatus();
+  checkDelButtons();
 }
 
-/* ----- RU lookup ----- */
-function findRu(key,catOrVal,val){
-  if(!val) return '';
-  if(key==='status'){
-    const arr=merged(null,'status',BASE_STATUS);
-    const f=arr.find(o=>o.en===val);
-    return f? (f.ru||val): val;
-  }
-  if(key==='category'){
-    const all=merged(null,'category',BASE_CATEGORIES);
-    const f=all.find(o=> (o.value?o.value:`custom:${o.en}`)===catOrVal);
-    return f? (f.ru||f.en): catOrVal;
-  }
-  const baseMap={problem:problemsMap,diagnosis:diagnosisMap,action:actionsMap,brand:brandsMap}[key]||{};
-  const cat=catOrVal;
-  const arr1=(baseMap[cat]||[]);
-  const arr2=((customOptions[key]||{})[cat]||[]);
-  const all=arr1.concat(arr2);
-  const f=all.find(o=>typeof o!=='string' && o.en===val);
-  return f ? (f.ru||val) : val;
+/* delete buttons visibility */
+function checkDelButtons(){
+  const cat=els.category.value;
+
+  // category
+  const isCustomCat = custom.category.some(c=>c.key===cat);
+  els.delCustomCategory.style.display = (cat && isCustomCat)?'inline-block':'none';
+
+  // brand/problem/diagnosis/action
+  const check = (key, selectEl, btnEl)=>{
+    if(!cat){ btnEl.style.display='none'; return; }
+    const customs=(custom[key][cat]||[]);
+    const val = selectEl.value;
+    const idx = customs.findIndex(o=> (typeof o==='string'?o:(o.en||''))===val );
+    btnEl.style.display = (idx!==-1)?'inline-block':'none';
+    btnEl.onclick = ()=>delCustomOption(key,cat,val);
+  };
+  check('brand',els.brand,els.delCustomBrand);
+  check('problem',els.problem,els.delCustomProblem);
+  check('diagnosis',els.diagnosis,els.delCustomDiagnosis);
+  check('action',els.action,els.delCustomAction);
+
+  // status
+  const stVal = els.status.value;
+  const stIdx = (custom.status||[]).findIndex(o=>o.en===stVal);
+  els.delCustomStatus.style.display = stIdx!==-1?'inline-block':'none';
+  els.delCustomStatus.onclick = ()=>delCustomStatus(stVal);
 }
 
-/* ----- Add/Delete customs ----- */
-function promptAddCustom(type){
-  if(type!=='category' && !els.category.value && ['brand','problem','diagnosis','action'].includes(type)){
-    alert('Choose Appliance Type first'); return;
-  }
-  const en=(prompt(`Enter new ${type} (EN):`)||'').trim(); if(!en) return;
-  const ru=(prompt(`Введите перевод ${type} (RU):`,en)||en).trim();
-
-  if(type==='category'){
-    customOptions.category.push({en,ru});             // value = custom:EN
-    localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
-    refreshCategories();
-    els.category.value='custom:'+en;
-    updateLists();
-    checkCustomDelBtns();
-    return;
-  }
-  if(type==='status'){
-    customOptions.status.push({en,ru});
-    localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
-    refreshStatuses();
-    els.status.value=en;
-    checkCustomDelBtns();
-    return;
-  }
-  // the rest are per-category
-  const cat=els.category.value;
-  customOptions[type][cat]=customOptions[type][cat]||[];
-  const obj=(type==='brand')? en : {en,ru};
-  customOptions[type][cat].push(obj);
-  localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
+/* adders / deleters */
+function promptAddCategory(){
+  const en=prompt("Enter new Appliance Type (EN):"); if(!en||!en.trim()) return;
+  const ru=prompt("Введите перевод Appliance Type (RU):",en)||en;
+  const key = slugify(en);
+  ensureCustomCategory(key,en.trim(),(ru||en).trim());
+  persistCustom();
   updateLists();
-  els[type].value=(type==='brand')? en : en;
-  checkCustomDelBtns();
+  els.category.value = key;
+  updateLists();
+}
+
+function promptAddCustom(type){
+  const cat=els.category.value;
+  if(type!=='status' && !cat){ alert('Choose Appliance Type first'); return; }
+
+  const en=prompt(`Enter new ${type} (EN):`); if(!en||!en.trim()) return;
+  const ru = (type==='brand')? null : (prompt(`Введите перевод ${type} (RU):`,en)||en);
+
+  if(type==='status'){
+    custom.status = custom.status||[];
+    custom.status.push({en:en.trim(), ru:(ru||en).trim()});
+  }else if(type==='brand'){
+    custom.brand[cat]=custom.brand[cat]||[];
+    custom.brand[cat].push(en.trim());
+  }else{
+    custom[type][cat]=custom[type][cat]||[];
+    custom[type][cat].push({en:en.trim(), ru:(ru||en).trim()});
+  }
+  persistCustom();
+  updateLists();
+  if(type==='status') els.status.value=en.trim(); else document.getElementById(type).value=en.trim();
+  checkDelButtons();
 }
 
 function delCustomOption(key,cat,val){
-  if(!confirm(`Remove custom '${val}'?`)) return;
-  if(key==='category'){
-    customOptions.category = (customOptions.category||[]).filter(o=>`custom:${o.en}`!==cat);
-    localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
-    refreshCategories(); updateLists();
-    els.category.value='';
-    checkCustomDelBtns();
-    return;
-  }
-  if(key==='status'){
-    customOptions.status=(customOptions.status||[]).filter(o=>o.en!==val);
-    localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
-    refreshStatuses();
-    els.status.value='';
-    checkCustomDelBtns();
-    return;
-  }
-  customOptions[key][cat]=(customOptions[key][cat]||[]).filter(o=>(o.en||o)!==val);
-  localStorage.setItem('customOptionsV4',JSON.stringify(customOptions));
+  if(!confirm("Remove custom '"+val+"'?")) return;
+  custom[key][cat]=(custom[key][cat]||[]).filter(o=> (typeof o==='string'?o:(o.en||''))!==val );
+  persistCustom(); updateLists();
+}
+function delCustomCategory(){
+  const cat=els.category.value;
+  const obj = custom.category.find(c=>c.key===cat);
+  if(!obj) return;
+  if(!confirm(`Delete custom type '${obj.en}'? All its custom lists will be removed.`)) return;
+  // remove from custom
+  custom.category = custom.category.filter(c=>c.key!==cat);
+  delete custom.brand[cat];
+  delete custom.problem[cat];
+  delete custom.diagnosis[cat];
+  delete custom.action[cat];
+  persistCustom();
+  els.category.value='';
   updateLists();
 }
+function delCustomStatus(valEN){
+  if(!confirm(`Remove custom status '${valEN}'?`)) return;
+  custom.status = (custom.status||[]).filter(s=>s.en!==valEN);
+  persistCustom(); updateLists();
+}
 
-/* ----- Misc helpers ----- */
+/* translations & finding RU */
+function findRuInList(arr,val){
+  if(!val) return '';
+  if(!arr||!arr.length) return '';
+  if(typeof arr[0]==='string') return val; // brands
+  const f = arr.find(o=>o.en===val);
+  return f ? (f.ru||val) : val;
+}
+function findStatusRu(val){
+  const list=[...builtinStatuses, ...(custom.status||[])];
+  const f=list.find(s=>s.en===val);
+  return f ? (f.ru||val) : val;
+}
+
+/* Report builders */
 function prettyYear(val){
   if(!val) return '';
   const m=val.replace(/[^\d]/g,'').slice(0,6);
   if(m.length===6) return m.slice(0,2)+'.'+m.slice(2,6);
   return val;
-}
-
-/* ================== REPORT ================== */
-function makeReportObj(){
-  const catVal=els.category.value;
-  return {
-    date:new Date().toLocaleString(),
-    mode:currentMode,
-    category_value:catVal,
-    category_en: findRu('category',catVal,catVal)===catVal
-                  ? ( (BASE_CATEGORIES.find(c=>c.value===catVal)?.en) || (customOptions.category.find(c=>'custom:'+c.en===catVal)?.en) || catVal )
-                  : ( (BASE_CATEGORIES.find(c=>c.value===catVal)?.en) || (customOptions.category.find(c=>'custom:'+c.en===catVal)?.en) ),
-    category_ru: findRu('category',catVal,catVal),
-
-    brand:els.brand.value,
-    brand_ru: findRu('brand',catVal,els.brand.value),
-
-    model:els.model.value.trim(),
-    serial:els.serial.value.trim(),
-    year:prettyYear(els.year.value.trim()),
-
-    problem:els.problem.value,
-    problem_ru:findRu('problem',catVal,els.problem.value),
-
-    diagnosis:els.diagnosis.value,
-    diagnosis_ru:findRu('diagnosis',catVal,els.diagnosis.value),
-
-    action:els.action.value,
-    action_ru:findRu('action',catVal,els.action.value),
-
-    status:els.status.value,
-    status_ru:findRu('status',null,els.status.value),
-
-    notes:els.notes.value.trim(),
-    price:els.price.value.trim()
-  };
 }
 function lineENRU(label,en,ru){
   if(!en && !ru) return '';
@@ -431,35 +521,63 @@ function lineENRU(label,en,ru){
 function reportToPlainText(r){
   const lines=[
     `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\\d+$/,'')})`,
-    (r.category_en||r.category_ru)?`Appliance: ${r.category_en||r.category_ru}${(currentMode==='technician'&&r.category_ru&&r.category_ru!==r.category_en)?' / '+r.category_ru:''}`:null,
-    r.brand?`Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`:null,
-    r.model?`Model: ${r.model}`:null,
-    r.serial?`Serial: ${r.serial}`:null,
-    r.year?`Year: ${r.year}`:null,
-    r.problem?`Problem: ${r.problem}${(currentMode==='technician'&&r.problem_ru&&r.problem_ru!==r.problem)?' / '+r.problem_ru:''}`:null,
-    r.diagnosis?`Diagnosis: ${r.diagnosis}${(currentMode==='technician'&&r.diagnosis_ru&&r.diagnosis_ru!==r.diagnosis)?' / '+r.diagnosis_ru:''}`:null,
-    r.action?`Action: ${r.action}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`:null,
-    r.status?`Status: ${r.status}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`:null,
+    `Appliance: ${r.categoryLabel}`,
+    `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
+    `Model: ${r.model||'-'}`,
+    `Serial: ${r.serial||'-'}`,
+    `Year: ${r.year||'-'}`,
+    `Problem: ${r.problem||'-'}${(currentMode==='technician'&&r.problem_ru&&r.problem_ru!==r.problem)?' / '+r.problem_ru:''}`,
+    `Diagnosis: ${r.diagnosis||'-'}${(currentMode==='technician'&&r.diagnosis_ru&&r.diagnosis_ru!==r.diagnosis)?' / '+r.diagnosis_ru:''}`,
+    `Action: ${r.action||'-'}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
+    `Status: ${r.status||'-'}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`,
     `Notes: ${r.notes||'-'}`,
     `Price: $${r.price||'0'}`
-  ].filter(Boolean);
+  ];
   return lines.join('\n');
+}
+function makeReportObj(){
+  const catKey=els.category.value;
+  const catObj = categoryList().find(c=>c.key===catKey);
+  const catLabel = catObj ? `${catObj.en} / ${catObj.ru}` : '';
+
+  const m = mapsFor(catKey||'');
+  return {
+    date:new Date().toLocaleString(),
+    mode:currentMode,
+    category:catKey,
+    categoryLabel:catLabel,
+    brand:els.brand.value||'',
+    brand_ru: findRuInList(m.brands, els.brand.value),
+    model:(els.model.value||'').trim(),
+    serial:(els.serial.value||'').trim(),
+    year:prettyYear((els.year.value||'').trim()),
+    problem:els.problem.value||'',
+    problem_ru:findRuInList(m.problems, els.problem.value),
+    diagnosis:els.diagnosis.value||'',
+    diagnosis_ru:findRuInList(m.diagnosis, els.diagnosis.value),
+    action:els.action.value||'',
+    action_ru:findRuInList(m.actions, els.action.value),
+    status:els.status.value||'',
+    status_ru:findStatusRu(els.status.value),
+    notes:(els.notes.value||'').trim(),
+    price:(els.price.value||'').trim()
+  };
 }
 function makeReportBlock(r, idx){
   const title=(r.mode==='technician'?'Technician Report':'Client Report');
   let html=`<div class="report-output" data-idx="${idx}">
     <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\\d+$/,'')})</span></div>
     <div class="report-content">`;
-  html+=lineENRU('Appliance',r.category_en,r.category_ru);
-  html+=lineENRU('Brand',r.brand,r.brand_ru);
-  html+=lineENRU('Model',r.model,'');
-  html+=lineENRU('Serial',r.serial,'');
-  html+=lineENRU('Year',r.year,'');
-  html+=lineENRU('Problem',r.problem,r.problem_ru);
-  html+=lineENRU('Diagnosis',r.diagnosis,r.diagnosis_ru);
-  html+=lineENRU('Action',r.action,r.action_ru);
-  html+=lineENRU('Status',r.status,r.status_ru);
-  html+=lineENRU('Notes',r.notes||'-','');
+  html+=lineENRU('Appliance', r.categoryLabel, '');
+  html+=lineENRU('Brand', r.brand, r.brand_ru);
+  html+=lineENRU('Model', r.model,'');
+  html+=lineENRU('Serial', r.serial,'');
+  html+=lineENRU('Year', r.year,'');
+  html+=lineENRU('Problem', r.problem, r.problem_ru);
+  html+=lineENRU('Diagnosis', r.diagnosis, r.diagnosis_ru);
+  html+=lineENRU('Action', r.action, r.action_ru);
+  html+=lineENRU('Status', r.status, r.status_ru);
+  html+=lineENRU('Notes', r.notes,'');
   html+=lineENRU('Price', (r.price?('$'+r.price):'$0'),'');
   html+=`</div>
     <div class="report-actions">
@@ -484,7 +602,7 @@ function renderReports(){
   els.reportsBlock.innerHTML=html;
 }
 
-/* ================== ACTIONS ================== */
+/* Actions */
 function copyToClipboard(text){
   const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t);
   t.select(); document.execCommand('copy'); document.body.removeChild(t);
@@ -492,15 +610,8 @@ function copyToClipboard(text){
 }
 function copyReport(idx){ copyToClipboard(reportToPlainText(allReports[idx])); }
 function copyLastReport(){ if(allReports.length) copyReport(allReports.length-1); else alert('No reports'); }
-function copyAllReports(){
-  if(!allReports.length) return alert('No reports');
-  copyToClipboard(allReports.map(reportToPlainText).join('\n\n-------------------\n\n'));
-}
-function shareWhatsApp(idx){
-  const text=encodeURIComponent(reportToPlainText(allReports[idx]));
-  const url=`https://wa.me/?text=${text}`;
-  window.open(url,'_blank');
-}
+function copyAllReports(){ if(!allReports.length) return alert('No reports'); copyToClipboard(allReports.map(reportToPlainText).join('\n\n-------------------\n\n')); }
+function shareWhatsApp(idx){ const text=encodeURIComponent(reportToPlainText(allReports[idx])); window.open(`https://wa.me/?text=${text}`,'_blank'); }
 function printReport(idx){
   const text=reportToPlainText(allReports[idx]).replace(/\n/g,'<br>');
   const w=window.open('','_blank','width=720,height=900');
@@ -520,22 +631,15 @@ function clearReports(){
   renderReports();
 }
 
-/* ================== AUTOSAVE FORM ================== */
-const FORM_KEY='repairFormStateV3';
+/* Autosave form */
+const FORM_KEY='repairFormStateV4';
 function saveForm(){
   const data={
     mode:currentMode,
-    category:els.category.value,
-    brand:els.brand.value,
-    model:els.model.value,
-    serial:els.serial.value,
-    year:els.year.value,
-    problem:els.problem.value,
-    diagnosis:els.diagnosis.value,
-    action:els.action.value,
-    status:els.status.value,
-    notes:els.notes.value,
-    price:els.price.value
+    category:els.category.value, brand:els.brand.value, model:els.model.value,
+    serial:els.serial.value, year:els.year.value,
+    problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
+    status:els.status.value, notes:els.notes.value, price:els.price.value
   };
   localStorage.setItem(FORM_KEY,JSON.stringify(data));
 }
@@ -549,96 +653,70 @@ function loadForm(){
   ['brand','model','serial','year','problem','diagnosis','action','status','notes','price'].forEach(k=>{
     if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
   });
-  checkCustomDelBtns();
+  checkDelButtons();
 }
 
-/* ================== EVENTS ================== */
+/* Mode + translations */
 function updateModeButtons(){
   document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
   (currentMode==='technician'?els.modeTech:els.modeClient).classList.add('active');
   Array.from(document.querySelectorAll('.translation')).forEach(el=>{
     el.classList.toggle('hidden', currentMode==='client');
   });
-  // re-render labels in EN/RU
-  refreshCategories();
-  updateLists();
-  refreshStatuses();
-  renderReports();
 }
-els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveForm(); };
-els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); };
 
-els.category.addEventListener('change',()=>{ updateLists(); saveForm(); checkCustomDelBtns(); });
+/* Events */
+els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveForm(); renderReports(); };
+els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
+
+els.category.addEventListener('change',()=>{ updateLists(); saveForm(); });
 ['brand','model','serial','year','problem','diagnosis','action','status','notes','price'].forEach(id=>{
-  els[id].addEventListener('input',saveForm);
-  els[id].addEventListener('change',()=>{ saveForm(); checkCustomDelBtns(); });
+  const el=els[id];
+  el.addEventListener('input',saveForm);
+  el.addEventListener('change',()=>{ saveForm(); checkDelButtons(); });
 });
 
-/* add buttons */
-els.addCategoryBtn.onclick=()=>promptAddCustom('category');
-els.addStatusBtn.onclick=()=>promptAddCustom('status');
+/* Add buttons */
+els.addCategoryBtn.onclick=promptAddCategory;
 els.addBrandBtn.onclick=()=>promptAddCustom('brand');
 els.addProblemBtn.onclick=()=>promptAddCustom('problem');
 els.addDiagnosisBtn.onclick=()=>promptAddCustom('diagnosis');
 els.addActionBtn.onclick=()=>promptAddCustom('action');
+els.addStatusBtn.onclick=()=>promptAddCustom('status');
 
-/* show delete buttons when selected is custom */
-function checkCustomDelBtns(){
-  const catVal=els.category.value;
+/* Delete buttons */
+els.delCustomCategory.onclick=delCustomCategory;
 
-  // Category
-  const isCatCustom = (customOptions.category||[]).some(o=>'custom:'+o.en===catVal);
-  els.delCustomCategory.style.display=isCatCustom?'inline-block':'none';
-  els.delCustomCategory.onclick=()=>delCustomOption('category',catVal,catVal);
-
-  // Status
-  const isStatusCustom=(customOptions.status||[]).some(o=>o.en===els.status.value);
-  els.delCustomStatus.style.display=isStatusCustom?'inline-block':'none';
-  els.delCustomStatus.onclick=()=>delCustomOption('status',null,els.status.value);
-
-  // Brand (per category)
-  const cBrands=((customOptions.brand||{})[catVal]||[]);
-  const brandIdx=cBrands.findIndex(o=>(o.en||o)===els.brand.value);
-  els.delCustomBrand.style.display=brandIdx!==-1?'inline-block':'none';
-  els.delCustomBrand.onclick=()=>delCustomOption('brand',catVal,els.brand.value);
-
-  // Problem/Diagnosis/Action (per category)
-  [['problem',els.delCustomProblem],['diagnosis',els.delCustomDiagnosis],['action',els.delCustomAction]].forEach(([key,btn])=>{
-    const customs=((customOptions[key]||{})[catVal]||[]);
-    const idx=customs.findIndex(o=>(o.en||o)===els[key].value);
-    btn.style.display=idx!==-1?'inline-block':'none';
-    btn.onclick=()=>delCustomOption(key,catVal,els[key].value);
-  });
-}
-
-[els.problem,els.diagnosis,els.action,els.brand,els.status].forEach(sel=>{
-  sel.addEventListener('change',checkCustomDelBtns);
+/* show delete when selection changes */
+[els.brand,els.problem,els.diagnosis,els.action,els.status].forEach(sel=>{
+  sel.addEventListener('change',checkDelButtons);
 });
 
+/* Clear form (no validation errors anywhere) */
 els.clearBtn.onclick=()=>{
   if(!confirm('Clear form?')) return;
   els.repairForm.reset();
   localStorage.removeItem(FORM_KEY);
   updateLists();
-  refreshCategories();
-  refreshStatuses();
   ['model','serial','year','notes','price'].forEach(k=>els[k].value='');
+  checkDelButtons();
 };
 
-/* Submit -> generate report (без обязательных полей) */
+/* Submit -> generate report (NO required fields) */
 els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
   const r=makeReportObj();
   allReports.push(r);
-  localStorage.setItem('repairReportsV3',JSON.stringify(allReports));
+  localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
   renderReports();
   alert('Report Generated & Saved!');
 };
 
-/* ================== INIT ================== */
+/* INIT */
 window.addEventListener('load',()=>{
-  refreshCategories();
-  refreshStatuses();
+  // initial category fill
+  fillCategory();
+  fillStatus();
   updateModeButtons();
   updateLists();
   loadForm();

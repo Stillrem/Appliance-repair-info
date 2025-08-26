@@ -155,7 +155,7 @@
         <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
       </div>
       <div class="form-group input-dollar">
-        <label class="label">Repair Cost <span class="translation">Стоимость ремонта</span></label>
+        <label class="label">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
         <span class="dollar-sign" aria-label="Dollar">$</span>
         <input type="number" id="price" placeholder="0" min="0" step="1" inputmode="numeric" />
       </div>
@@ -531,7 +531,7 @@ function reportToPlainText(r){
     `Action: ${r.action||'-'}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
     `Status: ${r.status||'-'}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`,
     `Notes: ${r.notes||'-'}`,
-    `Price: $${r.price||'0'}`
+    `SC: $${r.sc||'0'}`
   ];
   return lines.join('\n');
 }
@@ -560,7 +560,7 @@ function makeReportObj(){
     status:els.status.value||'',
     status_ru:findStatusRu(els.status.value),
     notes:(els.notes.value||'').trim(),
-    price:(els.price.value||'').trim()
+    sc:(els.sc.value||'').trim()
   };
 }
 function makeReportBlock(r, idx){
@@ -578,7 +578,7 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Action', r.action, r.action_ru);
   html+=lineENRU('Status', r.status, r.status_ru);
   html+=lineENRU('Notes', r.notes,'');
-  html+=lineENRU('Price', (r.price?('$'+r.price):'$0'),'');
+  html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
   html+=`</div>
     <div class="report-actions">
       <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>

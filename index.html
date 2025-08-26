@@ -566,7 +566,7 @@ function makeReportObj(){
 function makeReportBlock(r, idx){
   const title=(r.mode==='technician'?'Technician Report':'Client Report');
   let html=`<div class="report-output" data-idx="${idx}">
-    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\d+$/,'')})</span></div>
+    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\\d+$/,'')})</span></div>
     <div class="report-content">`;
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);

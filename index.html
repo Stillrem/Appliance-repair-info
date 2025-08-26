@@ -698,7 +698,7 @@ els.clearBtn.onclick=()=>{
   els.repairForm.reset();
   localStorage.removeItem(FORM_KEY);
   updateLists();
-  ['model','serial','year','notes','price'].forEach(k=>els[k].value='');
+  ['model','serial','year','notes','cs'].forEach(k=>els[k].value='');
   checkDelButtons();
 };
 

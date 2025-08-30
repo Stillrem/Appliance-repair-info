@@ -37,6 +37,12 @@
   .btn-mini{flex:unset;padding:8px 10px;border-radius:8px;font-weight:700;font-size:13.5px;}
   .input-dollar{display:flex;align-items:center;}
   .input-dollar .dollar-sign{margin-right:5px;color:#aaa;}
+  .select-group{display:flex;align-items:center;gap:8px}
+.custom-add-btn{
+  background:var(--primary);color:#fff;border:none;border-radius:8px;
+  padding:0 10px;height:36px;cursor:pointer;font-size:18px;line-height:1
+}
+.custom-add-btn:hover{filter:brightness(1.05)}
   </style>
 </head>
 <body>
@@ -354,6 +360,138 @@ window.addEventListener('load',()=>{
   fillCategory(); fillStatus(); fillRequestType(); fillPayment();
   renderReports();
 });
+</script>
+
+<script>
+// ---------- Custom options storage ----------
+const CUSTOM_KEY='arp_custom_v1';
+let custom = JSON.parse(localStorage.getItem(CUSTOM_KEY) || JSON.stringify({
+  category:[],              // [{en:"Coffee Machine", key:"coffee_machine"}]
+  brand:{},                 // { [catKey]: ["LG","Bosch"] }
+  problem:{},               // { [catKey]: ["Not heating", ...] }
+  diagnosis:{},             // { [catKey]: ["Heater broken", ...] }
+  action:{},                // { [catKey]: ["Heater replaced", ...] }
+  status:[],                // ["In progress", ...]
+  requestType:[],           // ["🧪 Diagnostic only", ...]
+  payment:[]                // ["💸 Zelle", ...]
+}));
+const persistCustom=()=>localStorage.setItem(CUSTOM_KEY, JSON.stringify(custom));
+const slugify=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+
+// ---------- Helpers to get lists ----------
+const currentCatKey = ()=> {
+  // для built-in берём key из текста (совпадает с value 'en')
+  const selVal = els.category.value; // содержит EN названия для built-in
+  // Попробуем найти built-in по en
+  const bi = builtinCategories.find(c=>c.en===selVal);
+  if(bi) return bi.key;
+  // иначе кастомная категория хранится в custom.category
+  const ci = (custom.category||[]).find(c=>c.en===selVal);
+  return ci ? ci.key : '';
+};
+
+function fillSimple(select, arr, placeholder){
+  select.innerHTML = `<option value="">${placeholder}</option>`;
+  arr.forEach(v=> select.innerHTML += `<option value="${v}">${v}</option>`);
+}
+
+// ---------- Fill per-category selects ----------
+function fillPerCategoryLists(){
+  const catKey = currentCatKey();
+  const brands = (custom.brand[catKey]||[]);
+  const probs  = (custom.problem[catKey]||[]);
+  const diags  = (custom.diagnosis[catKey]||[]);
+  const acts   = (custom.action[catKey]||[]);
+  fillSimple(els.brand, brands, "Select Brand");
+  fillSimple(els.problem, probs, "Select Problem");
+  fillSimple(els.diagnosis, diags, "Select Diagnosis");
+  fillSimple(els.action, acts, "Select Action");
+}
+
+// Переопределим fillCategory так, чтобы поддержать кастомные категории тоже
+const _origFillCategory = fillCategory;
+fillCategory = function(){
+  const merged = [
+    ...builtinCategories.map(c=>({label:c.en, value:c.en, key:c.key})),
+    ...(custom.category||[]).map(c=>({label:c.en, value:c.en, key:c.key}))
+  ];
+  els.category.innerHTML = `<option value="">Select Appliance Type</option>`;
+  merged.forEach(c=>{
+    els.category.innerHTML += `<option value="${c.value}">${c.label}</option>`;
+  });
+};
+
+// Расширим статус/тип заявки/оплату с учётом кастомных
+const _origFillStatus = fillStatus;
+fillStatus = function(){
+  const merged = [...builtinStatuses.map(s=>s.en), ...(custom.status||[])];
+  fillSimple(els.status, merged, "Select Status");
+};
+
+const _origFillRequestType = fillRequestType;
+fillRequestType = function(){
+  const merged = [...builtinRequestTypes.map(s=>s.en), ...(custom.requestType||[])];
+  fillSimple(els.requestType, merged, "Select Request Type");
+};
+
+const _origFillPayment = fillPayment;
+fillPayment = function(){
+  const merged = [...builtinPayments.map(s=>s.en), ...(custom.payment||[])];
+  fillSimple(els.payment, merged, "Select Payment");
+};
+
+// ---------- Add (+) handlers ----------
+els.addCategoryBtn?.addEventListener('click', ()=>{
+  const en = prompt('New Appliance Type (EN):'); if(!en) return;
+  const key = slugify(en);
+  // не дублируем
+  if((custom.category||[]).some(c=>c.en===en) || builtinCategories.some(c=>c.en===en)){
+    alert('Already exists'); return;
+  }
+  custom.category.push({en, key});
+  custom.brand[key]=custom.brand[key]||[];
+  custom.problem[key]=custom.problem[key]||[];
+  custom.diagnosis[key]=custom.diagnosis[key]||[];
+  custom.action[key]=custom.action[key]||[];
+  persistCustom();
+  fillCategory();
+  els.category.value=en;
+  fillPerCategoryLists();
+});
+
+function addToPerCategory(field, promptText){
+  const catKey = currentCatKey();
+  if(!catKey){ alert('Select Appliance Type first'); return; }
+  const v = prompt(promptText); if(!v) return;
+  custom[field][catKey] = custom[field][catKey]||[];
+  if(!custom[field][catKey].includes(v)) custom[field][catKey].push(v);
+  persistCustom();
+  fillPerCategoryLists();
+}
+
+els.addBrandBtn?.addEventListener('click', ()=>addToPerCategory('brand','New Brand:'));
+els.addProblemBtn?.addEventListener('click', ()=>addToPerCategory('problem','New Problem:'));
+els.addDiagnosisBtn?.addEventListener('click', ()=>addToPerCategory('diagnosis','New Diagnosis:'));
+els.addActionBtn?.addEventListener('click', ()=>addToPerCategory('action','New Action:'));
+
+function addToFlat(field, promptText){
+  const v = prompt(promptText); if(!v) return;
+  custom[field] = custom[field]||[];
+  if(!custom[field].includes(v)) custom[field].push(v);
+  persistCustom();
+  if(field==='status') fillStatus();
+  if(field==='requestType') fillRequestType();
+  if(field==='payment') fillPayment();
+}
+els.addStatusBtn?.addEventListener('click', ()=>addToFlat('status','New Status (e.g. 🟡 In Progress):'));
+els.addRequestTypeBtn?.addEventListener('click', ()=>addToFlat('requestType','New Request Type (with emoji if you like):'));
+els.addPaymentBtn?.addEventListener('click', ()=>addToFlat('payment','New Payment Method (with emoji if you like):'));
+
+// обновляем списки при смене категории
+els.category.addEventListener('change', fillPerCategoryLists);
+
+// первичная инициализация пер-категорийных списков
+fillPerCategoryLists();
 </script>
 
   </div> <!-- /container -->

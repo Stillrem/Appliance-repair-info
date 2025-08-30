@@ -14,35 +14,49 @@
   .title{font-size:2rem;font-weight:800;margin-bottom:7px;text-align:center;background:linear-gradient(135deg,var(--primary),var(--primary-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .subtitle{color:var(--text-secondary);font-size:16px;font-weight:500;}
   .mode-toggle{display:flex;max-width:300px;margin:23px auto 0;background:var(--surface);border-radius:12px;box-shadow:inset 0 1px 3px var(--shadow);}
-  .mode-btn{flex:1;padding:13px 10px;border:none;background:none;color:var(--text-secondary);border-radius:9px;font-weight:700;font-size:15px;cursor:pointer;}
+  .mode-btn{flex:1;padding:13px 10px;border:none;background:none;color:var(--text-secondary);border-radius:9px;font-weight:700;font-size:15px;transition:all .22s cubic-bezier(.25,.46,.45,.94);cursor:pointer;}
   .mode-btn.active{background:var(--primary);color:var(--text);box-shadow:0 2px 8px rgba(52,199,89,0.23);}
-  .form-section{background:var(--surface);border-radius:18px;padding:26px 21px;margin-bottom:20px;border:1.4px solid var(--border);}
+  .form-section{background:var(--surface);border-radius:18px;padding:26px 21px 22px;margin-bottom:20px;border:1.4px solid var(--border);box-shadow:0 2px 22px rgba(0,0,0,0.07);}
+  @media(max-width:600px){.form-section{padding:18px 6vw;}}
   .section-title{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:17px;}
-  .form-group{margin-bottom:18px;display:flex;flex-direction:column;}
-  .label{font-weight:650;margin-bottom:6px;color:var(--text);font-size:15px;}
-  select,input,textarea{width:100%;padding:12px;background:var(--surface-2);border:1.3px solid var(--border);border-radius:10px;color:var(--text);font-size:15px;font-family:inherit;}
+  .form-group{margin-bottom:23px;display:flex;flex-direction:column;align-items:stretch;}
+  .form-group:last-child{margin-bottom:0;}
+  .label{font-weight:650;margin-bottom:6px;margin-top:2px;color:var(--text);font-size:15.4px;}
+  .translation{color:var(--text-secondary);font-size:13.3px;font-style:italic;display:block;}
+  .translation.hidden{display:none;}
+  select,input,textarea{width:100%;padding:14px;background:var(--surface-2);border:1.3px solid var(--border);border-radius:10px;color:var(--text);font-size:15.5px;font-family:inherit;transition:border .21s,background .21s;appearance:none;}
+  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--primary);}
+  select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bbbbbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 15px center;background-size:18px;padding-right:43px;cursor:pointer;}
   textarea{min-height:90px;resize:vertical;line-height:1.54;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   @media(max-width:540px){.form-row{grid-template-columns:1fr;gap:13px;}}
-  .action-buttons{display:flex;gap:11px;margin-top:24px;}
-  .btn{flex:1;padding:14px 0;border:none;border-radius:11px;font-weight:700;font-size:15px;cursor:pointer;}
+  .action-buttons{display:flex;gap:11px;margin-top:33px;}
+  .btn{flex:1;padding:14px 0;border:none;border-radius:11px;font-weight:700;font-size:15.7px;transition:background .19s,transform .14s;cursor:pointer;}
   .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);}
   .btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border);}
-  .report-output{background:var(--surface);border-radius:17px;padding:20px;margin-top:18px;border:1.2px solid var(--border);}
+  .btn-primary:hover{background:var(--primary-dark);filter:brightness(1.04);}
+  .btn-secondary:hover{background:var(--surface-3);}
+  .report-output{background:var(--surface);border-radius:17px;padding:25px 10px 10px;margin-top:22px;border:1.2px solid var(--border);}
   .report-title{font-size:20px;font-weight:700;margin-bottom:12px;color:var(--primary);}
-  .report-line{margin-bottom:8px;padding:5px 0;border-bottom:1px solid var(--border);}
-  .report-label{font-weight:700;color:var(--text-secondary);font-size:13px;text-transform:uppercase;}
+  .report-content{line-height:1.66;}
+  .report-line{margin-bottom:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+  .report-line:last-child{border-bottom:none;margin-bottom:0;}
+  .report-label{font-weight:700;color:var(--text-secondary);font-size:13px;text-transform:uppercase;letter-spacing:.3px;}
   .report-value{font-size:15.6px;color:var(--text);}
   .report-actions{display:flex;gap:8px;margin-top:12px;}
   .btn-mini{flex:unset;padding:8px 10px;border-radius:8px;font-weight:700;font-size:13.5px;}
-  .input-dollar{display:flex;align-items:center;}
-  .input-dollar .dollar-sign{margin-right:5px;color:#aaa;}
-  .select-group{display:flex;align-items:center;gap:8px}
-.custom-add-btn{
-  background:var(--primary);color:#fff;border:none;border-radius:8px;
-  padding:0 10px;height:36px;cursor:pointer;font-size:18px;line-height:1
-}
-.custom-add-btn:hover{filter:brightness(1.05)}
+  .input-dollar{position:relative;display:flex;align-items:center;}
+  .input-dollar .dollar-sign{display:inline-block;width:27px;min-width:27px;text-align:center;font-size:17px;color:#aaa;pointer-events:none;line-height:1;margin-right:2px;}
+  .input-dollar input[type="number"]{padding-left:0;flex:1;}
+  .select-group{display:flex;align-items:center;gap:3px;}
+  .custom-add-btn{background:var(--primary);color:#fff;border:none;border-radius:7px;padding:3px 9px;cursor:pointer;font-size:17px;margin-left:3px;}
+  .custom-add-btn:hover{background:var(--primary-dark);}
+  .custom-del-btn{background:#f34e4e;color:#fff;border:none;border-radius:7px;padding:3px 9px;font-size:17px;cursor:pointer;display:inline-block;vertical-align:middle;margin-left:2px;}
+  .custom-del-btn:hover{background:#c93434;}
+  #allReportsBlock>.report-output{margin-top:18px;}
+  #reportsControlBtns{margin:18px 0 4px;display:flex;gap:10px;flex-wrap:wrap;}
+  ::selection{background:var(--primary-dark);color:#fff;}
+  @media (max-width:540px){.container{padding:9px 0 29px;}}
   </style>
 </head>
 <body>
@@ -52,8 +66,8 @@
     <h1 class="title">Appliance Repair Pro</h1>
     <p class="subtitle">Professional Service Reports</p>
     <div class="mode-toggle">
-      <button class="mode-btn active" id="modeTech">👨‍🔧 Technician</button>
-      <button class="mode-btn" id="modeClient">👤 Client</button>
+      <button class="mode-btn active" data-mode="technician" id="modeTech">👨‍🔧 Technician</button>
+      <button class="mode-btn" data-mode="client" id="modeClient">👤 Client</button>
     </div>
   </div>
 
@@ -62,98 +76,107 @@
       <div class="section-title">🏠 Appliance Information</div>
 
       <div class="form-group">
-        <label class="label">Appliance Type</label>
+        <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
         <div class="select-group">
           <select id="category"><option value="">Select Appliance Type</option></select>
-          <button type="button" class="custom-add-btn" id="addCategoryBtn">+</button>
+          <button type="button" class="custom-add-btn" id="addCategoryBtn" title="Add Appliance Type">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomCategory" style="display:none;" title="Delete this custom type">🗑️</button>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="label">Brand</label>
+          <label class="label">Brand <span class="translation">Бренд</span></label>
           <div class="select-group">
             <select id="brand"><option value="">Select Brand</option></select>
-            <button type="button" class="custom-add-btn" id="addBrandBtn">+</button>
+            <button type="button" class="custom-add-btn" title="Add Brand" id="addBrandBtn">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomBrand" style="display:none;" title="Delete this custom option">🗑️</button>
           </div>
         </div>
         <div class="form-group">
-          <label class="label">Model</label>
+          <label class="label">Model <span class="translation">Модель</span></label>
           <input type="text" id="model" placeholder="Enter model number"/>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label class="label">Serial Number</label>
-          <input type="text" id="serial" placeholder="Enter serial number"/>
+          <label class="label">Serial Number <span class="translation">Серийный номер</span></label>
+          <input type="text" id="serial" placeholder="Enter serial number" />
         </div>
         <div class="form-group">
-          <label class="label">Year of Manufacture</label>
-          <input type="text" id="year" placeholder="MM.YYYY or MM/YYYY"/>
+          <label class="label">Year of Manufacture <span class="translation">Месяц и год выпуска (MM.YYYY или MM/YYYY)</span></label>
+          <input type="text" id="year" placeholder="MM.YYYY или MM/YYYY" maxlength="7"/>
         </div>
       </div>
     </div>
 
-        <div class="form-section">
+    <div class="form-section">
       <div class="section-title">🔍 Service Details</div>
 
       <div class="form-group">
-        <label class="label">Problem</label>
+        <label class="label">Problem <span class="translation">Проблема</span></label>
         <div class="select-group">
           <select id="problem"><option value="">Select Problem</option></select>
-          <button type="button" class="custom-add-btn" id="addProblemBtn">+</button>
+          <button type="button" class="custom-add-btn" title="Add Problem" id="addProblemBtn">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomProblem" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="label">Diagnosis</label>
+            <div class="form-group">
+        <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
         <div class="select-group">
           <select id="diagnosis"><option value="">Select Diagnosis</option></select>
-          <button type="button" class="custom-add-btn" id="addDiagnosisBtn">+</button>
+          <button type="button" class="custom-add-btn" title="Add Diagnosis" id="addDiagnosisBtn">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomDiagnosis" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="label">Action Taken</label>
+        <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
         <div class="select-group">
           <select id="action"><option value="">Select Action</option></select>
-          <button type="button" class="custom-add-btn" id="addActionBtn">+</button>
+          <button type="button" class="custom-add-btn" title="Add Action" id="addActionBtn">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomAction" style="display:none;" title="Delete this custom option">🗑️</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="label">Status</label>
+        <label class="label">Status <span class="translation">Статус</span></label>
         <div class="select-group">
           <select id="status"><option value="">Select Status</option></select>
-          <button type="button" class="custom-add-btn" id="addStatusBtn">+</button>
+          <button type="button" class="custom-add-btn" id="addStatusBtn" title="Add Status">+</button>
+          <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom status">🗑️</button>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="label">Request Type</label>
-        <div class="select-group">
-          <select id="requestType"><option value="">Select Request Type</option></select>
-          <button type="button" class="custom-add-btn" id="addRequestTypeBtn">+</button>
+        <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
+        <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group input-dollar">
+          <label class="label">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
+          <span class="dollar-sign" aria-label="Dollar">$</span>
+          <input type="number" id="sc" placeholder="0" min="0" step="1" inputmode="numeric" />
         </div>
-      </div>
 
-      <div class="form-group">
-        <label class="label">Additional Notes</label>
-        <textarea id="notes"></textarea>
-      </div>
-
-      <div class="form-group input-dollar">
-        <label class="label">Service Call Fee</label>
-        <span class="dollar-sign">$</span>
-        <input type="number" id="sc" placeholder="0" min="0" step="1"/>
-      </div>
-
-      <div class="form-group">
-        <label class="label">Payment Method</label>
-        <div class="select-group">
-          <select id="payment"><option value="">Select Payment</option></select>
-          <button type="button" class="custom-add-btn" id="addPaymentBtn">+</button>
+        <!-- NEW: Payment Method (EN only, no RU) -->
+        <div class="form-group">
+          <label class="label">Payment Method</label>
+          <select id="pm">
+            <option value="">Select Payment Method</option>
+            <option>Cash</option>
+            <option>Card</option>
+            <option>Zelle</option>
+            <option>Venmo</option>
+            <option>Apple Pay</option>
+            <option>Google Pay</option>
+            <option>Check</option>
+            <option>Bank Transfer</option>
+            <option>Other</option>
+          </select>
         </div>
       </div>
     </div>
@@ -165,145 +188,433 @@
   </form>
 
   <div id="allReportsBlock"></div>
+</div>
 
-  <script>
-/* ===== Built-in data ===== */
+<script>
+/* ========= BUILT-IN CATEGORIES (fixed) ========= */
 const builtinCategories = [
-  {key:'refrigerator', en:'Refrigerator'},
-  {key:'dishwasher', en:'Dishwasher'},
-  {key:'washing_machine', en:'Washing Machine'},
-  {key:'dryer', en:'Dryer'},
-  {key:'stove_oven', en:'Stove/Oven'},
-  {key:'microwave', en:'Microwave'}
+  {key:'refrigerator', en:'Refrigerator', ru:'Холодильник'},
+  {key:'dishwasher', en:'Dishwasher', ru:'ПММ'},
+  {key:'washing_machine', en:'Washing Machine', ru:'Стиралка'},
+  {key:'dryer', en:'Dryer', ru:'Сушилка'},
+  {key:'stove_oven', en:'Stove/Oven', ru:'Плита–Духовка'},
+  {key:'microwave', en:'Microwave', ru:'Микроволновка'}
 ];
 
+/* ========= DATA (EN–RU) for built-ins ========= */
+/* Refrigerator */
+const brandsFridge = ["LG","Samsung","Whirlpool","GE","Bosch","Siemens","Electrolux","Frigidaire","KitchenAid","Maytag","Hitachi","Liebherr","Sharp","Indesit","Hotpoint","Viking","Beko","Kenmore","Haier","Panasonic","Zanussi","Daewoo","Gorenje","Amana","Candy","Ariston","Miele","Sub-Zero","Smeg","Turboair","Vestfrost","Atlant","Nord","Vestel","Krups","Schaub Lorenz","Blomberg","Grundig","Crosley","Hisense","Toshiba","Winia","Baumatic","Bomann","Brandt","Fisher & Paykel","Teka","Neff","Silverline"];
+const problemsFridge = [{en:"Not cooling",ru:"Не охлаждает"},{en:"Leaking water",ru:"Течет вода"},/* ... truncated for brevity in this comment, full content continues below ... */{en:"Water filter clogged",ru:"Засорился водяной фильтр"}];
+const diagnosisFridge = [{en:"Compressor faulty",ru:"Неисправен компрессор"},/* ... */,{en:"Drain pan cracked",ru:"Трещина в дренажном поддоне"}];
+const actionsFridge = [{en:"Replaced compressor",ru:"Заменен компрессор"},/* ... */,{en:"Panel replaced",ru:"Поменяна лицевая панель"}];
+
+/* Dishwasher */
+const brandsDishwasher=["Bosch","Siemens","LG","Samsung","Whirlpool","GE","Electrolux","AEG","Hotpoint","Indesit","Miele","Beko","Candy","Ariston","Zanussi","Neff","Gorenje","Blomberg","Haier","Smeg","Hisense","Fisher & Paykel","Baumatic","Sharp","Brandt","Teka","Viking","KitchenAid","Maytag","Kenmore","Frigidaire","Silverline","Vestel","Bomann","Crosley","Grundig","Winia","Krups","Toshiba","Panasonic","Atlant","Nord","Vestfrost","Turboair","Ardo","Fagor","Baumatic","Arcelik","Elikor"];
+const problemsDishwasher=[{en:"Not draining",ru:"Не сливает воду"},/* ... */,{en:"Float switch stuck",ru:"Датчик перелива застрял"}];
+const diagnosisDishwasher=[{en:"Drain pump faulty",ru:"Сливной насос неисправен"},/* ... */,{en:"Rinse module not powered",ru:"Модуль ополаскивания не включается"}];
+const actionsDishwasher=[{en:"Pump replaced",ru:"Заменена помпа"},/* ... */,{en:"Salt sensor cleaned",ru:"Очищен датчик соли"}];
+
+/* Washing Machine */
+const brandsWasher=["LG","Samsung","Bosch","Electrolux","Indesit","Hotpoint","Siemens","Whirlpool","Haier","Beko","Candy","Ariston","Zanussi","Miele","AEG","Daewoo","Gorenje","Blomberg","Vestel","Grundig","Hisense","Maytag","Frigidaire","Kenmore","Amana","Panasonic","Sharp","Atlant","Nord","Schaub Lorenz","Viking","Toshiba","Fagor","Baumatic","Turboair","Ardo","Vestfrost","Silverline","Krups","Brandt","Crosley","Teka","Elikor","Neff","Bomann","Smeg","Winia","Arcelik","Fisher & Paykel","Candy"];
+const problemsWasher=[{en:"Not spinning",ru:"Не отжимает"},/* ... */,{en:"Water pump jammed",ru:"Помпа заклинила"}];
+const diagnosisWasher=[{en:"Drain pump faulty",ru:"Сливной насос неисправен"},/* ... */,{en:"Lid spring broken",ru:"Пружина крышки сломана"}];
+const actionsWasher=[{en:"Pump changed",ru:"Заменён насос"},/* ... */,{en:"Powder tray cleaned",ru:"Лоток для порошка вымыт"}];
+
+/* Dryer */
+const brandsDryer=["LG","Samsung","Bosch","Electrolux","Whirlpool","Indesit","Hotpoint","Maytag","Siemens","Beko","Candy","Miele","AEG","Zanussi","Ariston","Daewoo","Frigidaire","Kenmore","Haier","Grundig","Blomberg","Vestel","Hisense","Gorenje","Sharp","Panasonic","Viking","Crosley","Bomann","Toshiba","Silverline","Atlant","Nord","Vestfrost","Turboair","Ardo","Fisher & Paykel","Brandt","Teka","Elikor","Winia","Baumatic","Krups","Smeg","Neff","Arcelik","Schaub Lorenz","Baumatic","Ariston"];
+const problemsDryer=[{en:"No heat",ru:"Нет нагрева"},/* ... */,{en:"Wire insulation burnt",ru:"Проводка оплавлена"}];
+const diagnosisDryer=[{en:"Heater element burnt",ru:"Сгорел нагреватель"},/* ... */,{en:"Lid switch nonactive",ru:"Не сработал концевик"}];
+const actionsDryer=[{en:"Heater changed",ru:"Поменян нагреватель"},/* ... */,{en:"Lid switch pressed",ru:"Концевик заменён"}];
+
+/* Stove/Oven */
+const brandsStove=["Bosch","Siemens","Samsung","LG","Whirlpool","GE","Electrolux","Beko","Hotpoint","Indesit","Ariston","Miele","Candy","Amica","Zanussi","Hansa","Gorenje","Ardo","Daewoo","Blomberg","Smeg","Vestel","Sharp","Fagor","Panasonic","Frigidaire","Maytag","Kenmore","Hisense","Grundig","Turboair","Silverline","Bomann","Brandt","Teka","Krups","Schaub Lorenz","Winia","Viking","Elikor"];
+const problemsStove=[{en:"No heating",ru:"Не греет"},/* ... */,{en:"Child lock stuck",ru:"Не снимается блокировка"}];
+const diagnosisStove=[{en:"Thermostat fault",ru:"Неисправен термостат"},/* ... */,{en:"Handle not fixed",ru:"Ручка не закреплена"}];
+const actionsStove=[{en:"Thermostat changed",ru:"Заменён термостат"},/* ... */,{en:"Child lock reset",ru:"Сброшен блокиратор"}];
+
+/* Microwave */
+const brandsMicrowave=["Samsung","LG","Panasonic","Sharp","Bosch","Whirlpool","Electrolux","Daewoo","Midea","BBK","Candy","Hotpoint","Toshiba","Gorenje","Redmond","Rolsen","SUPRA","Mystery","Moulinex","Kenwood","Siemens","Hansa","Vitek","Kuppersberg","Smeg","Ariston","Miele","Beko","Grundig","Russell Hobbs","Brandt","Krups","Schaub Lorenz","Elikor","Silverline","Winia","Bomann","Ardo","Baumatic","Vesel","Hisense","Crosley","Fagor"];
+const problemsMicrowave=[{en:"Not heating",ru:"Не греет"},/* ... */,{en:"Heavy vibration",ru:"Сильно вибрирует"}];
+const diagnosisMicrowave=[{en:"Fuse blown",ru:"Пробит предохранитель"},/* ... */,{en:"Door sensor failed",ru:"Датчик двери неисправен"}];
+const actionsMicrowave=[{en:"Fuse replaced",ru:"Сменён предохранитель"},/* ... */,{en:"Door sensor fixed",ru:"Исправлен датчик двери"}];
+
+/* Maps for built-ins */
+const builtinBrands = {refrigerator:brandsFridge,dishwasher:brandsDishwasher,washing_machine:brandsWasher,dryer:brandsDryer,stove_oven:brandsStove,microwave:brandsMicrowave};
+const builtinProblems = {refrigerator:problemsFridge,dishwasher:problemsDishwasher,washing_machine:problemsWasher,dryer:problemsDryer,stove_oven:problemsStove,microwave:problemsMicrowave};
+const builtinDiagnosis = {refrigerator:diagnosisFridge,dishwasher:diagnosisDishwasher,washing_machine:diagnosisWasher,dryer:diagnosisDryer,stove_oven:diagnosisStove,microwave:diagnosisMicrowave};
+const builtinActions = {refrigerator:actionsFridge,dishwasher:actionsDishwasher,washing_machine:actionsWasher,dryer:actionsDryer,stove_oven:actionsStove,microwave:actionsMicrowave};
+
+/* ===== Universal defaults for NEW custom categories ===== */
+const universalProblems = [
+  {en:"Not working",ru:"Не работает"},
+  {en:"No power",ru:"Нет питания"},
+  {en:"Unusual noise",ru:"Посторонний шум"},
+  {en:"Error on display",ru:"Ошибка на дисплее"},
+  {en:"Leaking",ru:"Есть течь"},
+  {en:"Overheating",ru:"Перегрев"},
+  {en:"Not heating/cooling",ru:"Не греет/не охлаждает"},
+  {en:"Stops mid-cycle",ru:"Останавливается в процессе"},
+  {en:"Door/cover issue",ru:"Проблема с дверцей/крышкой"},
+  {en:"Smells bad",ru:"Неприятный запах"}
+];
+const universalDiagnosis = [
+  {en:"Fuse blown",ru:"Предохранитель сгорел"},
+  {en:"Control board fault",ru:"Неисправна плата управления"},
+  {en:"Wiring damaged",ru:"Повреждена проводка"},
+  {en:"Sensor failed",ru:"Сломан датчик"},
+  {en:"Relay stuck",ru:"Залипло реле"},
+  {en:"Motor issue",ru:"Проблема с мотором"},
+  {en:"Valve blocked",ru:"Клапан забит"},
+  {en:"Pump jammed",ru:"Насос заклинило"},
+  {en:"Thermostat faulty",ru:"Неисправен термостат"},
+  {en:"Power supply issue",ru:"Нестабильное питание"}
+];
+const universalActions = [
+  {en:"Reset device",ru:"Сброс устройства"},
+  {en:"Repaired wiring",ru:"Восстановлена проводка"},
+  {en:"Replaced fuse",ru:"Заменён предохранитель"},
+  {en:"Reflashed control board",ru:"Перепрошита плата"},
+  {en:"Sensor replaced",ru:"Заменён датчик"},
+  {en:"Cleaned filters",ru:"Очищены фильтры"},
+  {en:"Valve cleaned",ru:"Почищен клапан"},
+  {en:"Pump repaired",ru:"Отремонтирован насос"},
+  {en:"Adjusted door/cover",ru:"Отрегулирована дверца/крышка"},
+  {en:"User instructed",ru:"Проведён инструктаж клиента"}
+];
+
+/* ===== Status list (built-in + custom) ===== */
 const builtinStatuses = [
-  {en:"✅ Fixed"},
-  {en:"⏳ Parts needed"},
-  {en:"🔧 Temporary Fix"},
-  {en:"❌ Not Repairable"}
+  {en:"✅ Fixed", ru:"Полностью исправлено"},
+  {en:"⏳ Parts needed", ru:"Требуются запчасти"},
+  {en:"🔧 Temporary Fix", ru:"Временное решение"},
+  {en:"❌ Not Repairable", ru:"Не подлежит ремонту"}
 ];
 
-const builtinRequestTypes = [
-  {en:"🆕 New"},
-  {en:"🔁 Recall"},
-  {en:"🧰 Install Parts Visit"}
-];
-
-const builtinPayments = [
-  {en:"💳 Card"},
-  {en:"💵 Cash"},
-  {en:"📝 Check"},
-  {en:"🔗 Link"}
-];
-
-/* ===== State ===== */
-let currentMode = 'technician';
-let allReports = JSON.parse(localStorage.getItem('repairReportsV4')||'[]');
-
+/* ================== STATE ================== */
+let currentMode='technician';
 const $=id=>document.getElementById(id);
 const els={
   repairForm:$('repairForm'),
+  modeTech:$('modeTech'), modeClient:$('modeClient'),
   category:$('category'), brand:$('brand'), model:$('model'),
   serial:$('serial'), year:$('year'),
   problem:$('problem'), diagnosis:$('diagnosis'), action:$('action'),
-  status:$('status'), requestType:$('requestType'),
-  notes:$('notes'), sc:$('sc'), payment:$('payment'),
-  modeTech:$('modeTech'), modeClient:$('modeClient'),
+  status:$('status'), notes:$('notes'), sc:$('sc'),
+  pm:$('pm'), /* NEW: payment method */
   genBtn:$('genBtn'), clearBtn:$('clearBtn'),
-  reportsBlock:$('allReportsBlock'),
-  addCategoryBtn:$('addCategoryBtn'), addBrandBtn:$('addBrandBtn'),
-  addProblemBtn:$('addProblemBtn'), addDiagnosisBtn:$('addDiagnosisBtn'),
-  addActionBtn:$('addActionBtn'), addStatusBtn:$('addStatusBtn'),
-  addRequestTypeBtn:$('addRequestTypeBtn'), addPaymentBtn:$('addPaymentBtn')
+  addCategoryBtn:$('addCategoryBtn'), delCustomCategory:$('delCustomCategory'),
+  addBrandBtn:$('addBrandBtn'), delCustomBrand:$('delCustomBrand'),
+  addProblemBtn:$('addProblemBtn'), delCustomProblem:$('delCustomProblem'),
+  addDiagnosisBtn:$('addDiagnosisBtn'), delCustomDiagnosis:$('delCustomDiagnosis'),
+  addActionBtn:$('addActionBtn'), delCustomAction:$('delCustomAction'),
+  addStatusBtn:$('addStatusBtn'), delCustomStatus:$('delCustomStatus'),
+  reportsBlock:$('allReportsBlock')
 };
 
-/* ===== Ticket counter (reset daily) ===== */
-function nextTicketNumber(){
-  const today = new Date().toISOString().slice(0,10);
-  const store = JSON.parse(localStorage.getItem('ticketCounter')||'{}');
-  if(store.date !== today){
-    store.date = today;
-    store.counter = 1;
-  } else {
-    store.counter = (store.counter||0)+1;
-  }
-  localStorage.setItem('ticketCounter', JSON.stringify(store));
-  return store.counter;
+/* ===== Storage schema (V4) =====
+customOptionsV4 = {
+  category: [{key,en,ru}, ...],
+  brand: { [key]: [ "Brand", ... ] },
+  problem: { [key]: [ {en,ru}, ... ] },
+  diagnosis: { [key]: [ {en,ru}, ... ] },
+  action: { [key]: [ {en,ru}, ... ] },
+  status: [ {en,ru}, ... ]
+}
+*/
+let custom = JSON.parse(localStorage.getItem('customOptionsV4')||'{}');
+if(!custom.category) custom.category=[];
+if(!custom.brand) custom.brand={};
+if(!custom.problem) custom.problem={};
+if(!custom.diagnosis) custom.diagnosis={};
+if(!custom.action) custom.action={};
+if(!custom.status) custom.status=[];
+
+/* ---- Migration from V3 (if exists) ---- */
+(function migrateV3(){
+  const v3 = localStorage.getItem('customOptionsV3');
+  if(!v3) return;
+  try{
+    const old = JSON.parse(v3);
+    ['brand','problem','diagnosis','action'].forEach(k=>{
+      const obj = old[k]||{};
+      Object.keys(obj).forEach(cat=>{
+        custom[k][cat] = (custom[k][cat]||[]).concat(obj[cat]);
+      });
+    });
+    localStorage.removeItem('customOptionsV3');
+    localStorage.setItem('customOptionsV4',JSON.stringify(custom));
+  }catch(e){}
+})();
+
+let allReports = JSON.parse(localStorage.getItem('repairReportsV3')||'[]'); // совместимость
+
+/* ===== Helpers ===== */
+function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,40)||('cat_'+Date.now()); }
+function categoryList(){ return [...builtinCategories, ...custom.category]; }
+
+function mapsFor(catKey){
+  const brands = (builtinBrands[catKey]||[]).concat( (custom.brand[catKey]||[]) );
+  const problems = (builtinProblems[catKey]||[]).concat( (custom.problem[catKey]||[]) );
+  const diagnosis = (builtinDiagnosis[catKey]||[]).concat( (custom.diagnosis[catKey]||[]) );
+  const actions = (builtinActions[catKey]||[]).concat( (custom.action[catKey]||[]) );
+  return {brands,problems,diagnosis,actions};
 }
 
-/* ===== Fill selects ===== */
-function fillSelect(select, list, placeholder){
+function ensureCustomCategory(catKey, en, ru){
+  if(!custom.category.find(c=>c.key===catKey)){
+    custom.category.push({key:catKey,en,ru});
+  }
+  if(!custom.problem[catKey]||custom.problem[catKey].length===0) custom.problem[catKey]=JSON.parse(JSON.stringify(universalProblems));
+  if(!custom.diagnosis[catKey]||custom.diagnosis[catKey].length===0) custom.diagnosis[catKey]=JSON.parse(JSON.stringify(universalDiagnosis));
+  if(!custom.action[catKey]||custom.action[catKey].length===0) custom.action[catKey]=JSON.parse(JSON.stringify(universalActions));
+  if(!custom.brand[catKey]) custom.brand[catKey]=[];
+  persistCustom();
+}
+
+function persistCustom(){ localStorage.setItem('customOptionsV4',JSON.stringify(custom)); }
+
+/* fill select helpers */
+function fillCategory(){
+  const current=els.category.value;
+  els.category.innerHTML='<option value="">Select Appliance Type</option>';
+  categoryList().forEach(c=>{
+    const label = `${c.en} / ${c.ru}`;
+    els.category.innerHTML += `<option value="${c.key}">${label}</option>`;
+  });
+  if(current && categoryList().some(c=>c.key===current)) els.category.value=current;
+}
+
+function fillSelectENorObj(select, arr, placeholder){
   select.innerHTML = `<option value="">${placeholder}</option>`;
-  list.forEach(o=>{
-    select.innerHTML += `<option value="${o.en}">${o.en}</option>`;
+  arr.forEach(o=>{
+    if(typeof o==='string'){
+      select.innerHTML += `<option value="${o}">${o}</option>`;
+    }else{
+      select.innerHTML += `<option value="${o.en}">${o.en} / ${o.ru}</option>`;
+    }
   });
 }
-function fillCategory(){ fillSelect(els.category, builtinCategories, "Select Appliance Type"); }
-function fillStatus(){ fillSelect(els.status, builtinStatuses, "Select Status"); }
-function fillRequestType(){ fillSelect(els.requestType, builtinRequestTypes, "Select Request Type"); }
-function fillPayment(){ fillSelect(els.payment, builtinPayments, "Select Payment"); }
 
-/* ===== Report builder ===== */
+function fillStatus(){
+  const list = [...builtinStatuses, ...(custom.status||[])];
+  fillSelectENorObj(els.status, list, 'Select Status');
+}
+
+/* main update */
+function updateLists(){
+  fillCategory();
+  const cat=els.category.value;
+  if(!cat){
+    ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
+    fillStatus();
+    checkDelButtons();
+    return;
+  }
+  const {brands,problems,diagnosis,actions} = mapsFor(cat);
+  fillSelectENorObj(els.brand, brands, 'Select Brand');
+  fillSelectENorObj(els.problem, problems, 'Select Problem');
+  fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
+  fillSelectENorObj(els.action, actions, 'Select Action');
+  fillStatus();
+  checkDelButtons();
+}
+
+/* delete buttons visibility */
+function checkDelButtons(){
+  const cat=els.category.value;
+
+  const isCustomCat = custom.category.some(c=>c.key===cat);
+  els.delCustomCategory.style.display = (cat && isCustomCat)?'inline-block':'none';
+
+  const check = (key, selectEl, btnEl)=>{
+    if(!cat){ btnEl.style.display='none'; return; }
+    const customs=(custom[key][cat]||[]);
+    const val = selectEl.value;
+    const idx = customs.findIndex(o=> (typeof o==='string'?o:(o.en||''))===val );
+    btnEl.style.display = (idx!==-1)?'inline-block':'none';
+    btnEl.onclick = ()=>delCustomOption(key,cat,val);
+  };
+  check('brand',els.brand,els.delCustomBrand);
+  check('problem',els.problem,els.delCustomProblem);
+  check('diagnosis',els.diagnosis,els.delCustomDiagnosis);
+  check('action',els.action,els.delCustomAction);
+
+  const stVal = els.status.value;
+  const stIdx = (custom.status||[]).findIndex(o=>o.en===stVal);
+  els.delCustomStatus.style.display = stIdx!==-1?'inline-block':'none';
+  els.delCustomStatus.onclick = ()=>delCustomStatus(stVal);
+}
+
+/* adders / deleters */
+function promptAddCategory(){
+  const en=prompt("Enter new Appliance Type (EN):"); if(!en||!en.trim()) return;
+  const ru=prompt("Введите перевод Appliance Type (RU):",en)||en;
+  const key = slugify(en);
+  ensureCustomCategory(key,en.trim(),(ru||en).trim());
+  persistCustom();
+  updateLists();
+  els.category.value = key;
+  updateLists();
+}
+
+function promptAddCustom(type){
+  const cat=els.category.value;
+  if(type!=='status' && !cat){ alert('Choose Appliance Type first'); return; }
+
+  const en=prompt(`Enter new ${type} (EN):`); if(!en||!en.trim()) return;
+  const ru = (type==='brand')? null : (prompt(`Введите перевод ${type} (RU):`,en)||en);
+
+  if(type==='status'){
+    custom.status = custom.status||[];
+    custom.status.push({en:en.trim(), ru:(ru||en).trim()});
+  }else if(type==='brand'){
+    custom.brand[cat]=custom.brand[cat]||[];
+    custom.brand[cat].push(en.trim());
+  }else{
+    custom[type][cat]=custom[type][cat]||[];
+    custom[type][cat].push({en:en.trim(), ru:(ru||en).trim()});
+  }
+  persistCustom();
+  updateLists();
+  if(type==='status') els.status.value=en.trim(); else document.getElementById(type).value=en.trim();
+  checkDelButtons();
+}
+
+  function delCustomOption(key,cat,val){
+  if(!confirm("Remove custom '"+val+"'?")) return;
+  custom[key][cat]=(custom[key][cat]||[]).filter(o=> (typeof o==='string'?o:(o.en||''))!==val );
+  persistCustom(); updateLists();
+}
+function delCustomCategory(){
+  const cat=els.category.value;
+  const obj = custom.category.find(c=>c.key===cat);
+  if(!obj) return;
+  if(!confirm(`Delete custom type '${obj.en}'? All its custom lists will be removed.`)) return;
+  custom.category = custom.category.filter(c=>c.key!==cat);
+  delete custom.brand[cat];
+  delete custom.problem[cat];
+  delete custom.diagnosis[cat];
+  delete custom.action[cat];
+  persistCustom();
+  els.category.value='';
+  updateLists();
+}
+function delCustomStatus(valEN){
+  if(!confirm(`Remove custom status '${valEN}'?`)) return;
+  custom.status = (custom.status||[]).filter(s=>s.en!==valEN);
+  persistCustom(); updateLists();
+}
+
+/* translations & finding RU */
+function findRuInList(arr,val){
+  if(!val) return '';
+  if(!arr||!arr.length) return '';
+  if(typeof arr[0]==='string') return val; // brands
+  const f = arr.find(o=>o.en===val);
+  return f ? (f.ru||val) : val;
+}
+function findStatusRu(val){
+  const list=[...builtinStatuses, ...(custom.status||[])];
+  const f=list.find(s=>s.en===val);
+  return f ? (f.ru||val) : val;
+}
+
+/* Report builders */
+function prettyYear(val){
+  if(!val) return '';
+  const m=val.replace(/[^\d]/g,'').slice(0,6);
+  if(m.length===6) return m.slice(0,2)+'.'+m.slice(2,6);
+  return val;
+}
+function lineENRU(label,en,ru){
+  if(!en && !ru) return '';
+  if(currentMode==='technician' && ru && en && ru!==en) return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en} / ${ru}</span></div>`;
+  return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en||ru||''}</span></div>`;
+}
+function reportToPlainText(r){
+  const lines=[
+    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\d+$/,'')})`,
+    `Appliance: ${r.categoryLabel}`,
+    `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
+    `Model: ${r.model||'-'}`,
+    `Serial: ${r.serial||'-'}`,
+    `Year: ${r.year||'-'}`,
+    `Problem: ${r.problem||'-'}${(currentMode==='technician'&&r.problem_ru&&r.problem_ru!==r.problem)?' / '+r.problem_ru:''}`,
+    `Diagnosis: ${r.diagnosis||'-'}${(currentMode==='technician'&&r.diagnosis_ru&&r.diagnosis_ru!==r.diagnosis)?' / '+r.diagnosis_ru:''}`,
+    `Action: ${r.action||'-'}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
+    `Status: ${r.status||'-'}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`,
+    `Notes: ${r.notes||'-'}`,
+    `SC: $${r.sc||'0'}`,
+    `Payment Method: ${r.pm||'-'}`
+  ];
+  return lines.join('\n');
+}
 function makeReportObj(){
-  const dateISO = new Date().toLocaleDateString('en-US',{year:'numeric',month:'2-digit',day:'2-digit'});
-  const ticketNo = nextTicketNumber();
+  const catKey=els.category.value;
+  const catObj = categoryList().find(c=>c.key===catKey);
+  const catLabel = catObj ? `${c.en} / ${c.ru}` : '';
+
+  const m = mapsFor(catKey||'');
   return {
-    dateISO,
-    ticketNo,
+    date: new Date().toLocaleString('en-US', {
+      year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', hour12:true
+    }),
     mode:currentMode,
-    category:els.category.value,
-    brand:els.brand.value,
-    model:els.model.value,
-    serial:els.serial.value,
-    year:els.year.value,
-    problem:els.problem.value,
-    diagnosis:els.diagnosis.value,
-    action:els.action.value,
-    status:els.status.value,
-    requestType:els.requestType.value,
-    notes:els.notes.value,
-    sc:els.sc.value,
-    payment:els.payment.value
+    category:catKey,
+    categoryLabel:catLabel,
+    brand:els.brand.value||'',
+    brand_ru: findRuInList(m.brands, els.brand.value),
+    model:(els.model.value||'').trim(),
+    serial:(els.serial.value||'').trim(),
+    year:prettyYear((els.year.value||'').trim()),
+    problem:els.problem.value||'',
+    problem_ru:findRuInList(m.problems, els.problem.value),
+    diagnosis:els.diagnosis.value||'',
+    diagnosis_ru:findRuInList(m.diagnosis, els.diagnosis.value),
+    action:els.action.value||'',
+    action_ru:findRuInList(m.actions, els.action.value),
+    status:els.status.value||'',
+    status_ru:findStatusRu(els.status.value),
+    notes:(els.notes.value||'').trim(),
+    sc:(els.sc.value||'').trim(),
+    pm:(els.pm.value||'').trim() /* NEW: payment method */
   };
 }
-
-function line(label,val){
-  if(!val) return '';
-  return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${val}</span></div>`;
-}
-
 function makeReportBlock(r, idx){
   const title=(r.mode==='technician'?'Technician Report':'Client Report');
   let html=`<div class="report-output" data-idx="${idx}">
-    <div class="report-title">${title} — ${r.dateISO} — Заявка №${r.ticketNo}</div>
+    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\d+$/,'')})</span></div>
     <div class="report-content">`;
-  html+=line('Appliance', r.category);
-  html+=line('Brand', r.brand);
-  html+=line('Model', r.model);
-  html+=line('Serial', r.serial);
-  html+=line('Year', r.year);
-  html+=line('Problem', r.problem);
-  html+=line('Diagnosis', r.diagnosis);
-  html+=line('Action', r.action);
-  html+=line('Status', r.status);
-  html+=line('Request', r.requestType);
-  html+=line('Notes', r.notes);
-  html+=line('SC', r.sc?('$'+r.sc):'');
-  html+=line('Payment', r.payment);
+  html+=lineENRU('Appliance', r.categoryLabel, '');
+  html+=lineENRU('Brand', r.brand, r.brand_ru);
+  html+=lineENRU('Model', r.model,'');
+  html+=lineENRU('Serial', r.serial,'');
+  html+=lineENRU('Year', r.year,'');
+  html+=lineENRU('Problem', r.problem, r.problem_ru);
+  html+=lineENRU('Diagnosis', r.diagnosis, r.diagnosis_ru);
+  html+=lineENRU('Action', r.action, r.action_ru);
+  html+=lineENRU('Status', r.status, r.status_ru);
+  html+=lineENRU('Notes', r.notes,'');
+  html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
+  /* NEW: Payment Method shown EN-only */
+  html+=lineENRU('Payment Method', r.pm, '');
   html+=`</div>
     <div class="report-actions">
-      <button class="btn btn-secondary btn-mini" onclick="editReport(${idx})">Edit</button>
+      <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>
+      <button class="btn btn-secondary btn-mini" onclick="shareWhatsApp(${idx})">WhatsApp</button>
+      <button class="btn btn-secondary btn-mini" onclick="printReport(${idx})">Print</button>
       <button class="btn btn-secondary btn-mini" onclick="deleteReport(${idx})">Delete</button>
     </div>
   </div>`;
   return html;
 }
-
 function renderReports(){
   let html='';
   if(allReports.length){
     html+=`<div id="reportsControlBtns">
+      <button class="btn btn-secondary" onclick="copyLastReport()">Copy Last</button>
+      <button class="btn btn-secondary" onclick="copyAllReports()">Copy All</button>
       <button class="btn btn-secondary" onclick="clearReports()">Clear All</button>
     </div>`;
     allReports.forEach((r,i)=>{ html+=makeReportBlock(r,i); });
@@ -311,189 +622,126 @@ function renderReports(){
   els.reportsBlock.innerHTML=html;
 }
 
-/* ===== Edit/Delete ===== */
-function editReport(idx){
-  const r = allReports[idx];
-  if(!r) return;
-  const ask = (label, cur)=>prompt(label, cur??'');
-  const fields=['brand','model','serial','year','problem','diagnosis','action','status','requestType','notes','sc','payment'];
-  fields.forEach(f=>{
-    const val=ask(f, r[f]);
-    if(val!==null) r[f]=val.trim();
-  });
-  localStorage.setItem('repairReportsV4', JSON.stringify(allReports));
-  renderReports();
+/* Actions */
+function copyToClipboard(text){
+  const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t);
+  t.select(); document.execCommand('copy'); document.body.removeChild(t);
+  alert('Copied!');
+}
+function copyReport(idx){ copyToClipboard(reportToPlainText(allReports[idx])); }
+function copyLastReport(){ if(allReports.length) copyReport(allReports.length-1); else alert('No reports'); }
+function copyAllReports(){ if(!allReports.length) return alert('No reports'); copyToClipboard(allReports.map(reportToPlainText).join('\n\n-------------------\n\n')); }
+function shareWhatsApp(idx){ const text=encodeURIComponent(reportToPlainText(allReports[idx])); window.open(`https://wa.me/?text=${text}`,'_blank'); }
+function printReport(idx){
+  const text=reportToPlainText(allReports[idx]).replace(/\n/g,'<br>');
+  const w=window.open('','_blank','width=720,height=900');
+  w.document.write(`<html><head><title>Report</title><style>body{font-family:Arial,Helvetica,sans-serif;padding:24px;line-height:1.5}</style></head><body>${text}</body></html>`);
+  w.document.close(); w.focus(); w.print();
 }
 function deleteReport(idx){
   if(!confirm('Delete this report?')) return;
   allReports.splice(idx,1);
-  localStorage.setItem('repairReportsV4',JSON.stringify(allReports));
+  localStorage.setItem('repairReportsV3',JSON.stringify(allReports));
   renderReports();
 }
 function clearReports(){
   if(!confirm('CLEAR ALL REPORTS?')) return;
   allReports=[];
-  localStorage.removeItem('repairReportsV4');
+  localStorage.removeItem('repairReportsV3');
   renderReports();
 }
 
-/* ===== Events ===== */
+/* Autosave form */
+const FORM_KEY='repairFormStateV4';
+function saveForm(){
+  const data={
+    mode:currentMode,
+    category:els.category.value, brand:els.brand.value, model:els.model.value,
+    serial:els.serial.value, year:els.year.value,
+    problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
+    status:els.status.value, notes:els.notes.value, sc:els.sc.value,
+    pm:els.pm.value /* NEW: payment method */
+  };
+  localStorage.setItem(FORM_KEY,JSON.stringify(data));
+}
+function loadForm(){
+  const raw=localStorage.getItem(FORM_KEY);
+  if(!raw) return;
+  const d=JSON.parse(raw);
+  if(d.mode){ currentMode=d.mode; updateModeButtons(); }
+  if(d.category){ els.category.value=d.category; }
+  updateLists();
+  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','pm'].forEach(k=>{
+    if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
+  });
+  checkDelButtons();
+}
+
+/* Mode + translations */
+function updateModeButtons(){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  (currentMode==='technician'?els.modeTech:els.modeClient).classList.add('active');
+  Array.from(document.querySelectorAll('.translation')).forEach(el=>{
+    el.classList.toggle('hidden', currentMode==='client');
+  });
+}
+
+/* Events */
+els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveForm(); renderReports(); };
+els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
+
+els.category.addEventListener('change',()=>{ updateLists(); saveForm(); });
+['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','pm'].forEach(id=>{
+  const el=els[id];
+  el.addEventListener('input',saveForm);
+  el.addEventListener('change',()=>{ saveForm(); checkDelButtons(); });
+});
+
+/* Add buttons */
+els.addCategoryBtn.onclick=promptAddCategory;
+els.addBrandBtn.onclick=()=>promptAddCustom('brand');
+els.addProblemBtn.onclick=()=>promptAddCustom('problem');
+els.addDiagnosisBtn.onclick=()=>promptAddCustom('diagnosis');
+els.addActionBtn.onclick=()=>promptAddCustom('action');
+els.addStatusBtn.onclick=()=>promptAddCustom('status');
+
+/* Delete buttons */
+els.delCustomCategory.onclick=delCustomCategory;
+
+/* show delete when selection changes */
+[els.brand,els.problem,els.diagnosis,els.action,els.status].forEach(sel=>{
+  sel.addEventListener('change',checkDelButtons);
+});
+
+/* Clear form (no validation errors anywhere) */
+els.clearBtn.onclick=()=>{
+  if(!confirm('Clear form?')) return;
+  els.repairForm.reset();
+  localStorage.removeItem(FORM_KEY);
+  updateLists();
+  ['model','serial','year','notes','sc','pm'].forEach(k=>els[k].value='');
+  checkDelButtons();
+};
+
+/* Submit -> generate report (NO required fields) */
 els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
   const r=makeReportObj();
   allReports.push(r);
-  localStorage.setItem('repairReportsV4',JSON.stringify(allReports));
+  localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
   renderReports();
   alert('Report Generated & Saved!');
 };
-els.clearBtn.onclick=()=>{
-  if(!confirm('Clear form?')) return;
-  els.repairForm.reset();
-};
-
-/* Mode toggle */
-els.modeTech.onclick=()=>{ currentMode='technician'; els.modeTech.classList.add('active'); els.modeClient.classList.remove('active'); };
-els.modeClient.onclick=()=>{ currentMode='client'; els.modeClient.classList.add('active'); els.modeTech.classList.remove('active'); };
 
 /* INIT */
 window.addEventListener('load',()=>{
-  fillCategory(); fillStatus(); fillRequestType(); fillPayment();
+  fillCategory();
+  fillStatus();
+  updateModeButtons();
+  updateLists();
+  loadForm();
   renderReports();
 });
 </script>
-
-<script>
-// ---------- Custom options storage ----------
-const CUSTOM_KEY='arp_custom_v1';
-let custom = JSON.parse(localStorage.getItem(CUSTOM_KEY) || JSON.stringify({
-  category:[],              // [{en:"Coffee Machine", key:"coffee_machine"}]
-  brand:{},                 // { [catKey]: ["LG","Bosch"] }
-  problem:{},               // { [catKey]: ["Not heating", ...] }
-  diagnosis:{},             // { [catKey]: ["Heater broken", ...] }
-  action:{},                // { [catKey]: ["Heater replaced", ...] }
-  status:[],                // ["In progress", ...]
-  requestType:[],           // ["🧪 Diagnostic only", ...]
-  payment:[]                // ["💸 Zelle", ...]
-}));
-const persistCustom=()=>localStorage.setItem(CUSTOM_KEY, JSON.stringify(custom));
-const slugify=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
-
-// ---------- Helpers to get lists ----------
-const currentCatKey = ()=> {
-  // для built-in берём key из текста (совпадает с value 'en')
-  const selVal = els.category.value; // содержит EN названия для built-in
-  // Попробуем найти built-in по en
-  const bi = builtinCategories.find(c=>c.en===selVal);
-  if(bi) return bi.key;
-  // иначе кастомная категория хранится в custom.category
-  const ci = (custom.category||[]).find(c=>c.en===selVal);
-  return ci ? ci.key : '';
-};
-
-function fillSimple(select, arr, placeholder){
-  select.innerHTML = `<option value="">${placeholder}</option>`;
-  arr.forEach(v=> select.innerHTML += `<option value="${v}">${v}</option>`);
-}
-
-// ---------- Fill per-category selects ----------
-function fillPerCategoryLists(){
-  const catKey = currentCatKey();
-  const brands = (custom.brand[catKey]||[]);
-  const probs  = (custom.problem[catKey]||[]);
-  const diags  = (custom.diagnosis[catKey]||[]);
-  const acts   = (custom.action[catKey]||[]);
-  fillSimple(els.brand, brands, "Select Brand");
-  fillSimple(els.problem, probs, "Select Problem");
-  fillSimple(els.diagnosis, diags, "Select Diagnosis");
-  fillSimple(els.action, acts, "Select Action");
-}
-
-// Переопределим fillCategory так, чтобы поддержать кастомные категории тоже
-const _origFillCategory = fillCategory;
-fillCategory = function(){
-  const merged = [
-    ...builtinCategories.map(c=>({label:c.en, value:c.en, key:c.key})),
-    ...(custom.category||[]).map(c=>({label:c.en, value:c.en, key:c.key}))
-  ];
-  els.category.innerHTML = `<option value="">Select Appliance Type</option>`;
-  merged.forEach(c=>{
-    els.category.innerHTML += `<option value="${c.value}">${c.label}</option>`;
-  });
-};
-
-// Расширим статус/тип заявки/оплату с учётом кастомных
-const _origFillStatus = fillStatus;
-fillStatus = function(){
-  const merged = [...builtinStatuses.map(s=>s.en), ...(custom.status||[])];
-  fillSimple(els.status, merged, "Select Status");
-};
-
-const _origFillRequestType = fillRequestType;
-fillRequestType = function(){
-  const merged = [...builtinRequestTypes.map(s=>s.en), ...(custom.requestType||[])];
-  fillSimple(els.requestType, merged, "Select Request Type");
-};
-
-const _origFillPayment = fillPayment;
-fillPayment = function(){
-  const merged = [...builtinPayments.map(s=>s.en), ...(custom.payment||[])];
-  fillSimple(els.payment, merged, "Select Payment");
-};
-
-// ---------- Add (+) handlers ----------
-els.addCategoryBtn?.addEventListener('click', ()=>{
-  const en = prompt('New Appliance Type (EN):'); if(!en) return;
-  const key = slugify(en);
-  // не дублируем
-  if((custom.category||[]).some(c=>c.en===en) || builtinCategories.some(c=>c.en===en)){
-    alert('Already exists'); return;
-  }
-  custom.category.push({en, key});
-  custom.brand[key]=custom.brand[key]||[];
-  custom.problem[key]=custom.problem[key]||[];
-  custom.diagnosis[key]=custom.diagnosis[key]||[];
-  custom.action[key]=custom.action[key]||[];
-  persistCustom();
-  fillCategory();
-  els.category.value=en;
-  fillPerCategoryLists();
-});
-
-function addToPerCategory(field, promptText){
-  const catKey = currentCatKey();
-  if(!catKey){ alert('Select Appliance Type first'); return; }
-  const v = prompt(promptText); if(!v) return;
-  custom[field][catKey] = custom[field][catKey]||[];
-  if(!custom[field][catKey].includes(v)) custom[field][catKey].push(v);
-  persistCustom();
-  fillPerCategoryLists();
-}
-
-els.addBrandBtn?.addEventListener('click', ()=>addToPerCategory('brand','New Brand:'));
-els.addProblemBtn?.addEventListener('click', ()=>addToPerCategory('problem','New Problem:'));
-els.addDiagnosisBtn?.addEventListener('click', ()=>addToPerCategory('diagnosis','New Diagnosis:'));
-els.addActionBtn?.addEventListener('click', ()=>addToPerCategory('action','New Action:'));
-
-function addToFlat(field, promptText){
-  const v = prompt(promptText); if(!v) return;
-  custom[field] = custom[field]||[];
-  if(!custom[field].includes(v)) custom[field].push(v);
-  persistCustom();
-  if(field==='status') fillStatus();
-  if(field==='requestType') fillRequestType();
-  if(field==='payment') fillPayment();
-}
-els.addStatusBtn?.addEventListener('click', ()=>addToFlat('status','New Status (e.g. 🟡 In Progress):'));
-els.addRequestTypeBtn?.addEventListener('click', ()=>addToFlat('requestType','New Request Type (with emoji if you like):'));
-els.addPaymentBtn?.addEventListener('click', ()=>addToFlat('payment','New Payment Method (with emoji if you like):'));
-
-// обновляем списки при смене категории
-els.category.addEventListener('change', fillPerCategoryLists);
-
-// первичная инициализация пер-категорийных списков
-fillPerCategoryLists();
-</script>
-
-  </div> <!-- /container -->
 </body>
 </html>

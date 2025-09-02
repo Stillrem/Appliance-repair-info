@@ -154,11 +154,23 @@
         <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
         <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
       </div>
+
       <div class="form-group input-dollar">
         <label class="label">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
         <span class="dollar-sign" aria-label="Dollar">$</span>
         <input type="number" id="sc" placeholder="0" min="0" step="1" inputmode="numeric" />
       </div>
+
+      <!-- Payment Method (right after SC) -->
+      <div class="form-group">
+        <label class="label">Payment Method <span class="translation">Метод оплаты</span></label>
+        <div class="select-group">
+          <select id="payment">
+            <option value="">Select Payment Method</option>
+          </select>
+        </div>
+      </div>
+      <!-- /Payment Method -->
     </div>
 
     <div class="action-buttons">
@@ -270,6 +282,14 @@ const builtinStatuses = [
   {en:"❌ Not Repairable", ru:"Не подлежит ремонту"}
 ];
 
+/* ===== Payment Method list (built-in) ===== */
+const builtinPayments = [
+  {en:"💳 Card", ru:"💳 Карта"},
+  {en:"💵 Cash", ru:"💵 Наличные"},
+  {en:"📝 Check", ru:"📝 Чек"},
+  {en:"🔗 Online link", ru:"🔗 Онлайн ссылка"}
+];
+
 /* ================== STATE ================== */
 let currentMode='technician';
 const $=id=>document.getElementById(id);
@@ -280,6 +300,7 @@ const els={
   serial:$('serial'), year:$('year'),
   problem:$('problem'), diagnosis:$('diagnosis'), action:$('action'),
   status:$('status'), notes:$('notes'), sc:$('sc'),
+  payment:$('payment'),
   genBtn:$('genBtn'), clearBtn:$('clearBtn'),
   addCategoryBtn:$('addCategoryBtn'), delCustomCategory:$('delCustomCategory'),
   addBrandBtn:$('addBrandBtn'), delCustomBrand:$('delCustomBrand'),
@@ -290,16 +311,7 @@ const els={
   reportsBlock:$('allReportsBlock')
 };
 
-/* ===== Storage schema (V4) =====
-customOptionsV4 = {
-  category: [{key,en,ru}, ...],
-  brand: { [key]: [ "Brand", ... ] },
-  problem: { [key]: [ {en,ru}, ... ] },
-  diagnosis: { [key]: [ {en,ru}, ... ] },
-  action: { [key]: [ {en,ru}, ... ] },
-  status: [ {en,ru}, ... ]
-}
-*/
+/* ===== Storage schema (V4) ===== */
 let custom = JSON.parse(localStorage.getItem('customOptionsV4')||'{}');
 if(!custom.category) custom.category=[];
 if(!custom.brand) custom.brand={};
@@ -314,7 +326,6 @@ if(!custom.status) custom.status=[];
   if(!v3) return;
   try{
     const old = JSON.parse(v3);
-    // move brand/problem/diagnosis/action per existing categories
     ['brand','problem','diagnosis','action'].forEach(k=>{
       const obj = old[k]||{};
       Object.keys(obj).forEach(cat=>{
@@ -333,7 +344,6 @@ function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/
 function categoryList(){ return [...builtinCategories, ...custom.category]; }
 
 function mapsFor(catKey){
-  // built-in fallback
   const brands = (builtinBrands[catKey]||[]).concat( (custom.brand[catKey]||[]) );
   const problems = (builtinProblems[catKey]||[]).concat( (custom.problem[catKey]||[]) );
   const diagnosis = (builtinDiagnosis[catKey]||[]).concat( (custom.diagnosis[catKey]||[]) );
@@ -342,11 +352,9 @@ function mapsFor(catKey){
 }
 
 function ensureCustomCategory(catKey, en, ru){
-  // add to list if not exists
   if(!custom.category.find(c=>c.key===catKey)){
     custom.category.push({key:catKey,en,ru});
   }
-  // seed defaults if empty
   if(!custom.problem[catKey]||custom.problem[catKey].length===0) custom.problem[catKey]=JSON.parse(JSON.stringify(universalProblems));
   if(!custom.diagnosis[catKey]||custom.diagnosis[catKey].length===0) custom.diagnosis[catKey]=JSON.parse(JSON.stringify(universalDiagnosis));
   if(!custom.action[catKey]||custom.action[catKey].length===0) custom.action[catKey]=JSON.parse(JSON.stringify(universalActions));
@@ -383,6 +391,10 @@ function fillStatus(){
   fillSelectENorObj(els.status, list, 'Select Status');
 }
 
+function fillPayment(){
+  fillSelectENorObj(els.payment, builtinPayments, 'Select Payment Method');
+}
+
 /* main update */
 function updateLists(){
   fillCategory();
@@ -390,6 +402,7 @@ function updateLists(){
   if(!cat){
     ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
     fillStatus();
+    fillPayment();
     checkDelButtons();
     return;
   }
@@ -399,6 +412,7 @@ function updateLists(){
   fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
   fillSelectENorObj(els.action, actions, 'Select Action');
   fillStatus();
+  fillPayment();
   checkDelButtons();
 }
 
@@ -476,7 +490,6 @@ function delCustomCategory(){
   const obj = custom.category.find(c=>c.key===cat);
   if(!obj) return;
   if(!confirm(`Delete custom type '${obj.en}'? All its custom lists will be removed.`)) return;
-  // remove from custom
   custom.category = custom.category.filter(c=>c.key!==cat);
   delete custom.brand[cat];
   delete custom.problem[cat];
@@ -531,21 +544,21 @@ function reportToPlainText(r){
     `Action: ${r.action||'-'}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
     `Status: ${r.status||'-'}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`,
     `Notes: ${r.notes||'-'}`,
-    `SC: $${r.sc||'0'}`
+    `SC: $${r.sc||'0'}`,
+    `Payment: ${r.payment || '-'}`
   ];
   return lines.join('\n');
 }
 function makeReportObj(){
   const catKey=els.category.value;
   const catObj = categoryList().find(c=>c.key===catKey);
-  const catLabel = catObj ? `${catObj.en} / ${catObj.ru}` : '';
-
+  const catLabel = catObj ? `${c atObj.en} / ${catObj.ru}` : '';
   const m = mapsFor(catKey||'');
   return {
     date: new Date().toLocaleString('en-US', {
-    year:'numeric', month:'2-digit', day:'2-digit',
-    hour:'2-digit', minute:'2-digit', hour12:true
- }),
+      year:'numeric', month:'2-digit', day:'2-digit',
+      hour:'2-digit', minute:'2-digit', hour12:true
+    }),
     mode:currentMode,
     category:catKey,
     categoryLabel:catLabel,
@@ -563,7 +576,8 @@ function makeReportObj(){
     status:els.status.value||'',
     status_ru:findStatusRu(els.status.value),
     notes:(els.notes.value||'').trim(),
-    sc:(els.sc.value||'').trim()
+    sc:(els.sc.value||'').trim(),
+    payment: els.payment.value || ''
   };
 }
 function makeReportBlock(r, idx){
@@ -582,6 +596,7 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Status', r.status, r.status_ru);
   html+=lineENRU('Notes', r.notes,'');
   html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
+  html+=lineENRU('Payment', r.payment, r.payment);
   html+=`</div>
     <div class="report-actions">
       <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>
@@ -642,7 +657,8 @@ function saveForm(){
     category:els.category.value, brand:els.brand.value, model:els.model.value,
     serial:els.serial.value, year:els.year.value,
     problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
-    status:els.status.value, notes:els.notes.value, sc:els.sc.value
+    status:els.status.value, notes:els.notes.value, sc:els.sc.value,
+    payment:els.payment.value
   };
   localStorage.setItem(FORM_KEY,JSON.stringify(data));
 }
@@ -653,7 +669,7 @@ function loadForm(){
   if(d.mode){ currentMode=d.mode; updateModeButtons(); }
   if(d.category){ els.category.value=d.category; }
   updateLists();
-  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc'].forEach(k=>{
+  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','payment'].forEach(k=>{
     if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
   });
   checkDelButtons();
@@ -673,7 +689,7 @@ els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveFo
 els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
 
 els.category.addEventListener('change',()=>{ updateLists(); saveForm(); });
-['brand','model','serial','year','problem','diagnosis','action','status','notes','sc'].forEach(id=>{
+['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','payment'].forEach(id=>{
   const el=els[id];
   el.addEventListener('input',saveForm);
   el.addEventListener('change',()=>{ saveForm(); checkDelButtons(); });
@@ -701,7 +717,7 @@ els.clearBtn.onclick=()=>{
   els.repairForm.reset();
   localStorage.removeItem(FORM_KEY);
   updateLists();
-  ['model','serial','year','notes','sc'].forEach(k=>els[k].value='');
+  ['model','serial','year','notes','sc','payment'].forEach(k=>els[k].value='');
   checkDelButtons();
 };
 
@@ -717,9 +733,9 @@ els.repairForm.onsubmit=(e)=>{
 
 /* INIT */
 window.addEventListener('load',()=>{
-  // initial category fill
   fillCategory();
   fillStatus();
+  fillPayment();
   updateModeButtons();
   updateLists();
   loadForm();

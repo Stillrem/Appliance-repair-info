@@ -554,9 +554,11 @@ function lineENRU(label,en,ru){
   return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en||ru||''}</span></div>`;
 }
 function reportToPlainText(r){
-  const lines=[
-    const ticketLabel = `Заявка №${r.ticketNo||'-'}`;
-    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date})`,
+  const ticketLabel = `Заявка №${r.ticketNo || '-'}`;
+  const header = `${ticketLabel} — ${r.mode==='technician' ? 'Technician Report' : 'Client Report'} (${r.date})`;
+
+  const lines = [
+    header,
     `Appliance: ${r.categoryLabel}`,
     `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
     `Model: ${r.model||'-'}`,
@@ -572,6 +574,7 @@ function reportToPlainText(r){
   ];
   return lines.join('\n');
 }
+  
 function makeReportObj(){
   const catKey=els.category.value;
   const catObj = categoryList().find(c=>c.key===catKey);

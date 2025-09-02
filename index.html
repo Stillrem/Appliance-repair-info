@@ -696,57 +696,68 @@ function clearReports(){
 }
 
 /* Editing */
+let editIndex = null;
+  
+/** Включает/выключает визуальный режим редактирования */
+function setEditUI(on, reqNo){
+  // меняем текст основной кнопки
+  els.genBtn.textContent = on ? '💾 Save Changes' : '📋 Generate Report';
+
+  // создаём кнопку Cancel один раз
+  let cancelBtn = document.getElementById('cancelEditBtn');
+  if(!cancelBtn){
+    cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.id = 'cancelEditBtn';
+    cancelBtn.className = 'btn btn-secondary';
+    cancelBtn.textContent = '✖ Cancel Edit';
+    cancelBtn.style.marginLeft = '0';
+    cancelBtn.onclick = ()=>{
+      editIndex = null;
+      setEditUI(false);
+      // опционально можно вернуть значения формы из автосейва,
+      // но сейчас просто остаёмся на текущих введённых значениях
+    };
+    els.genBtn.parentElement.appendChild(cancelBtn);
+  }
+  cancelBtn.style.display = on ? '' : 'none';
+}
+
+/** Начать редактирование выбранного отчёта */
 function editReport(idx){
   const r = allReports[idx];
   if(!r) return;
+
+  // если категория кастомная и отсутствует в списках (например, storage очищался) — восстановим её
+  if(r.category && !categoryList().some(c=>c.key===r.category)){
+    const parts = (r.categoryLabel||'').split(' / ');
+    const en = (parts[0]||r.category).trim();
+    const ru = (parts[1]||parts[0]||r.category).trim();
+    ensureCustomCategory(r.category, en, ru);
+    persistCustom();
+    fillCategory();
+  }
+
   editIndex = idx;
 
-  currentMode = r.mode;
+  // режим (Technician/Client)
+  currentMode = r.mode || 'technician';
   updateModeButtons();
 
+  // установить категорию и обновить списки
   els.category.value = r.category || '';
   updateLists();
 
-  els.brand.value = r.brand || '';
-  els.model.value = r.model || '';
-  els.serial.value = r.serial || '';
-  els.year.value = r.year || '';
-  els.problem.value = r.problem || '';
-  els.diagnosis.value = r.diagnosis || '';
-  els.action.value = r.action || '';
-  els.status.value = r.status || '';
-  els.notes.value = r.notes || '';
-  els.sc.value = r.sc || '';
-  els.payment.value = r.payment || '';
-  checkDelButtons();
+  // заполнить поля после обновления списков
+  const assign = (k)=>{ if(els[k]) els[k].value = (r[k] ?? ''); };
+  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','payment'].forEach(assign);
 
-  // чтобы пользователь сразу видел форму
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-/* Autosave form */
-const FORM_KEY='repairFormStateV4';
-function saveForm(){
-  const data={
-    mode:currentMode,
-    category:els.category.value, brand:els.brand.value, model:els.model.value,
-    serial:els.serial.value, year:els.year.value,
-    problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
-    status:els.status.value, payment:els.payment.value, notes:els.notes.value, sc:els.sc.value
-  };
-  localStorage.setItem(FORM_KEY,JSON.stringify(data));
-}
-function loadForm(){
-  const raw=localStorage.getItem(FORM_KEY);
-  if(!raw) return;
-  const d=JSON.parse(raw);
-  if(d.mode){ currentMode=d.mode; updateModeButtons(); }
-  if(d.category){ els.category.value=d.category; }
-  updateLists();
-  ['brand','model','serial','year','problem','diagnosis','action','status','payment','notes','sc'].forEach(k=>{
-    if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
-  });
   checkDelButtons();
+  setEditUI(true, r.requestNumber);
+
+  // визуально показать, что редактируем: скролл к форме и фокус
+  els.repairForm.scrollIntoView({behavior:'smooth', block:'start'});
+  els.category.focus();
 }
 
 /* Mode + translations */
@@ -798,24 +809,19 @@ els.clearBtn.onclick=()=>{
 };
 
 /* Submit -> generate report (NO required fields) */
-els.repairForm.onsubmit = (e)=>{
+els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
-  const r = makeReportObj();
-
-  if (editIndex !== null) {
-    // переносим метаданные из старого отчёта
+  const r=makeReportObj();
+  if(editIndex!==null){
+    // retain original request number
     r.requestNumber = allReports[editIndex].requestNumber;
-    r.date = allReports[editIndex].date;   // НЕ затираем дату
-    r.mode = allReports[editIndex].mode;   // НЕ затираем режим
-
     allReports[editIndex] = r;
-    editIndex = null;
+    editIndex=null;
   } else {
     r.requestNumber = getNextRequestNumber();
     allReports.push(r);
   }
-
-  localStorage.setItem('repairReportsV3', JSON.stringify(allReports));
+  localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
   renderReports();
   alert('Report Generated & Saved!');
 };

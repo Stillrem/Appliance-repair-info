@@ -1,3 +1,4 @@
+Не работает edit вот код. 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -697,67 +698,55 @@ function clearReports(){
 
 /* Editing */
 let editIndex = null;
-  
-/** Включает/выключает визуальный режим редактирования */
-function setEditUI(on, reqNo){
-  // меняем текст основной кнопки
-  els.genBtn.textContent = on ? '💾 Save Changes' : '📋 Generate Report';
-
-  // создаём кнопку Cancel один раз
-  let cancelBtn = document.getElementById('cancelEditBtn');
-  if(!cancelBtn){
-    cancelBtn = document.createElement('button');
-    cancelBtn.type = 'button';
-    cancelBtn.id = 'cancelEditBtn';
-    cancelBtn.className = 'btn btn-secondary';
-    cancelBtn.textContent = '✖ Cancel Edit';
-    cancelBtn.style.marginLeft = '0';
-    cancelBtn.onclick = ()=>{
-      editIndex = null;
-      setEditUI(false);
-      // опционально можно вернуть значения формы из автосейва,
-      // но сейчас просто остаёмся на текущих введённых значениях
-    };
-    els.genBtn.parentElement.appendChild(cancelBtn);
-  }
-  cancelBtn.style.display = on ? '' : 'none';
-}
-
-/** Начать редактирование выбранного отчёта */
 function editReport(idx){
   const r = allReports[idx];
   if(!r) return;
-
-  // если категория кастомная и отсутствует в списках (например, storage очищался) — восстановим её
-  if(r.category && !categoryList().some(c=>c.key===r.category)){
-    const parts = (r.categoryLabel||'').split(' / ');
-    const en = (parts[0]||r.category).trim();
-    const ru = (parts[1]||parts[0]||r.category).trim();
-    ensureCustomCategory(r.category, en, ru);
-    persistCustom();
-    fillCategory();
-  }
-
   editIndex = idx;
-
-  // режим (Technician/Client)
-  currentMode = r.mode || 'technician';
+  // set mode
+  currentMode = r.mode;
   updateModeButtons();
-
-  // установить категорию и обновить списки
+  // set category then update lists
   els.category.value = r.category || '';
   updateLists();
-
-  // заполнить поля после обновления списков
-  const assign = (k)=>{ if(els[k]) els[k].value = (r[k] ?? ''); };
-  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','payment'].forEach(assign);
-
+  // after lists fill, assign values
+  els.brand.value = r.brand || '';
+  els.model.value = r.model || '';
+  els.serial.value = r.serial || '';
+  els.year.value = r.year || '';
+  els.problem.value = r.problem || '';
+  els.diagnosis.value = r.diagnosis || '';
+  els.action.value = r.action || '';
+  els.status.value = r.status || '';
+  els.notes.value = r.notes || '';
+  els.sc.value = r.sc || '';
+  els.payment.value = r.payment || '';
   checkDelButtons();
-  setEditUI(true, r.requestNumber);
+  // store request number in a property maybe (not needed) - editing retains same requestNumber automatically
+}
 
-  // визуально показать, что редактируем: скролл к форме и фокус
-  els.repairForm.scrollIntoView({behavior:'smooth', block:'start'});
-  els.category.focus();
+/* Autosave form */
+const FORM_KEY='repairFormStateV4';
+function saveForm(){
+  const data={
+    mode:currentMode,
+    category:els.category.value, brand:els.brand.value, model:els.model.value,
+    serial:els.serial.value, year:els.year.value,
+    problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
+    status:els.status.value, payment:els.payment.value, notes:els.notes.value, sc:els.sc.value
+  };
+  localStorage.setItem(FORM_KEY,JSON.stringify(data));
+}
+function loadForm(){
+  const raw=localStorage.getItem(FORM_KEY);
+  if(!raw) return;
+  const d=JSON.parse(raw);
+  if(d.mode){ currentMode=d.mode; updateModeButtons(); }
+  if(d.category){ els.category.value=d.category; }
+  updateLists();
+  ['brand','model','serial','year','problem','diagnosis','action','status','payment','notes','sc'].forEach(k=>{
+    if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
+  });
+  checkDelButtons();
 }
 
 /* Mode + translations */

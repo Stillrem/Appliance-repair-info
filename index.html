@@ -420,11 +420,9 @@ function updateLists(){
 function checkDelButtons(){
   const cat=els.category.value;
 
-  // category
   const isCustomCat = custom.category.some(c=>c.key===cat);
   els.delCustomCategory.style.display = (cat && isCustomCat)?'inline-block':'none';
 
-  // brand/problem/diagnosis/action
   const check = (key, selectEl, btnEl)=>{
     if(!cat){ btnEl.style.display='none'; return; }
     const customs=(custom[key][cat]||[]);
@@ -438,7 +436,6 @@ function checkDelButtons(){
   check('diagnosis',els.diagnosis,els.delCustomDiagnosis);
   check('action',els.action,els.delCustomAction);
 
-  // status
   const stVal = els.status.value;
   const stIdx = (custom.status||[]).findIndex(o=>o.en===stVal);
   els.delCustomStatus.style.display = stIdx!==-1?'inline-block':'none';
@@ -509,7 +506,7 @@ function delCustomStatus(valEN){
 function findRuInList(arr,val){
   if(!val) return '';
   if(!arr||!arr.length) return '';
-  if(typeof arr[0]==='string') return val; // brands
+  if(typeof arr[0]==='string') return val;
   const f = arr.find(o=>o.en===val);
   return f ? (f.ru||val) : val;
 }
@@ -533,7 +530,7 @@ function lineENRU(label,en,ru){
 }
 function reportToPlainText(r){
   const lines=[
-    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\d+$/,'')})`,
+    `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date})`,
     `Appliance: ${r.categoryLabel}`,
     `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
     `Model: ${r.model||'-'}`,
@@ -552,13 +549,16 @@ function reportToPlainText(r){
 function makeReportObj(){
   const catKey=els.category.value;
   const catObj = categoryList().find(c=>c.key===catKey);
-  const catLabel = catObj ? `${c atObj.en} / ${catObj.ru}` : '';
+  const catLabel = catObj ? `${catObj.en} / ${catObj.ru}` : '';
   const m = mapsFor(catKey||'');
+
+  // Дата без времени
+  const dateOnly = new Date().toLocaleDateString('en-US', {
+    year:'numeric', month:'2-digit', day:'2-digit'
+  });
+
   return {
-    date: new Date().toLocaleString('en-US', {
-      year:'numeric', month:'2-digit', day:'2-digit',
-      hour:'2-digit', minute:'2-digit', hour12:true
-    }),
+    date: dateOnly,
     mode:currentMode,
     category:catKey,
     categoryLabel:catLabel,
@@ -583,7 +583,7 @@ function makeReportObj(){
 function makeReportBlock(r, idx){
   const title=(r.mode==='technician'?'Technician Report':'Client Report');
   let html=`<div class="report-output" data-idx="${idx}">
-    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\d+$/,'')})</span></div>
+    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date})</span></div>
     <div class="report-content">`;
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);
@@ -711,7 +711,7 @@ els.delCustomCategory.onclick=delCustomCategory;
   sel.addEventListener('change',checkDelButtons);
 });
 
-/* Clear form (no validation errors anywhere) */
+/* Clear form */
 els.clearBtn.onclick=()=>{
   if(!confirm('Clear form?')) return;
   els.repairForm.reset();
@@ -721,12 +721,12 @@ els.clearBtn.onclick=()=>{
   checkDelButtons();
 };
 
-/* Submit -> generate report (NO required fields) */
+/* Submit -> generate report */
 els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
   const r=makeReportObj();
   allReports.push(r);
-  localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
+  localStorage.setItem('repairReportsV3',JSON.stringify(allReports));
   renderReports();
   alert('Report Generated & Saved!');
 };

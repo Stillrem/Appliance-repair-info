@@ -5,17 +5,18 @@
   <title>Appliance Repair Pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <style>
-  :root{--primary:#34c759;--primary-dark:#30d158;--background:#111;--surface:#232324;--surface-2:#29292B;--surface-3:#323236;--text:#fff;--text-secondary:#bcbcc7;--border:#34343B;--shadow:rgba(0,0,0,0.24);}*{box-sizing:border-box}
+  :root{--primary:#34c759;--primary-dark:#30d158;--background:#111;--surface:#232324;--surface-2:#29292B;--surface-3:#323236;--text:#fff;--text-secondary:#bcbcc7;--border:#34343B;--shadow:rgba(0,0,0,0.24);}
+  *{box-sizing:border-box}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--background);color:var(--text);margin:0;}
   .container{max-width:640px;margin:0 auto;min-height:100vh;padding:24px 6vw 36px;}
   .header{text-align:center;margin-top:8px;margin-bottom:32px;}
-  .logo{width:62px;height:62px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:15px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 18px rgba(52,199,89,0.18);}  
+  .logo{width:62px;height:62px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:15px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 18px rgba(52,199,89,0.18);}
   .title{font-size:2rem;font-weight:800;margin-bottom:7px;text-align:center;background:linear-gradient(135deg,var(--primary),var(--primary-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .subtitle{color:var(--text-secondary);font-size:16px;font-weight:500;}
   .mode-toggle{display:flex;max-width:300px;margin:23px auto 0;background:var(--surface);border-radius:12px;box-shadow:inset 0 1px 3px var(--shadow);}
   .mode-btn{flex:1;padding:13px 10px;border:none;background:none;color:var(--text-secondary);border-radius:9px;font-weight:700;font-size:15px;transition:all .22s cubic-bezier(.25,.46,.45,.94);cursor:pointer;}
-  .mode-btn.active{background:var(--primary);color:var(--text);box-shadow:0 2px 8px rgba(52,199,89,0.23);}  
-  .form-section{background:var(--surface);border-radius:18px;padding:26px 21px 22px;margin-bottom:20px;border:1.4px solid var(--border);box-shadow:0 2px 22px rgba(0,0,0,0.07);}  
+  .mode-btn.active{background:var(--primary);color:var(--text);box-shadow:0 2px 8px rgba(52,199,89,0.23);}
+  .form-section{background:var(--surface);border-radius:18px;padding:26px 21px 22px;margin-bottom:20px;border:1.4px solid var(--border);box-shadow:0 2px 22px rgba(0,0,0,0.07);}
   @media(max-width:600px){.form-section{padding:18px 6vw;}}
   .section-title{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:17px;}
   .form-group{margin-bottom:23px;display:flex;flex-direction:column;align-items:stretch;}
@@ -24,37 +25,37 @@
   .translation{color:var(--text-secondary);font-size:13.3px;font-style:italic;display:block;}
   .translation.hidden{display:none;}
   select,input,textarea{width:100%;padding:14px;background:var(--surface-2);border:1.3px solid var(--border);border-radius:10px;color:var(--text);font-size:15.5px;font-family:inherit;transition:border .21s,background .21s;appearance:none;}
-  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--primary);}  
+  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--primary);}
   select{background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23bbbbbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 15px center;background-size:18px;padding-right:43px;cursor:pointer;}
   textarea{min-height:90px;resize:vertical;line-height:1.54;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   @media(max-width:540px){.form-row{grid-template-columns:1fr;gap:13px;}}
   .action-buttons{display:flex;gap:11px;margin-top:33px;}
   .btn{flex:1;padding:14px 0;border:none;border-radius:11px;font-weight:700;font-size:15.7px;transition:background .19s,transform .14s;cursor:pointer;}
-  .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);}  
-  .btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border);}  
-  .btn-primary:hover{background:var(--primary-dark);filter:brightness(1.04);}  
-  .btn-secondary:hover{background:var(--surface-3);}  
-  .report-output{background:var(--surface);border-radius:17px;padding:25px 10px 10px;margin-top:22px;border:1.2px solid var(--border);}  
-  .report-title{font-size:20px;font-weight:700;margin-bottom:12px;color:var(--primary);}  
-  .report-content{line-height:1.66;}  
-  .report-line{margin-bottom:10px;padding:7px 0;border-bottom:1px solid var(--border);}  
-  .report-line:last-child{border-bottom:none;margin-bottom:0;}  
-  .report-label{font-weight:700;color:var(--text-secondary);font-size:13px;text-transform:uppercase;letter-spacing:.3px;}  
-  .report-value{font-size:15.6px;color:var(--text);}  
-  .report-actions{display:flex;gap:8px;margin-top:12px;}  
-  .btn-mini{flex:unset;padding:8px 10px;border-radius:8px;font-weight:700;font-size:13.5px;}  
-  .input-dollar{position:relative;display:flex;align-items:center;}  
-  .input-dollar .dollar-sign{display:inline-block;width:27px;min-width:27px;text-align:center;font-size:17px;color:#aaa;pointer-events:none;line-height:1;margin-right:2px;}  
-  .input-dollar input[type="number"]{padding-left:0;flex:1;}  
-  .select-group{display:flex;align-items:center;gap:3px;}  
-  .custom-add-btn{background:var(--primary);color:#fff;border:none;border-radius:7px;padding:3px 9px;cursor:pointer;font-size:17px;margin-left:3px;}  
-  .custom-add-btn:hover{background:var(--primary-dark);}  
-  .custom-del-btn{background:#f34e4e;color:#fff;border:none;border-radius:7px;padding:3px 9px;font-size:17px;cursor:pointer;display:inline-block;vertical-align:middle;margin-left:2px;}  
-  .custom-del-btn:hover{background:#c93434;}  
-  #allReportsBlock>.report-output{margin-top:18px;}  
-  #reportsControlBtns{margin:18px 0 4px;display:flex;gap:10px;flex-wrap:wrap;}  
-  ::selection{background:var(--primary-dark);color:#fff;}  
+  .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:var(--text);}
+  .btn-secondary{background:var(--surface-2);color:var(--text);border:1px solid var(--border);}
+  .btn-primary:hover{background:var(--primary-dark);filter:brightness(1.04);}
+  .btn-secondary:hover{background:var(--surface-3);}
+  .report-output{background:var(--surface);border-radius:17px;padding:25px 10px 10px;margin-top:22px;border:1.2px solid var(--border);}
+  .report-title{font-size:20px;font-weight:700;margin-bottom:12px;color:var(--primary);}
+  .report-content{line-height:1.66;}
+  .report-line{margin-bottom:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+  .report-line:last-child{border-bottom:none;margin-bottom:0;}
+  .report-label{font-weight:700;color:var(--text-secondary);font-size:13px;text-transform:uppercase;letter-spacing:.3px;}
+  .report-value{font-size:15.6px;color:var(--text);}
+  .report-actions{display:flex;gap:8px;margin-top:12px;}
+  .btn-mini{flex:unset;padding:8px 10px;border-radius:8px;font-weight:700;font-size:13.5px;}
+  .input-dollar{position:relative;display:flex;align-items:center;}
+  .input-dollar .dollar-sign{display:inline-block;width:27px;min-width:27px;text-align:center;font-size:17px;color:#aaa;pointer-events:none;line-height:1;margin-right:2px;}
+  .input-dollar input[type="number"]{padding-left:0;flex:1;}
+  .select-group{display:flex;align-items:center;gap:3px;}
+  .custom-add-btn{background:var(--primary);color:#fff;border:none;border-radius:7px;padding:3px 9px;cursor:pointer;font-size:17px;margin-left:3px;}
+  .custom-add-btn:hover{background:var(--primary-dark);}
+  .custom-del-btn{background:#f34e4e;color:#fff;border:none;border-radius:7px;padding:3px 9px;font-size:17px;cursor:pointer;display:inline-block;vertical-align:middle;margin-left:2px;}
+  .custom-del-btn:hover{background:#c93434;}
+  #allReportsBlock>.report-output{margin-top:18px;}
+  #reportsControlBtns{margin:18px 0 4px;display:flex;gap:10px;flex-wrap:wrap;}
+  ::selection{background:var(--primary-dark);color:#fff;}
   @media (max-width:540px){.container{padding:9px 0 29px;}}
   </style>
 </head>
@@ -146,16 +147,6 @@
           <select id="status"><option value="">Select Status</option></select>
           <button type="button" class="custom-add-btn" id="addStatusBtn" title="Add Status">+</button>
           <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom status">🗑️</button>
-        </div>
-      </div>
-
-      <!-- Payment Method Field -->
-      <div class="form-group">
-        <label class="label">Payment Method <span class="translation">Метод оплаты</span></label>
-        <div class="select-group">
-          <select id="payment"><option value="">Select Payment Method</option></select>
-          <button type="button" class="custom-add-btn" id="addPaymentBtn" title="Add Payment Method">+</button>
-          <button type="button" class="custom-del-btn" id="delCustomPayment" style="display:none;" title="Delete this custom payment method">🗑️</button>
         </div>
       </div>
 
@@ -279,34 +270,24 @@ const builtinStatuses = [
   {en:"❌ Not Repairable", ru:"Не подлежит ремонту"}
 ];
 
-/* ===== Payment Method list (built-in + custom) ===== */
-const builtinPayments = [
-  {en:"💳 Card", ru:"💳 Карта"},
-  {en:"💵 Cash", ru:"💵 Наличные"},
-  {en:"📝 Check", ru:"📝 Чек"},
-  {en:"🔗 Online link", ru:"🔗 Онлайн ссылка"}
-];
-
 /* ================== STATE ================== */
 let currentMode='technician';
 const $=id=>document.getElementById(id);
 const els={
-  repairForm:$( 'repairForm' ),
-  modeTech:$( 'modeTech' ), modeClient:$( 'modeClient' ),
-  category:$( 'category' ), brand:$( 'brand' ), model:$( 'model' ),
-  serial:$( 'serial' ), year:$( 'year' ),
-  problem:$( 'problem' ), diagnosis:$( 'diagnosis' ), action:$( 'action' ),
-  status:$( 'status' ), notes:$( 'notes' ), sc:$( 'sc' ),
-  payment:$( 'payment' ),
-  genBtn:$( 'genBtn' ), clearBtn:$( 'clearBtn' ),
-  addCategoryBtn:$( 'addCategoryBtn' ), delCustomCategory:$( 'delCustomCategory' ),
-  addBrandBtn:$( 'addBrandBtn' ), delCustomBrand:$( 'delCustomBrand' ),
-  addProblemBtn:$( 'addProblemBtn' ), delCustomProblem:$( 'delCustomProblem' ),
-  addDiagnosisBtn:$( 'addDiagnosisBtn' ), delCustomDiagnosis:$( 'delCustomDiagnosis' ),
-  addActionBtn:$( 'addActionBtn' ), delCustomAction:$( 'delCustomAction' ),
-  addStatusBtn:$( 'addStatusBtn' ), delCustomStatus:$( 'delCustomStatus' ),
-  addPaymentBtn:$( 'addPaymentBtn' ), delCustomPayment:$( 'delCustomPayment' ),
-  reportsBlock:$( 'allReportsBlock' )
+  repairForm:$('repairForm'),
+  modeTech:$('modeTech'), modeClient:$('modeClient'),
+  category:$('category'), brand:$('brand'), model:$('model'),
+  serial:$('serial'), year:$('year'),
+  problem:$('problem'), diagnosis:$('diagnosis'), action:$('action'),
+  status:$('status'), notes:$('notes'), sc:$('sc'),
+  genBtn:$('genBtn'), clearBtn:$('clearBtn'),
+  addCategoryBtn:$('addCategoryBtn'), delCustomCategory:$('delCustomCategory'),
+  addBrandBtn:$('addBrandBtn'), delCustomBrand:$('delCustomBrand'),
+  addProblemBtn:$('addProblemBtn'), delCustomProblem:$('delCustomProblem'),
+  addDiagnosisBtn:$('addDiagnosisBtn'), delCustomDiagnosis:$('delCustomDiagnosis'),
+  addActionBtn:$('addActionBtn'), delCustomAction:$('delCustomAction'),
+  addStatusBtn:$('addStatusBtn'), delCustomStatus:$('delCustomStatus'),
+  reportsBlock:$('allReportsBlock')
 };
 
 /* ===== Storage schema (V4) =====
@@ -316,8 +297,7 @@ customOptionsV4 = {
   problem: { [key]: [ {en,ru}, ... ] },
   diagnosis: { [key]: [ {en,ru}, ... ] },
   action: { [key]: [ {en,ru}, ... ] },
-  status: [ {en,ru}, ... ],
-  payment: [ {en,ru}, ... ]
+  status: [ {en,ru}, ... ]
 }
 */
 let custom = JSON.parse(localStorage.getItem('customOptionsV4')||'{}');
@@ -327,7 +307,6 @@ if(!custom.problem) custom.problem={};
 if(!custom.diagnosis) custom.diagnosis={};
 if(!custom.action) custom.action={};
 if(!custom.status) custom.status=[];
-if(!custom.payment) custom.payment=[];
 
 /* ---- Migration from V3 (if exists) ---- */
 (function migrateV3(){
@@ -354,6 +333,7 @@ function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/
 function categoryList(){ return [...builtinCategories, ...custom.category]; }
 
 function mapsFor(catKey){
+  // built-in fallback
   const brands = (builtinBrands[catKey]||[]).concat( (custom.brand[catKey]||[]) );
   const problems = (builtinProblems[catKey]||[]).concat( (custom.problem[catKey]||[]) );
   const diagnosis = (builtinDiagnosis[catKey]||[]).concat( (custom.diagnosis[catKey]||[]) );
@@ -362,9 +342,11 @@ function mapsFor(catKey){
 }
 
 function ensureCustomCategory(catKey, en, ru){
+  // add to list if not exists
   if(!custom.category.find(c=>c.key===catKey)){
     custom.category.push({key:catKey,en,ru});
   }
+  // seed defaults if empty
   if(!custom.problem[catKey]||custom.problem[catKey].length===0) custom.problem[catKey]=JSON.parse(JSON.stringify(universalProblems));
   if(!custom.diagnosis[catKey]||custom.diagnosis[catKey].length===0) custom.diagnosis[catKey]=JSON.parse(JSON.stringify(universalDiagnosis));
   if(!custom.action[catKey]||custom.action[catKey].length===0) custom.action[catKey]=JSON.parse(JSON.stringify(universalActions));
@@ -384,6 +366,7 @@ function fillCategory(){
   });
   if(current && categoryList().some(c=>c.key===current)) els.category.value=current;
 }
+
 function fillSelectENorObj(select, arr, placeholder){
   select.innerHTML = `<option value="">${placeholder}</option>`;
   arr.forEach(o=>{
@@ -394,13 +377,10 @@ function fillSelectENorObj(select, arr, placeholder){
     }
   });
 }
+
 function fillStatus(){
   const list = [...builtinStatuses, ...(custom.status||[])];
   fillSelectENorObj(els.status, list, 'Select Status');
-}
-function fillPayment(){
-  const list = [...builtinPayments, ...(custom.payment||[])];
-  fillSelectENorObj(els.payment, list, 'Select Payment Method');
 }
 
 /* main update */
@@ -410,7 +390,6 @@ function updateLists(){
   if(!cat){
     ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
     fillStatus();
-    fillPayment();
     checkDelButtons();
     return;
   }
@@ -420,13 +399,14 @@ function updateLists(){
   fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
   fillSelectENorObj(els.action, actions, 'Select Action');
   fillStatus();
-  fillPayment();
   checkDelButtons();
 }
 
 /* delete buttons visibility */
 function checkDelButtons(){
   const cat=els.category.value;
+
+  // category
   const isCustomCat = custom.category.some(c=>c.key===cat);
   els.delCustomCategory.style.display = (cat && isCustomCat)?'inline-block':'none';
 
@@ -449,12 +429,6 @@ function checkDelButtons(){
   const stIdx = (custom.status||[]).findIndex(o=>o.en===stVal);
   els.delCustomStatus.style.display = stIdx!==-1?'inline-block':'none';
   els.delCustomStatus.onclick = ()=>delCustomStatus(stVal);
-
-  // payment
-  const payVal = els.payment.value;
-  const pIdx = (custom.payment||[]).findIndex(o=>o.en===payVal);
-  els.delCustomPayment.style.display = pIdx!==-1?'inline-block':'none';
-  els.delCustomPayment.onclick = ()=>delCustomPayment(payVal);
 }
 
 /* adders / deleters */
@@ -471,27 +445,24 @@ function promptAddCategory(){
 
 function promptAddCustom(type){
   const cat=els.category.value;
-  if(type!=='status' && type!=='payment' && !cat){ alert('Choose Appliance Type first'); return; }
+  if(type!=='status' && !cat){ alert('Choose Appliance Type first'); return; }
+
   const en=prompt(`Enter new ${type} (EN):`); if(!en||!en.trim()) return;
   const ru = (type==='brand')? null : (prompt(`Введите перевод ${type} (RU):`,en)||en);
+
   if(type==='status'){
     custom.status = custom.status||[];
     custom.status.push({en:en.trim(), ru:(ru||en).trim()});
   }else if(type==='brand'){
     custom.brand[cat]=custom.brand[cat]||[];
     custom.brand[cat].push(en.trim());
-  }else if(type==='payment'){
-    custom.payment=custom.payment||[];
-    custom.payment.push({en:en.trim(), ru:(ru||en).trim()});
   }else{
     custom[type][cat]=custom[type][cat]||[];
     custom[type][cat].push({en:en.trim(), ru:(ru||en).trim()});
   }
   persistCustom();
   updateLists();
-  if(type==='status') els.status.value=en.trim();
-  else if(type==='payment') els.payment.value=en.trim();
-  else document.getElementById(type).value=en.trim();
+  if(type==='status') els.status.value=en.trim(); else document.getElementById(type).value=en.trim();
   checkDelButtons();
 }
 
@@ -505,6 +476,7 @@ function delCustomCategory(){
   const obj = custom.category.find(c=>c.key===cat);
   if(!obj) return;
   if(!confirm(`Delete custom type '${obj.en}'? All its custom lists will be removed.`)) return;
+  // remove from custom
   custom.category = custom.category.filter(c=>c.key!==cat);
   delete custom.brand[cat];
   delete custom.problem[cat];
@@ -519,11 +491,6 @@ function delCustomStatus(valEN){
   custom.status = (custom.status||[]).filter(s=>s.en!==valEN);
   persistCustom(); updateLists();
 }
-function delCustomPayment(valEN){
-  if(!confirm(`Remove custom payment method '${valEN}'?`)) return;
-  custom.payment = (custom.payment||[]).filter(p=>p.en!==valEN);
-  persistCustom(); updateLists();
-}
 
 /* translations & finding RU */
 function findRuInList(arr,val){
@@ -533,31 +500,10 @@ function findRuInList(arr,val){
   const f = arr.find(o=>o.en===val);
   return f ? (f.ru||val) : val;
 }
-function paymentsList(){ return [...builtinPayments, ...(custom.payment||[])]; }
 function findStatusRu(val){
   const list=[...builtinStatuses, ...(custom.status||[])];
   const f=list.find(s=>s.en===val);
   return f ? (f.ru||val) : val;
-}
-function findPaymentRu(val){
-  const list=[...builtinPayments, ...(custom.payment||[])];
-  const f=list.find(p=>p.en===val);
-  return f ? (f.ru||val) : val;
-}
-
-/* Request number counter helper */
-function getNextRequestNumber(){
-  let data;
-  try{ data = JSON.parse(localStorage.getItem('requestCounter')||'{}'); }catch(e){ data={}; }
-  const today=new Date().toISOString().slice(0,10);
-  if(!data.date || data.date!==today){
-    data.date=today;
-    data.count=1;
-  } else {
-    data.count=(data.count||0)+1;
-  }
-  localStorage.setItem('requestCounter', JSON.stringify(data));
-  return data.count;
 }
 
 /* Report builders */
@@ -575,7 +521,6 @@ function lineENRU(label,en,ru){
 function reportToPlainText(r){
   const lines=[
     `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date.replace(/:\d+$/,'')})`,
-    `Request: #${r.requestNumber}${(currentMode==='technician'?' / №'+r.requestNumber:'')}`,
     `Appliance: ${r.categoryLabel}`,
     `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
     `Model: ${r.model||'-'}`,
@@ -586,8 +531,7 @@ function reportToPlainText(r){
     `Action: ${r.action||'-'}${(currentMode==='technician'&&r.action_ru&&r.action_ru!==r.action)?' / '+r.action_ru:''}`,
     `Status: ${r.status||'-'}${(currentMode==='technician'&&r.status_ru&&r.status_ru!==r.status)?' / '+r.status_ru:''}`,
     `Notes: ${r.notes||'-'}`,
-    `SC: $${r.sc||'0'}`,
-    `Payment: ${r.payment||'-'}${(currentMode==='technician'&&r.payment_ru&&r.payment_ru!==r.payment)?' / '+r.payment_ru:''}`
+    `SC: $${r.sc||'0'}`
   ];
   return lines.join('\n');
 }
@@ -595,12 +539,13 @@ function makeReportObj(){
   const catKey=els.category.value;
   const catObj = categoryList().find(c=>c.key===catKey);
   const catLabel = catObj ? `${catObj.en} / ${catObj.ru}` : '';
+
   const m = mapsFor(catKey||'');
   return {
     date: new Date().toLocaleString('en-US', {
     year:'numeric', month:'2-digit', day:'2-digit',
     hour:'2-digit', minute:'2-digit', hour12:true
-   }),
+ }),
     mode:currentMode,
     category:catKey,
     categoryLabel:catLabel,
@@ -618,10 +563,7 @@ function makeReportObj(){
     status:els.status.value||'',
     status_ru:findStatusRu(els.status.value),
     notes:(els.notes.value||'').trim(),
-    sc:(els.sc.value||'').trim(),
-    payment:els.payment.value||'',
-    payment_ru:findPaymentRu(els.payment.value),
-    requestNumber: 0 // will be set on save
+    sc:(els.sc.value||'').trim()
   };
 }
 function makeReportBlock(r, idx){
@@ -629,7 +571,6 @@ function makeReportBlock(r, idx){
   let html=`<div class="report-output" data-idx="${idx}">
     <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date.replace(/:\d+$/,'')})</span></div>
     <div class="report-content">`;
-  html+=lineENRU('Request', '#'+r.requestNumber, '№'+r.requestNumber);
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);
   html+=lineENRU('Model', r.model,'');
@@ -641,13 +582,11 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Status', r.status, r.status_ru);
   html+=lineENRU('Notes', r.notes,'');
   html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
-  html+=lineENRU('Payment', r.payment, r.payment_ru);
   html+=`</div>
     <div class="report-actions">
       <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>
       <button class="btn btn-secondary btn-mini" onclick="shareWhatsApp(${idx})">WhatsApp</button>
       <button class="btn btn-secondary btn-mini" onclick="printReport(${idx})">Print</button>
-      <button class="btn btn-secondary btn-mini" onclick="editReport(${idx})">Edit</button>
       <button class="btn btn-secondary btn-mini" onclick="deleteReport(${idx})">Delete</button>
     </div>
   </div>`;
@@ -695,34 +634,6 @@ function clearReports(){
   renderReports();
 }
 
-/* Editing */
-let editIndex = null;
-function editReport(idx){
-  const r = allReports[idx];
-  if(!r) return;
-  editIndex = idx;
-  // set mode
-  currentMode = r.mode;
-  updateModeButtons();
-  // set category then update lists
-  els.category.value = r.category || '';
-  updateLists();
-  // after lists fill, assign values
-  els.brand.value = r.brand || '';
-  els.model.value = r.model || '';
-  els.serial.value = r.serial || '';
-  els.year.value = r.year || '';
-  els.problem.value = r.problem || '';
-  els.diagnosis.value = r.diagnosis || '';
-  els.action.value = r.action || '';
-  els.status.value = r.status || '';
-  els.notes.value = r.notes || '';
-  els.sc.value = r.sc || '';
-  els.payment.value = r.payment || '';
-  checkDelButtons();
-  // store request number in a property maybe (not needed) - editing retains same requestNumber automatically
-}
-
 /* Autosave form */
 const FORM_KEY='repairFormStateV4';
 function saveForm(){
@@ -731,7 +642,7 @@ function saveForm(){
     category:els.category.value, brand:els.brand.value, model:els.model.value,
     serial:els.serial.value, year:els.year.value,
     problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
-    status:els.status.value, payment:els.payment.value, notes:els.notes.value, sc:els.sc.value
+    status:els.status.value, notes:els.notes.value, sc:els.sc.value
   };
   localStorage.setItem(FORM_KEY,JSON.stringify(data));
 }
@@ -742,7 +653,7 @@ function loadForm(){
   if(d.mode){ currentMode=d.mode; updateModeButtons(); }
   if(d.category){ els.category.value=d.category; }
   updateLists();
-  ['brand','model','serial','year','problem','diagnosis','action','status','payment','notes','sc'].forEach(k=>{
+  ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc'].forEach(k=>{
     if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
   });
   checkDelButtons();
@@ -762,7 +673,7 @@ els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveFo
 els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
 
 els.category.addEventListener('change',()=>{ updateLists(); saveForm(); });
-['brand','model','serial','year','problem','diagnosis','action','status','payment','notes','sc'].forEach(id=>{
+['brand','model','serial','year','problem','diagnosis','action','status','notes','sc'].forEach(id=>{
   const el=els[id];
   el.addEventListener('input',saveForm);
   el.addEventListener('change',()=>{ saveForm(); checkDelButtons(); });
@@ -775,13 +686,12 @@ els.addProblemBtn.onclick=()=>promptAddCustom('problem');
 els.addDiagnosisBtn.onclick=()=>promptAddCustom('diagnosis');
 els.addActionBtn.onclick=()=>promptAddCustom('action');
 els.addStatusBtn.onclick=()=>promptAddCustom('status');
-els.addPaymentBtn.onclick=()=>promptAddCustom('payment');
 
 /* Delete buttons */
 els.delCustomCategory.onclick=delCustomCategory;
 
 /* show delete when selection changes */
-[els.brand,els.problem,els.diagnosis,els.action,els.status,els.payment].forEach(sel=>{
+[els.brand,els.problem,els.diagnosis,els.action,els.status].forEach(sel=>{
   sel.addEventListener('change',checkDelButtons);
 });
 
@@ -791,24 +701,15 @@ els.clearBtn.onclick=()=>{
   els.repairForm.reset();
   localStorage.removeItem(FORM_KEY);
   updateLists();
-  ['model','serial','year','notes','sc','payment'].forEach(k=>els[k].value='');
+  ['model','serial','year','notes','sc'].forEach(k=>els[k].value='');
   checkDelButtons();
-  editIndex=null;
 };
 
 /* Submit -> generate report (NO required fields) */
 els.repairForm.onsubmit=(e)=>{
   e.preventDefault();
   const r=makeReportObj();
-  if(editIndex!==null){
-    // retain original request number
-    r.requestNumber = allReports[editIndex].requestNumber;
-    allReports[editIndex] = r;
-    editIndex=null;
-  } else {
-    r.requestNumber = getNextRequestNumber();
-    allReports.push(r);
-  }
+  allReports.push(r);
   localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
   renderReports();
   alert('Report Generated & Saved!');
@@ -816,13 +717,12 @@ els.repairForm.onsubmit=(e)=>{
 
 /* INIT */
 window.addEventListener('load',()=>{
+  // initial category fill
   fillCategory();
   fillStatus();
-  fillPayment();
   updateModeButtons();
   updateLists();
   loadForm();
-  setEditUI(false);
   renderReports();
 });
 </script>

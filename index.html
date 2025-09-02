@@ -551,8 +551,8 @@ function reportToPlainText(r){
 }
 function makeReportObj(){
   const catKey=els.category.value;
-  const catObj = categoryList().find(c=>c.key===catKey);
-  const catLabel = catObj ? `${c.en} / ${c.ru}` : '';
+  const catObj = categoryList().find(c => c.key === catKey);
+  const catLabel = catObj ? `${catObj.en} / ${catObj.ru}` : '';
 
   const m = mapsFor(catKey||'');
   return {

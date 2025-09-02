@@ -696,18 +696,17 @@ function clearReports(){
 }
 
 /* Editing */
-let editIndex = null;
 function editReport(idx){
   const r = allReports[idx];
   if(!r) return;
   editIndex = idx;
-  // set mode
+
   currentMode = r.mode;
   updateModeButtons();
-  // set category then update lists
+
   els.category.value = r.category || '';
   updateLists();
-  // after lists fill, assign values
+
   els.brand.value = r.brand || '';
   els.model.value = r.model || '';
   els.serial.value = r.serial || '';
@@ -720,7 +719,9 @@ function editReport(idx){
   els.sc.value = r.sc || '';
   els.payment.value = r.payment || '';
   checkDelButtons();
-  // store request number in a property maybe (not needed) - editing retains same requestNumber automatically
+
+  // чтобы пользователь сразу видел форму
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 /* Autosave form */

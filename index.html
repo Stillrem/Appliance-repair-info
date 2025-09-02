@@ -797,19 +797,24 @@ els.clearBtn.onclick=()=>{
 };
 
 /* Submit -> generate report (NO required fields) */
-els.repairForm.onsubmit=(e)=>{
+els.repairForm.onsubmit = (e)=>{
   e.preventDefault();
-  const r=makeReportObj();
-  if(editIndex!==null){
-    // retain original request number
+  const r = makeReportObj();
+
+  if (editIndex !== null) {
+    // переносим метаданные из старого отчёта
     r.requestNumber = allReports[editIndex].requestNumber;
+    r.date = allReports[editIndex].date;   // НЕ затираем дату
+    r.mode = allReports[editIndex].mode;   // НЕ затираем режим
+
     allReports[editIndex] = r;
-    editIndex=null;
+    editIndex = null;
   } else {
     r.requestNumber = getNextRequestNumber();
     allReports.push(r);
   }
-  localStorage.setItem('repairReportsV3',JSON.stringify(allReports)); // reuse same key for history
+
+  localStorage.setItem('repairReportsV3', JSON.stringify(allReports));
   renderReports();
   alert('Report Generated & Saved!');
 };

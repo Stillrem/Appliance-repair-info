@@ -628,7 +628,7 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Status', r.status, r.status_ru);
   html+=lineENRU('Notes', r.notes,'');
   html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
-  html+=lineENRU('Payment', r.payment, r.payment);
+  html+=lineENRU('Payment', r.payment, '');
   html+=`</div>
     <div class="report-actions">
       <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>

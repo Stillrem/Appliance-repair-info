@@ -555,6 +555,7 @@ function lineENRU(label,en,ru){
 }
 function reportToPlainText(r){
   const lines=[
+    const ticketLabel = `Заявка №${r.ticketNo||'-'}`;
     `${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date})`,
     `Appliance: ${r.categoryLabel}`,
     `Brand: ${r.brand}${(currentMode==='technician'&&r.brand_ru&&r.brand_ru!==r.brand)?' / '+r.brand_ru:''}`,
@@ -602,15 +603,16 @@ function makeReportObj(){
     status_ru:findStatusRu(els.status.value),
     notes:(els.notes.value||'').trim(),
     sc:(els.sc.value||'').trim(),
-    payment: els.payment.value || ''
+    payment: els.payment.value || '',
     ticketNo: nextTicketNumber(),
   };
 }
 function makeReportBlock(r, idx){
   const ticketLabel = `Заявка №${r.ticketNo||'-'}`;
-  const title=(r.mode==='technician'?'Technician Report':'Client Report');
-  let html=`<div class="report-output" data-idx="${idx}">
-    <div class="report-title">${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date})</span></div>
+  const title = (r.mode==='technician' ? 'Technician Report' : 'Client Report');
+
+  let html = `<div class="report-output" data-idx="${idx}">
+    <div class="report-title">${ticketLabel} — ${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date})</span></div>
     <div class="report-content">`;
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);

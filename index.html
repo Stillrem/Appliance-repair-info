@@ -134,6 +134,39 @@
   @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
+    /* === FIX: выравнивание селектов и кнопок, сетка строк, safe-area === */
+.select-group{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.select-group select{ flex:1; }
+
+.custom-add-btn,
+.custom-del-btn{
+  height:44px;
+  padding:0 12px;
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  line-height:1;
+}
+
+/* Если хочешь меньшие кнопки:
+.custom-add-btn, .custom-del-btn{ height:36px; padding:0 10px; }
+*/
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+@media (max-width:540px){
+  .form-row{ grid-template-columns:1fr; gap:13px; }
+}
+
+@supports (padding: max(0px)){
+  body{ padding-top: env(safe-area-inset-top); }
+}
   </style>
 </head>
 

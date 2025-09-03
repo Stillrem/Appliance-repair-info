@@ -135,6 +135,29 @@
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
 
+    /* === FIX: селект + кнопки в один ряд и по одной высоте === */
+.select-group{
+  display:flex;
+  gap:8px;
+  align-items:stretch;        /* <- растянуть все элементы по высоте самого высокого (селекта) */
+}
+
+.select-group select{
+  flex:1;                     /* <- селект на всю ширину строки */
+}
+
+/* Кнопки без фиксированной высоты — тянутся по высоте селекта */
+.select-group .custom-add-btn,
+.select-group .custom-del-btn{
+  padding:0 12px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;              /* чтобы текст/иконка были по центру */
+  height:auto;                /* важно: НЕ задаём фиксированную высоту */
+}
+    
   </style>
 </head>
 

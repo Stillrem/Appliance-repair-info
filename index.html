@@ -432,15 +432,44 @@ function fillPayment(){
 
 /* main update */
 function updateLists(){
+  // 1) запоминаем текущие выборы
+  const prev = {
+    category: els.category.value,
+    brand: els.brand.value,
+    problem: els.problem.value,
+    diagnosis: els.diagnosis.value,
+    action: els.action.value,
+    status: els.status.value,
+    payment: els.payment.value
+  };
+
+  // 2) перерисовываем категории с учетом режима
   fillCategory();
-  const cat=els.category.value;
+
+  // если была выбрана категория — восстановим её
+  if (prev.category && categoryList().some(c=>c.key===prev.category)) {
+    els.category.value = prev.category;
+  }
+
+  const cat = els.category.value;
+
   if(!cat){
-    ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
+    // когда категории нет — просто плейсхолдеры
+    ['brand','problem','diagnosis','action'].forEach(id=>{
+      els[id].innerHTML = `<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`;
+    });
     fillStatus();
     fillPayment();
+
+    // 3) восстанавливаем status/payment если было выбрано
+    if (prev.status) els.status.value = prev.status;
+    if (prev.payment) els.payment.value = prev.payment;
+
     checkDelButtons();
     return;
   }
+
+  // 3) перерисовываем списки по категории
   const {brands,problems,diagnosis,actions} = mapsFor(cat);
   fillSelectENorObj(els.brand, brands, 'Select Brand');
   fillSelectENorObj(els.problem, problems, 'Select Problem');
@@ -448,6 +477,16 @@ function updateLists(){
   fillSelectENorObj(els.action, actions, 'Select Action');
   fillStatus();
   fillPayment();
+
+  // 4) восстанавливаем сохранённые значения
+  if (prev.brand) els.brand.value = prev.brand;
+  if (prev.problem) els.problem.value = prev.problem;
+  if (prev.diagnosis) els.diagnosis.value = prev.diagnosis;
+  if (prev.action) els.action.value = prev.action;
+  if (prev.status) els.status.value = prev.status;
+  if (prev.payment) els.payment.value = prev.payment;
+
+  // 5) обновляем видимость кнопок удаления
   checkDelButtons();
 }
 

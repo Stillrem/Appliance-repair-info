@@ -208,6 +208,13 @@ function peekTicketNumber(){
   try{ d = JSON.parse(localStorage.getItem(TICKET_KEY) || '{}'); }catch(e){ d = {}; }
   return (d && d.date === getTodayISO()) ? (d.n||0) : 0;
 }
+  
+  function resetTicketCounter(){
+  const today = getTodayISO();
+  // Обнуляем счётчик заявок на сегодня
+  localStorage.setItem(TICKET_KEY, JSON.stringify({ date: today, n: 0 }));
+}
+  
 /* ========= BUILT-IN CATEGORIES (fixed) ========= */
 const builtinCategories = [
   {key:'refrigerator', en:'Refrigerator', ru:'Холодильник'},
@@ -682,9 +689,16 @@ function deleteReport(idx){
 }
 function clearReports(){
   if(!confirm('CLEAR ALL REPORTS?')) return;
-  allReports=[];
+  // чистим список отчётов
+  allReports = [];
   localStorage.removeItem('repairReportsV3');
+
+  // обнуляем счётчик заявок
+  localStorage.removeItem(TICKET_KEY);
+
+  // перерисовываем
   renderReports();
+  alert('All reports cleared. Ticket counter reset.');
 }
 
 /* Autosave form */

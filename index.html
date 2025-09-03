@@ -134,38 +134,46 @@
   @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
-    /* === FIX: выравнивание селектов и кнопок, сетка строк, safe-area === */
+/* === PATCH: выровнять высоту селектов и кнопок в .select-group === */
+:root{
+/* подгони при желании: 48–52px комфортно на iOS */
+  --control-h: 52px;
+}
+
+/* контейнер селекта с кнопками — в линию и одной высоты */
 .select-group{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.select-group select{ flex:1; }
-
-.custom-add-btn,
-.custom-del-btn{
-  height:44px;
-  padding:0 12px;
-  border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  line-height:1;
+  display: grid;
+  grid-template-columns: 1fr auto auto; /* 1 селект + до двух кнопок */
+  align-items: stretch;                  /* растягиваем всё по высоте */
+  gap: 8px;
 }
 
-/* Если хочешь меньшие кнопки:
-.custom-add-btn, .custom-del-btn{ height:36px; padding:0 10px; }
-*/
-
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px;
-}
-@media (max-width:540px){
-  .form-row{ grid-template-columns:1fr; gap:13px; }
+/* сам селект — фиксируем высоту */
+.select-group select{
+  height: var(--control-h);
+  line-height: var(--control-h);
+  width: 100%;
 }
 
+/* кнопки “+” и “🗑” — такая же высота, центрируем содержимое */
+.select-group .custom-add-btn,
+.select-group .custom-del-btn{
+  height: var(--control-h);
+  padding: 0 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* одиночные группы (селект + одна кнопка) — колонок по факту две.
+   Эта строка не обязательна, но делает компоновку аккуратнее. */
+.select-group > :nth-child(3):not(.custom-del-btn){ display:none; }
+
+/* (опционально) Чуть больше отступ сверху на айфонах с челкой/островом */
 @supports (padding: max(0px)){
-  body{ padding-top: env(safe-area-inset-top); }
+  .container{ padding-top: max(24px, env(safe-area-inset-top)); }
 }
   </style>
 </head>

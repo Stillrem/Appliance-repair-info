@@ -403,10 +403,16 @@ function fillCategory(){
 function fillSelectENorObj(select, arr, placeholder){
   select.innerHTML = `<option value="">${placeholder}</option>`;
   arr.forEach(o=>{
-    if(typeof o==='string'){
+    if (typeof o === 'string') {
+      // простые строки (бренды и т.п.)
       select.innerHTML += `<option value="${o}">${o}</option>`;
-    }else{
-      select.innerHTML += `<option value="${o.en}">${o.en} / ${o.ru}</option>`;
+    } else {
+      // Для payment показываем только EN
+      const isPayment = (select.id === 'payment');
+      // Для остальных селектов RU показываем только если он есть и режим technician
+      const showRu = !isPayment && currentMode === 'technician' && o.ru && o.ru !== o.en;
+      const label = showRu ? `${o.en} / ${o.ru}` : o.en;
+      select.innerHTML += `<option value="${o.en}">${label}</option>`;
     }
   });
 }

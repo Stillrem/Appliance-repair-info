@@ -587,12 +587,6 @@ function updateLists(opts = {}) {
   checkDelButtons();
 }
 
-// Смена категории — вызываем с жёстким сбросом
-els.category.addEventListener('change', () => {
-  updateLists({ resetOnCategoryChange: true });
-  saveForm();
-});
-
 /* delete buttons visibility */
 function checkDelButtons(){
   const cat=els.category.value;
@@ -879,7 +873,11 @@ function updateModeButtons(){
 els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveForm(); renderReports(); };
 els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
 
-els.category.addEventListener('change',()=>{ updateLists(); saveForm(); });
+// Смена категории — вызываем с жёстким сбросом
+els.category.addEventListener('change', () => {
+  updateLists({ resetOnCategoryChange: true });
+  saveForm();
+});
 ['brand','model','serial','year','problem','diagnosis','action','status','notes','sc','payment'].forEach(id=>{
   const el=els[id];
   el.addEventListener('input',saveForm);

@@ -135,73 +135,37 @@
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
 
-/* ==== TEXT & ALIGNMENT FIX (paste at the end) ==== */
+/* === ROW ALIGN & UNIFORM CONTROLS (drop-in) === */
+:root{ --ctl-h:48px; --ctl-radius:10px; }
 
-/* базовый размер текста в полях как на iOS */
-:root{
-  --field-font:17px;   /* текст внутри инпутов/селектов/textarea */
-  --label-font:18px;   /* основной заголовок поля (белый) */
-  --sub-label-font:14px; /* серый перевод под заголовком */
-}
+/* выравниваем элементы в строке по нижнему краю */
+.form-row{ align-items: end !important; }
 
-/* зелёные подзаголовки секций — как на фото */
-.section-title{
-  font-size:20px;
-  color:#1EB854;
-  letter-spacing:.3px;
-  font-weight:900;
-}
-
-/* лейблы и перевод */
-.label{
-  font-size:var(--label-font);
-  font-weight:800;
-  margin:6px 0 8px;
-}
-.translation{
-  font-size:var(--sub-label-font);
-  opacity:.95;
-}
-.translation.hidden{display:none;} /* чтобы режим Client скрывал перевод */
-
-/* поля — крупнее шрифт + чуть больше паддинги */
+/* одинаковая высота полей (включая Safari) */
 select,
-input,
-textarea{
-  font-size:var(--field-font);
-  padding:16px 16px;
-  line-height:1.35;
+input[type="text"], input[type="number"], input[type="tel"],
+input[type="email"], input[type="search"], input[type="password"]{
+  height:var(--ctl-h) !important;
+  line-height:var(--ctl-h) !important;
+  padding-top:0 !important; padding-bottom:0 !important;
+  border-radius:var(--ctl-radius) !important;
+  -webkit-appearance:none !important; appearance:none !important;
 }
 
-/* плейсхолдеры тоже крупные */
-input::placeholder,
-textarea::placeholder{
-  font-size:var(--field-font);
-  opacity:.6;
+/* блок select + кнопка «+» вровень */
+.select-group{ display:flex !important; align-items:center !important; gap:8px !important; }
+.select-group select{ flex:1 1 auto !important; min-width:0 !important; }
+.custom-add-btn, .custom-del-btn{
+  height:var(--ctl-h) !important; padding:0 14px !important;
+  border-radius:var(--ctl-radius) !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  line-height:1 !important; flex:0 0 auto !important;
 }
 
-/* селект — большая стрелка и ровный правый отступ */
-select{
-  background-position:right 16px center;
-  background-size:22px;
-  padding-right:56px;
-}
-
-/* выравнивание по вертикали в рядах с кнопкой “+” */
-.select-group{gap:8px; align-items:center;}
-/* чтобы плюс был одной высоты с полем и стоял ровно */
-.custom-add-btn,
-.custom-del-btn{
-  height:52px; min-width:52px; width:52px;
-  padding:0;
-  display:grid; place-items:center;
-  font-size:22px;
-  border-radius:10px;
-}
-
-/* сетка строк формы — аккуратный равномерный gap */
-.form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
-@media (max-width:560px){ .form-row{grid-template-columns:1fr;} }
+/* кнопки действий одинаковой высоты; аккуратная «решётка» на маленьких экранах */
+.action-buttons{ display:flex; gap:10px; flex-wrap:wrap; }
+.action-buttons .btn{ height:52px !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; }
+#reportsControlBtns .btn{ height:44px !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; }
     
   </style>
 </head>

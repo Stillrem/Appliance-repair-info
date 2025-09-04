@@ -134,7 +134,22 @@
   @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
-  
+
+/* === Выровнять Copy Last / Copy All / Clear All === */
+#reportsControlBtns{
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+#reportsControlBtns .btn{
+  flex: 1;            /* все три кнопки одинаковой ширины */
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+    
   </style>
 </head>
 

@@ -135,27 +135,71 @@
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
 
-    /* === FIX: селект + кнопки в один ряд и по одной высоте === */
+    /* === PATCH: ровные ряды, одинаковые высоты, аккуратные отступы === */
+:root{
+  --control-h: 48px;          /* общая высота полей и кнопки + */
+  --control-radius: 10px;
+}
+
+/* одинаковая высота для инпутов/селектов (кроме textarea) */
+select,
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+input[type="email"],
+input[type="search"],
+input[type="password"]{
+  height: var(--control-h);
+  line-height: var(--control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  border-radius: var(--control-radius);
+}
+
+/* группа селекта с кнопкой + по одной линии */
 .select-group{
-  display:flex;
-  gap:8px;
-  align-items:stretch;        /* <- растянуть все элементы по высоте самого высокого (селекта) */
+  display: flex;
+  align-items: center;
+  gap: 8px;                 /* одинаковый зазор между select и + */
 }
-
-.select-group select{
-  flex:1;                     /* <- селект на всю ширину строки */
-}
-
-/* Кнопки без фиксированной высоты — тянутся по высоте селекта */
+.select-group select{ flex: 1; min-width: 0; }
 .select-group .custom-add-btn,
 .select-group .custom-del-btn{
-  padding:0 12px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  line-height:1;              /* чтобы текст/иконка были по центру */
-  height:auto;                /* важно: НЕ задаём фиксированную высоту */
+  flex: 0 0 auto;
+}
+
+/* кнопки + / 🗑 вровень с полями */
+.custom-add-btn,
+.custom-del-btn{
+  height: var(--control-h);
+  padding: 0 14px;
+  border-radius: var(--control-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* сетка двух колонок для строк формы */
+.form-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width:540px){
+  .form-row{ grid-template-columns: 1fr; gap: 13px; }
+}
+
+/* чтобы внутри .form-row нижние отступы не «гуляли» */
+.form-row .form-group{ margin-bottom: 0; }
+
+/* чуть больше воздуха над/под блоком кнопок действий */
+.action-buttons{ margin-top: 24px; margin-bottom: 8px; }
+#reportsControlBtns{ margin-top: 16px; }
+
+/* на iOS с вырезом – не прилипать к «чёлке» */
+@supports (padding: max(0px)){
+  body{ padding-top: env(safe-area-inset-top); }
 }
     
   </style>

@@ -801,6 +801,7 @@ function makeReportBlock(r, idx){
   let html = `<div class="report-output" data-idx="${idx}">
     <div class="report-title">${ticketLabel} — ${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date})</span></div>
     <div class="report-content">`;
+
   html+=lineENRU('Appliance', r.categoryLabel, '');
   html+=lineENRU('Brand', r.brand, r.brand_ru);
   html+=lineENRU('Model', r.model,'');
@@ -811,8 +812,19 @@ function makeReportBlock(r, idx){
   html+=lineENRU('Action', r.action, r.action_ru);
   html+=lineENRU('Status', r.status, r.status_ru);
   html+=lineENRU('Notes', r.notes,'');
-  html+=lineENRU('SC', (r.sc?('$'+r.sc):'$0'),'');
-  html+=lineENRU('Payment', r.payment, '');
+
+  // SC — показываем, если НЕ пустая строка (включая "0")
+  const scStr = (r.sc !== undefined && r.sc !== null) ? r.sc.toString().trim() : '';
+  if (scStr !== '') {
+    html += lineENRU('SC', `$${scStr}`, '');
+  }
+
+  // Payment — только если не пусто
+  const payStr = (r.payment ?? '').toString().trim();
+  if (payStr !== '') {
+    html += lineENRU('Payment', payStr, '');
+  }
+
   html+=`</div>
     <div class="report-actions">
       <button class="btn btn-secondary btn-mini" onclick="copyReport(${idx})">Copy</button>

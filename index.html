@@ -134,50 +134,6 @@
   @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
-
-    /* === ALIGN LABEL/CONTROL IN ROW === */
-:root{ --row-label-h: 44px; }                 /* высота зоны метки в строке */
-@media (max-width:540px){ :root{ --row-label-h: 48px; } }
-
-/* каждая ячейка строки = [зона метки] + [контрол] */
-.form-row .form-group{
-  display:grid !important;
-  grid-template-rows: var(--row-label-h) auto !important;
-  margin-bottom: 0 !important;
-}
-
-/* обрезаем слишком длинные переводы, чтобы не «распирало» высоту */
-.form-row .label{ margin:4px 0 8px !important; overflow:hidden !important; }
-.form-row .label .translation{
-  display:-webkit-box !important;
-  -webkit-box-orient: vertical !important;
-  -webkit-line-clamp: 1 !important; /* 1 строка, с многоточием при переполнении */
-  overflow:hidden !important;
-}
-
-/* унификация высоты контролов и кнопки + (если ещё не вставлено ранее) */
-:root{ --control-h: 48px; --control-radius: 10px; }
-select,
-input[type="text"], input[type="number"], input[type="tel"],
-input[type="email"], input[type="search"], input[type="password"]{
-  height:var(--control-h) !important;
-  line-height:var(--control-h) !important;
-  padding-top:0 !important; padding-bottom:0 !important;
-  border-radius:var(--control-radius) !important;
-}
-.select-group{ display:flex !important; align-items:center !important; gap:8px !important; }
-.select-group select{ flex:1 1 auto !important; min-width:0 !important; }
-.custom-add-btn,.custom-del-btn{
-  height:var(--control-h) !important;
-  padding:0 14px !important;
-  border-radius:var(--control-radius) !important;
-  display:inline-flex !important; align-items:center !important; justify-content:center !important;
-  line-height:1 !important; flex:0 0 auto !important;
-}
-
-/* действия внизу — одинаковая высота */
-.action-buttons .btn,
-#reportsControlBtns .btn{ height:52px !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; }
     
   </style>
 </head>

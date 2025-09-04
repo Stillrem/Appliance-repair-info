@@ -134,6 +134,74 @@
   @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
+
+/* ==== TEXT & ALIGNMENT FIX (paste at the end) ==== */
+
+/* базовый размер текста в полях как на iOS */
+:root{
+  --field-font:17px;   /* текст внутри инпутов/селектов/textarea */
+  --label-font:18px;   /* основной заголовок поля (белый) */
+  --sub-label-font:14px; /* серый перевод под заголовком */
+}
+
+/* зелёные подзаголовки секций — как на фото */
+.section-title{
+  font-size:20px;
+  color:#1EB854;
+  letter-spacing:.3px;
+  font-weight:900;
+}
+
+/* лейблы и перевод */
+.label{
+  font-size:var(--label-font);
+  font-weight:800;
+  margin:6px 0 8px;
+}
+.translation{
+  font-size:var(--sub-label-font);
+  opacity:.95;
+}
+.translation.hidden{display:none;} /* чтобы режим Client скрывал перевод */
+
+/* поля — крупнее шрифт + чуть больше паддинги */
+select,
+input,
+textarea{
+  font-size:var(--field-font);
+  padding:16px 16px;
+  line-height:1.35;
+}
+
+/* плейсхолдеры тоже крупные */
+input::placeholder,
+textarea::placeholder{
+  font-size:var(--field-font);
+  opacity:.6;
+}
+
+/* селект — большая стрелка и ровный правый отступ */
+select{
+  background-position:right 16px center;
+  background-size:22px;
+  padding-right:56px;
+}
+
+/* выравнивание по вертикали в рядах с кнопкой “+” */
+.select-group{gap:8px; align-items:center;}
+/* чтобы плюс был одной высоты с полем и стоял ровно */
+.custom-add-btn,
+.custom-del-btn{
+  height:52px; min-width:52px; width:52px;
+  padding:0;
+  display:grid; place-items:center;
+  font-size:22px;
+  border-radius:10px;
+}
+
+/* сетка строк формы — аккуратный равномерный gap */
+.form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media (max-width:560px){ .form-row{grid-template-columns:1fr;} }
     
   </style>
 </head>

@@ -513,8 +513,10 @@ function fillPayment(){
 }
 
 /* main update */
-function updateLists(){
-  // 1) запоминаем текущие выборы
+function updateLists(opts = {}) {
+  const reset = opts.resetOnCategoryChange === true;
+
+  // 1) запоминаем текущие значения до перерисовки
   const prev = {
     category: els.category.value,
     brand: els.brand.value,
@@ -525,52 +527,71 @@ function updateLists(){
     payment: els.payment.value
   };
 
-  // 2) перерисовываем категории с учетом режима
+  // 2) перерисовываем список категорий под текущий режим
   fillCategory();
 
-  // если была выбрана категория — восстановим её
-  if (prev.category && categoryList().some(c=>c.key===prev.category)) {
+  // 3) оставляем выбранной прежнюю категорию, если она валидна
+  if (prev.category && categoryList().some(c => c.key === prev.category)) {
     els.category.value = prev.category;
   }
 
   const cat = els.category.value;
+  const categoryChanged = prev.category !== cat;
 
-  if(!cat){
-    // когда категории нет — просто плейсхолдеры
-    ['brand','problem','diagnosis','action'].forEach(id=>{
+  // если просили жёсткий сброс — считаем, что категория изменилась
+  const doReset = reset || categoryChanged;
+
+  if (!cat) {
+    // когда категории нет — плейсхолдеры
+    ['brand','problem','diagnosis','action'].forEach(id => {
       els[id].innerHTML = `<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`;
     });
     fillStatus();
     fillPayment();
 
-    // 3) восстанавливаем status/payment если было выбрано
-    if (prev.status) els.status.value = prev.status;
-    if (prev.payment) els.payment.value = prev.payment;
-
+    // НИЧЕГО не восстанавливаем, чтобы всё было пусто
+    els.status.value = '';
+    els.payment.value = '';
     checkDelButtons();
     return;
   }
 
-  // 3) перерисовываем списки по категории
-  const {brands,problems,diagnosis,actions} = mapsFor(cat);
-  fillSelectENorObj(els.brand, brands, 'Select Brand');
-  fillSelectENorObj(els.problem, problems, 'Select Problem');
+  // 4) наполняем списки по выбранной категории
+  const {brands, problems, diagnosis, actions} = mapsFor(cat);
+  fillSelectENorObj(els.brand,     brands,    'Select Brand');
+  fillSelectENorObj(els.problem,   problems,  'Select Problem');
   fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
-  fillSelectENorObj(els.action, actions, 'Select Action');
+  fillSelectENorObj(els.action,    actions,   'Select Action');
   fillStatus();
   fillPayment();
 
-  // 4) восстанавливаем сохранённые значения
-  if (prev.brand) els.brand.value = prev.brand;
-  if (prev.problem) els.problem.value = prev.problem;
-  if (prev.diagnosis) els.diagnosis.value = prev.diagnosis;
-  if (prev.action) els.action.value = prev.action;
-  if (prev.status) els.status.value = prev.status;
-  if (prev.payment) els.payment.value = prev.payment;
+  // 5) либо восстанавливаем прежние значения, либо обнуляем
+  if (!doReset) {
+    if (prev.brand)     els.brand.value     = prev.brand;
+    if (prev.problem)   els.problem.value   = prev.problem;
+    if (prev.diagnosis) els.diagnosis.value = prev.diagnosis;
+    if (prev.action)    els.action.value    = prev.action;
+    if (prev.status)    els.status.value    = prev.status;
+    if (prev.payment)   els.payment.value   = prev.payment;
+  } else {
+    // полный сброс
+    els.brand.value     = '';
+    els.problem.value   = '';
+    els.diagnosis.value = '';
+    els.action.value    = '';
+    els.status.value    = '';
+    els.payment.value   = '';
+    ['model','serial','year','notes','sc'].forEach(k => els[k].value = '');
+  }
 
-  // 5) обновляем видимость кнопок удаления
   checkDelButtons();
 }
+
+// Смена категории — вызываем с жёстким сбросом
+els.category.addEventListener('change', () => {
+  updateLists({ resetOnCategoryChange: true });
+  saveForm();
+});
 
 /* delete buttons visibility */
 function checkDelButtons(){

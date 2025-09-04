@@ -135,72 +135,49 @@
     .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn{background-color:rgba(255,255,255,.08);}
   }
 
-    /* === PATCH: ровные ряды, одинаковые высоты, аккуратные отступы === */
-:root{
-  --control-h: 48px;          /* общая высота полей и кнопки + */
-  --control-radius: 10px;
+    /* === ALIGN LABEL/CONTROL IN ROW === */
+:root{ --row-label-h: 44px; }                 /* высота зоны метки в строке */
+@media (max-width:540px){ :root{ --row-label-h: 48px; } }
+
+/* каждая ячейка строки = [зона метки] + [контрол] */
+.form-row .form-group{
+  display:grid !important;
+  grid-template-rows: var(--row-label-h) auto !important;
+  margin-bottom: 0 !important;
 }
 
-/* одинаковая высота для инпутов/селектов (кроме textarea) */
+/* обрезаем слишком длинные переводы, чтобы не «распирало» высоту */
+.form-row .label{ margin:4px 0 8px !important; overflow:hidden !important; }
+.form-row .label .translation{
+  display:-webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 1 !important; /* 1 строка, с многоточием при переполнении */
+  overflow:hidden !important;
+}
+
+/* унификация высоты контролов и кнопки + (если ещё не вставлено ранее) */
+:root{ --control-h: 48px; --control-radius: 10px; }
 select,
-input[type="text"],
-input[type="number"],
-input[type="tel"],
-input[type="email"],
-input[type="search"],
-input[type="password"]{
-  height: var(--control-h);
-  line-height: var(--control-h);
-  padding-top: 0;
-  padding-bottom: 0;
-  border-radius: var(--control-radius);
+input[type="text"], input[type="number"], input[type="tel"],
+input[type="email"], input[type="search"], input[type="password"]{
+  height:var(--control-h) !important;
+  line-height:var(--control-h) !important;
+  padding-top:0 !important; padding-bottom:0 !important;
+  border-radius:var(--control-radius) !important;
+}
+.select-group{ display:flex !important; align-items:center !important; gap:8px !important; }
+.select-group select{ flex:1 1 auto !important; min-width:0 !important; }
+.custom-add-btn,.custom-del-btn{
+  height:var(--control-h) !important;
+  padding:0 14px !important;
+  border-radius:var(--control-radius) !important;
+  display:inline-flex !important; align-items:center !important; justify-content:center !important;
+  line-height:1 !important; flex:0 0 auto !important;
 }
 
-/* группа селекта с кнопкой + по одной линии */
-.select-group{
-  display: flex;
-  align-items: center;
-  gap: 8px;                 /* одинаковый зазор между select и + */
-}
-.select-group select{ flex: 1; min-width: 0; }
-.select-group .custom-add-btn,
-.select-group .custom-del-btn{
-  flex: 0 0 auto;
-}
-
-/* кнопки + / 🗑 вровень с полями */
-.custom-add-btn,
-.custom-del-btn{
-  height: var(--control-h);
-  padding: 0 14px;
-  border-radius: var(--control-radius);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-/* сетка двух колонок для строк формы */
-.form-row{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-@media (max-width:540px){
-  .form-row{ grid-template-columns: 1fr; gap: 13px; }
-}
-
-/* чтобы внутри .form-row нижние отступы не «гуляли» */
-.form-row .form-group{ margin-bottom: 0; }
-
-/* чуть больше воздуха над/под блоком кнопок действий */
-.action-buttons{ margin-top: 24px; margin-bottom: 8px; }
-#reportsControlBtns{ margin-top: 16px; }
-
-/* на iOS с вырезом – не прилипать к «чёлке» */
-@supports (padding: max(0px)){
-  body{ padding-top: env(safe-area-inset-top); }
-}
+/* действия внизу — одинаковая высота */
+.action-buttons .btn,
+#reportsControlBtns .btn{ height:52px !important; display:inline-flex !important; align-items:center !important; justify-content:center !important; }
     
   </style>
 </head>

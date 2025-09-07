@@ -5,6 +5,7 @@
   <title>Appliance Repair Pro — Glass</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <style>
+  /* ====== THEME ====== */
   :root{
     --primary:#52E0A5;
     --primary-2:#3AC7E0;
@@ -14,40 +15,69 @@
     --glass:rgba(255,255,255,.08);
     --glass-2:rgba(255,255,255,.06);
     --stroke:rgba(255,255,255,.28);
+    --inner:rgba(255,255,255,.55);
     --shadow:rgba(0,0,0,.45);
-    --bg-image:url('IMG_0463.png');
+    --bg-image:url('IMG_0463.png'); /* подложка */
   }
+
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial;color:var(--ink);background:var(--bg);overflow-x:hidden}
+  body{
+    margin:0;
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,"Helvetica Neue",Arial;
+    color:var(--ink);
+    background:var(--bg);
+    overflow-x:hidden;
+  }
 
+  /* BACKGROUND */
   .page-bg{position:fixed; inset:0;
     background:
       radial-gradient(1200px 800px at 70% -10%, rgba(255,255,255,.08) 0%, transparent 60%),
       radial-gradient(900px 500px at 10% 110%, rgba(122,255,194,.05) 0%, transparent 60%),
       var(--bg);}
-  .page-bg::before{content:""; position:absolute; inset:0; background-image:var(--bg-image); background-size:cover; background-position:center; filter:contrast(.9) saturate(.9) brightness(.65); opacity:.85;}
-  .page-bg::after{content:""; position:absolute; inset:0; background:
+  .page-bg::before{content:""; position:absolute; inset:0;
+    background-image:var(--bg-image); background-size:cover; background-position:center;
+    filter:contrast(.9) saturate(.9) brightness(.65); opacity:.85;}
+  .page-bg::after{content:""; position:absolute; inset:0;
+    background:
       radial-gradient(1200px 900px at 50% -10%, rgba(255,255,255,.12), transparent 55%),
       radial-gradient(1200px 900px at 50% 110%, rgba(0,0,0,.45), transparent 60%);
     pointer-events:none; mix-blend-mode:screen;}
 
-  .glass{background:var(--glass);border:1px solid var(--stroke);border-radius:18px;backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.08), 0 20px 40px -16px var(--shadow);}
+  /* GLASS + LAYOUT */
+  .glass{background:var(--glass);border:1px solid var(--stroke);border-radius:18px;
+    backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.08), 0 20px 40px -16px var(--shadow);}
   .glass-2{background:var(--glass-2);border:1px solid rgba(255,255,255,.22);backdrop-filter: blur(14px) saturate(140%);-webkit-backdrop-filter: blur(14px) saturate(140%);}
   .container{position:relative;max-width:760px;margin:0 auto;min-height:100svh;padding:32px 6vw 40px;}
 
-  .header{text-align:center;margin:8px 0 18px;}
-  .logo{width:76px;height:76px;margin:0 auto 14px;display:grid;place-items:center;border-radius:20px;background:linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.35);backdrop-filter: blur(10px) saturate(180%);-webkit-backdrop-filter: blur(10px) saturate(180%);box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 18px 40px -18px var(--shadow);color:#0C1A17;font-size:30px;}
-  .title{margin:0 0 6px;font-size:2.2rem;font-weight:900;letter-spacing:.5px;color:transparent;background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.55) 40%, rgba(255,255,255,.2) 70%), radial-gradient(120% 180% at 0% 0%, rgba(146,255,215,.55), transparent 40%);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgba(255,255,255,.25);text-shadow:0 2px 10px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.25);}
+  .header{text-align:center;margin:8px 0 26px;}
+  .logo{width:76px;height:76px;margin:0 auto 14px;display:grid;place-items:center;border-radius:20px;
+    background:linear-gradient(135deg, rgba(255,255,255,.25), rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.35);backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 18px 40px -18px var(--shadow);
+    color:#0C1A17;font-size:30px;}
+  .title{margin:0 0 6px;font-size:2.2rem;font-weight:900;letter-spacing:.5px;color:transparent;
+    background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.55) 40%, rgba(255,255,255,.2) 70%),
+              radial-gradient(120% 180% at 0% 0%, rgba(146,255,215,.55), transparent 40%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1px rgba(255,255,255,.25);
+    text-shadow:0 2px 10px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.25);}
   .subtitle{color:var(--muted);font-weight:600;letter-spacing:.2px;opacity:.95;text-shadow:0 1px 0 rgba(0,0,0,.35);}
 
   .mode-toggle{display:flex;gap:8px;padding:6px;max-width:360px;margin:18px auto 0;}
-  .mode-btn{flex:1;border:0;cursor:pointer;border-radius:12px;padding:12px 10px;font-weight:800;font-size:15px;color:var(--ink);opacity:.75;transition:all .2s ease;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.22);backdrop-filter: blur(10px) saturate(150%);}
+  .mode-btn{flex:1;border:0;cursor:pointer;border-radius:12px;padding:12px 10px;font-weight:800;font-size:15px;color:var(--ink);opacity:.75;
+    transition:all .2s ease;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+    border:1px solid rgba(255,255,255,.22);backdrop-filter: blur(10px) saturate(150%);}
   .mode-btn:hover{opacity:1}
-  .mode-btn.active{opacity:1;background:linear-gradient(160deg, rgba(255,255,255,.22), rgba(255,255,255,.05)), linear-gradient(135deg, var(--primary), var(--primary-2));border-color:rgba(255,255,255,.35);color:#0D1A17;box-shadow:0 10px 24px -12px rgba(64,224,208,.45);}
+  .mode-btn.active{opacity:1;background:linear-gradient(160deg, rgba(255,255,255,.22), rgba(255,255,255,.05)),
+                                   linear-gradient(135deg, var(--primary), var(--primary-2));
+    border-color:rgba(255,255,255,.35);color:#0D1A17;box-shadow:0 10px 24px -12px rgba(64,224,208,.45);}
 
   .form-section{padding:22px 18px 18px;margin-bottom:18px}
-  .section-title{font-size:17px;font-weight:900;letter-spacing:.3px;margin:2px 0 14px;color:transparent;background:linear-gradient(180deg, #CFFFEF, #7EF3C2 60%, #4ED6F0);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:.6px rgba(255,255,255,.35);text-shadow:0 2px 12px rgba(0,0,0,.45);}
+  .section-title{font-size:17px;font-weight:900;letter-spacing:.3px;margin:2px 0 14px;color:transparent;
+    background:linear-gradient(180deg, #CFFFEF, #7EF3C2 60%, #4ED6F0);-webkit-background-clip:text;background-clip:text;
+    -webkit-text-stroke:.6px rgba(255,255,255,.35);text-shadow:0 2px 12px rgba(0,0,0,.45);}
   .form-group{margin-bottom:18px;display:flex;flex-direction:column}
   .label{font-weight:750;margin:4px 0 8px;font-size:14px;color:var(--ink);opacity:.95}
   .translation{color:var(--muted);font-size:12.5px;font-style:italic;display:block}
@@ -56,16 +86,26 @@
   .form-row{display:grid; gap:12px;}
   @media (min-width:720px){ .form-row{grid-template-columns: 1fr 1fr;} }
 
-  select,input,textarea{width:100%;padding:13px 14px;color:var(--ink);border-radius:12px;border:1px solid rgba(255,255,255,.28);background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));backdrop-filter: blur(8px) saturate(130%);-webkit-backdrop-filter: blur(8px) saturate(130%);box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(0,0,0,.25);transition:border-color .2s, box-shadow .2s, transform .06s;appearance:none;}
-  select{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388BCAF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:44px}
+  select,input,textarea{width:100%;padding:13px 14px;color:var(--ink);border-radius:12px;border:1px solid rgba(255,255,255,.28);
+    background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.06));
+    backdrop-filter: blur(8px) saturate(130%);-webkit-backdrop-filter: blur(8px) saturate(130%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(0,0,0,.25);
+    transition:border-color .2s, box-shadow .2s, transform .06s;appearance:none;}
+  select{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388BCAF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:44px}
   textarea{min-height:92px;resize:vertical;line-height:1.55}
-  select:focus,input:focus,textarea:focus{outline:none;border-color:rgba(255,255,255,.55);box-shadow:0 0 0 3px rgba(82,224,165,.25), inset 0 1px 0 rgba(255,255,255,.45);}
+  select:focus,input:focus,textarea:focus{outline:none;border-color:rgba(255,255,255,.55);
+    box-shadow:0 0 0 3px rgba(82,224,165,.25), inset 0 1px 0 rgba(255,255,255,.45);}
 
   .input-dollar{display:flex;align-items:center}
-  .input-dollar .dollar-sign{width:28px;min-width:28px;text-align:center;margin-right:4px;font-weight:800;color:rgba(233,247,242,.85); text-shadow:0 1px 0 rgba(0,0,0,.45);}
+  .input-dollar .dollar-sign{width:28px;min-width:28px;text-align:center;margin-right:4px;font-weight:800;
+    color:rgba(233,247,242,.85); text-shadow:0 1px 0 rgba(0,0,0,.45);}
 
-  .custom-add-btn,.custom-del-btn,.btn{border-radius:12px;border:1px solid rgba(255,255,255,.28);padding:10px 12px;font-weight:800;cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));color:var(--ink);transition:transform .08s ease, box-shadow .2s ease, background .2s ease;backdrop-filter: blur(8px) saturate(130%);}
-  .custom-add-btn{background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)), linear-gradient(135deg,var(--primary),var(--primary-2)); color:#0E1A17}
+  .custom-add-btn,.custom-del-btn,.btn{border-radius:12px;border:1px solid rgba(255,255,255,.28);
+    padding:10px 12px;font-weight:800;cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06));
+    color:var(--ink);transition:transform .08s ease, box-shadow .2s ease, background .2s ease;backdrop-filter: blur(8px) saturate(130%);}
+  .custom-add-btn{background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)),
+                             linear-gradient(135deg,var(--primary),var(--primary-2)); color:#0E1A17}
   .custom-del-btn{background:linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.06)); color:#ffb7b7}
   .custom-add-btn:hover,.btn-primary:hover{box-shadow:0 12px 30px -14px rgba(82,224,165,.6)}
   .custom-del-btn:hover{box-shadow:0 10px 26px -14px rgba(255,100,100,.5)}
@@ -73,7 +113,8 @@
   .action-buttons{display:flex;gap:10px;margin-top:24px}
   .btn{flex:1;font-size:15.6px}
   .btn:active{transform:translateY(1px)}
-  .btn-primary{background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08)), linear-gradient(135deg,var(--primary),var(--primary-2)); color:#0E1A17;}
+  .btn-primary{background:linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.08)),
+                           linear-gradient(135deg,var(--primary),var(--primary-2)); color:#0E1A17;}
   .btn-secondary{color:var(--ink)}
 
   /* Reports */
@@ -94,11 +135,21 @@
   #editBanner strong{letter-spacing:.2px}
   #cancelEditBtn{flex:0 0 auto}
 
-  @media (max-width:560px){ .container{padding:14px 4vw 28px} .title{font-size:1.85rem} }
-  @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){ .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn,.report-output{background-color:rgba(255,255,255,.08);} }
+  @media (max-width:560px){
+    .container{padding:14px 4vw 28px}
+    .title{font-size:1.85rem}
+  }
+  @supports not ((backdrop-filter: blur(4px)) or (-webkit-backdrop-filter: blur(4px))){
+    .glass,.glass-2,.form-section,select,input,textarea,.mode-btn,.btn,.report-output{background-color:rgba(255,255,255,.08);}
+  }
 
-  #reportsControlBtns{display:flex;gap:10px;margin-top:14px}
-  #reportsControlBtns .btn{flex:1;text-align:center;font-size:14px;padding:10px 12px;border-radius:10px}
+  /* Панель: Copy Last / Copy All / Clear All */
+  #reportsControlBtns{
+    display:flex;gap:10px;margin-top:14px
+  }
+  #reportsControlBtns .btn{
+    flex:1;text-align:center;font-size:14px;padding:10px 12px;border-radius:10px
+  }
   </style>
 </head>
 
@@ -111,66 +162,66 @@
       <h1 class="title">Appliance Repair Pro</h1>
       <p class="subtitle">Professional Service Reports</p>
 
-      <div class="mode-toggle glass">
-        <button class="mode-btn active" data-mode="technician" id="modeTech">👨‍🔧 Technician</button>
-        <button class="mode-btn" data-mode="client" id="modeClient">👤 Client</button>
+      <div class="mode-toggle glass" role="tablist" aria-label="Mode switch">
+        <button class="mode-btn active" data-mode="technician" id="modeTech" role="tab" aria-selected="true">👨‍🔧 Technician</button>
+        <button class="mode-btn" data-mode="client" id="modeClient" role="tab" aria-selected="false">👤 Client</button>
       </div>
     </div>
 
     <!-- Edit banner -->
-    <div id="editBanner" class="glass-2">
+    <div id="editBanner" class="glass-2" role="status" aria-live="polite">
       <span id="editBannerText"><strong>Editing ticket</strong></span>
       <button type="button" id="cancelEditBtn" class="btn">✖️ Cancel</button>
     </div>
 
     <!-- ==== ФОРМА ==== -->
     <form id="repairForm" autocomplete="off">
-      <div class="form-section glass">
-        <div class="section-title">🏠 Appliance Information</div>
+      <div class="form-section glass" aria-labelledby="applianceInfo">
+        <div class="section-title" id="applianceInfo">🏠 Appliance Information</div>
 
         <div class="form-group">
-          <label class="label">Appliance Type <span class="translation">Тип техники</span></label>
+          <label class="label" for="category">Appliance Type <span class="translation">Тип техники</span></label>
           <div class="select-group">
-            <select id="category"><option value="">Select Appliance Type</option></select>
-            <button type="button" class="custom-add-btn" id="addCategoryBtn" title="Add Appliance Type">+</button>
-            <button type="button" class="custom-del-btn" id="delCustomCategory" style="display:none;" title="Delete this custom type">🗑️</button>
+            <select id="category" name="category"><option value="">Select Appliance Type</option></select>
+            <button type="button" class="custom-add-btn" id="addCategoryBtn" title="Add Appliance Type" aria-label="Add Appliance Type">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomCategory" style="display:none;" title="Delete this custom type" aria-label="Delete this custom type">🗑️</button>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label class="label">Brand <span class="translation">Бренд</span></label>
+            <label class="label" for="brand">Brand <span class="translation">Бренд</span></label>
             <div class="select-group">
-              <select id="brand"><option value="">Select Brand</option></select>
-              <button type="button" class="custom-add-btn" title="Add Brand" id="addBrandBtn">+</button>
-              <button type="button" class="custom-del-btn" id="delCustomBrand" style="display:none;" title="Delete this custom option">🗑️</button>
+              <select id="brand" name="brand"><option value="">Select Brand</option></select>
+              <button type="button" class="custom-add-btn" title="Add Brand" id="addBrandBtn" aria-label="Add Brand">+</button>
+              <button type="button" class="custom-del-btn" id="delCustomBrand" style="display:none;" title="Delete this custom option" aria-label="Delete this brand">🗑️</button>
             </div>
           </div>
           <div class="form-group">
-            <label class="label">Model <span class="translation">Модель</span></label>
-            <input type="text" id="model" placeholder="Enter model number"/>
+            <label class="label" for="model">Model <span class="translation">Модель</span></label>
+            <input type="text" id="model" name="model" placeholder="Enter model number" autocomplete="off"/>
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label class="label">Serial Number <span class="translation">Серийный номер</span></label>
-            <input type="text" id="serial" placeholder="Enter serial number" />
+            <label class="label" for="serial">Serial Number <span class="translation">Серийный номер</span></label>
+            <input type="text" id="serial" name="serial" placeholder="Enter serial number" autocomplete="off"/>
           </div>
           <div class="form-group">
-            <label class="label">Year of Manufacture <span class="translation">Месяц и год выпуска (MM.YYYY или MM/YYYY)</span></label>
-            <input type="text" id="year" placeholder="MM.YYYY или MM/YYYY" maxlength="7"/>
+            <label class="label" for="year">Year of Manufacture <span class="translation">Месяц и год выпуска (MM.YYYY или MM/YYYY)</span></label>
+            <input type="text" id="year" name="year" placeholder="MM.YYYY или MM/YYYY" maxlength="7" inputmode="numeric" pattern="\\d{2}[./-]\\d{4}"/>
           </div>
         </div>
       </div>
 
-      <div class="form-section glass">
-        <div class="section-title">🔍 Service Details</div>
+      <div class="form-section glass" aria-labelledby="serviceDetails">
+        <div class="section-title" id="serviceDetails">🔍 Service Details</div>
 
         <div class="form-group">
-          <label class="label">Request Type <span class="translation">Тип заявки</span></label>
+          <label class="label" for="requestType">Request Type <span class="translation">Тип заявки</span></label>
           <div class="select-group">
-            <select id="requestType">
+            <select id="requestType" name="requestType">
               <option value="">Select Request Type</option>
               <option value="🆕 New">🆕 New</option>
               <option value="🔁 Recall">🔁 Recall</option>
@@ -180,56 +231,56 @@
         </div>
 
         <div class="form-group">
-          <label class="label">Problem <span class="translation">Проблема</span></label>
+          <label class="label" for="problem">Problem <span class="translation">Проблема</span></label>
           <div class="select-group">
-            <select id="problem"><option value="">Select Problem</option></select>
-            <button type="button" class="custom-add-btn" title="Add Problem" id="addProblemBtn">+</button>
-            <button type="button" class="custom-del-btn" id="delCustomProblem" style="display:none;" title="Delete this custom option">🗑️</button>
+            <select id="problem" name="problem"><option value="">Select Problem</option></select>
+            <button type="button" class="custom-add-btn" title="Add Problem" id="addProblemBtn" aria-label="Add Problem">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomProblem" style="display:none;" title="Delete this custom option" aria-label="Delete this problem">🗑️</button>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="label">Diagnosis <span class="translation">Диагноз</span></label>
+          <label class="label" for="diagnosis">Diagnosis <span class="translation">Диагноз</span></label>
           <div class="select-group">
-            <select id="diagnosis"><option value="">Select Diagnosis</option></select>
-            <button type="button" class="custom-add-btn" title="Add Diagnosis" id="addDiagnosisBtn">+</button>
-            <button type="button" class="custom-del-btn" id="delCustomDiagnosis" style="display:none;" title="Delete this custom option">🗑️</button>
+            <select id="diagnosis" name="diagnosis"><option value="">Select Diagnosis</option></select>
+            <button type="button" class="custom-add-btn" title="Add Diagnosis" id="addDiagnosisBtn" aria-label="Add Diagnosis">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomDiagnosis" style="display:none;" title="Delete this custom option" aria-label="Delete this diagnosis">🗑️</button>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="label">Action Taken <span class="translation">Выполненные действия</span></label>
+          <label class="label" for="action">Action Taken <span class="translation">Выполненные действия</span></label>
           <div class="select-group">
-            <select id="action"><option value="">Select Action</option></select>
-            <button type="button" class="custom-add-btn" title="Add Action" id="addActionBtn">+</button>
-            <button type="button" class="custom-del-btn" id="delCustomAction" style="display:none;" title="Delete this custom option">🗑️</button>
+            <select id="action" name="action"><option value="">Select Action</option></select>
+            <button type="button" class="custom-add-btn" title="Add Action" id="addActionBtn" aria-label="Add Action">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomAction" style="display:none;" title="Delete this custom option" aria-label="Delete this action">🗑️</button>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="label">Status <span class="translation">Статус</span></label>
+          <label class="label" for="status">Status <span class="translation">Статус</span></label>
           <div class="select-group">
-            <select id="status"><option value="">Select Status</option></select>
-            <button type="button" class="custom-add-btn" id="addStatusBtn" title="Add Status">+</button>
-            <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom status">🗑️</button>
+            <select id="status" name="status"><option value="">Select Status</option></select>
+            <button type="button" class="custom-add-btn" id="addStatusBtn" title="Add Status" aria-label="Add Status">+</button>
+            <button type="button" class="custom-del-btn" id="delCustomStatus" style="display:none;" title="Delete this custom status" aria-label="Delete this status">🗑️</button>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="label">Additional Notes <span class="translation">Дополнительные заметки</span></label>
-          <textarea id="notes" placeholder="Enter any additional details or recommendations..."></textarea>
+          <label class="label" for="notes">Additional Notes <span class="translation">Дополнительные заметки</span></label>
+          <textarea id="notes" name="notes" placeholder="Enter any additional details or recommendations..."></textarea>
         </div>
 
         <div class="form-group input-dollar">
-          <label class="label">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
-          <span class="dollar-sign" aria-label="Dollar">$</span>
-          <input type="number" id="sc" placeholder="0" min="0" step="1" inputmode="numeric" />
+          <label class="label" for="sc">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
+          <span class="dollar-sign" aria-hidden="true">$</span>
+          <input type="number" id="sc" name="sc" placeholder="0" min="0" step="1" inputmode="numeric"/>
         </div>
 
         <div class="form-group">
-          <label class="label">Payment Method <span class="translation">Метод оплаты</span></label>
+          <label class="label" for="payment">Payment Method <span class="translation">Метод оплаты</span></label>
           <div class="select-group">
-            <select id="payment">
+            <select id="payment" name="payment">
               <option value="">Select Payment Method</option>
             </select>
           </div>
@@ -242,22 +293,46 @@
       </div>
     </form>
 
-    <div id="allReportsBlock"></div>
+    <div id="allReportsBlock" aria-live="polite"></div>
   </div>
 
 <script>
 /* ===== Ticket counter (resets daily) ===== */
 const TICKET_KEY = 'ticketCounterDailyV1';
-function getTodayISO(){ const d=new Date(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${d.getFullYear()}-${m}-${day}`;}
-function nextTicketNumber(){
-  let data={}; try{data=JSON.parse(localStorage.getItem(TICKET_KEY)||'{}')}catch(e){data={}}
-  const today=getTodayISO(); if(data.date!==today){data={date:today,n:0}}; data.n=(data.n||0)+1;
-  localStorage.setItem(TICKET_KEY,JSON.stringify(data)); return data.n;
-}
-function resetTicketCounter(){ const today=getTodayISO(); localStorage.setItem(TICKET_KEY, JSON.stringify({date:today,n:0})) }
 
-/* ==== DATA (built-ins, shortened here for brevity — unchanged) ==== */
-const builtinCategories=[{key:'refrigerator',en:'Refrigerator',ru:'Холодильник'},{key:'dishwasher',en:'Dishwasher',ru:'ПММ'},{key:'washing_machine',en:'Washing Machine',ru:'Стиралка'},{key:'dryer',en:'Dryer',ru:'Сушилка'},{key:'stove_oven',en:'Stove/Oven',ru:'Плита–Духовка'},{key:'microwave',en:'Microwave',ru:'Микроволновка'}];
+function getTodayISO(){
+  const d = new Date();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${d.getFullYear()}-${m}-${day}`; // YYYY-MM-DD
+}
+
+function nextTicketNumber(){
+  let data = {};
+  try{ data = JSON.parse(localStorage.getItem(TICKET_KEY) || '{}'); }catch(e){ data = {}; }
+  const today = getTodayISO();
+  if(data.date !== today){ data = { date: today, n: 0 }; }
+  data.n = (data.n||0) + 1;
+  localStorage.setItem(TICKET_KEY, JSON.stringify(data));
+  return data.n;
+}
+
+function resetTicketCounter(){
+  const today = getTodayISO();
+  localStorage.setItem(TICKET_KEY, JSON.stringify({ date: today, n: 0 }));
+}
+
+/* ========= BUILT-IN CATEGORIES ========= */
+const builtinCategories = [
+  {key:'refrigerator', en:'Refrigerator', ru:'Холодильник'},
+  {key:'dishwasher', en:'Dishwasher', ru:'ПММ'},
+  {key:'washing_machine', en:'Washing Machine', ru:'Стиралка'},
+  {key:'dryer', en:'Dryer', ru:'Сушилка'},
+  {key:'stove_oven', en:'Stove/Oven', ru:'Плита–Духовка'},
+  {key:'microwave', en:'Microwave', ru:'Микроволновка'}
+];
+
+/* ========= DATA (EN–RU) ========= */
 /* Refrigerator */
 const brandsFridge = ["LG","Samsung","Whirlpool","GE","Bosch","Siemens","Electrolux","Frigidaire","KitchenAid","Maytag","Hitachi","Liebherr","Sharp","Indesit","Hotpoint","Viking","Beko","Kenmore","Haier","Panasonic","Zanussi","Daewoo","Gorenje","Amana","Candy","Ariston","Miele","Sub-Zero","Smeg","Turboair","Vestfrost","Atlant","Nord","Vestel","Krups","Schaub Lorenz","Blomberg","Grundig","Crosley","Hisense","Toshiba","Winia","Baumatic","Bomann","Brandt","Fisher & Paykel","Teka","Neff","Silverline"];
 const problemsFridge = [{en:"Not cooling",ru:"Не охлаждает"},{en:"Leaking water",ru:"Течет вода"},{en:"Frost in freezer",ru:"Иней в морозильнике"},{en:"Noisy operation",ru:"Сильный шум"},{en:"Ice maker failure",ru:"Льдогенератор не работает"},{en:"Door not closing",ru:"Дверь не закрывается"},{en:"Fridge compartment warm",ru:"Отделение не холодит"},{en:"Display dead",ru:"Дисплей не работает"},{en:"Self-defrost failure",ru:"Нет саморазморозки"},{en:"Water on floor",ru:"Течет на пол"},{en:"Too much frost",ru:"Много инея"},{en:"Interior light out",ru:"Нет подсветки"},{en:"Lower drawer stuck",ru:"Застрял ящик"},{en:"Compressor hot",ru:"Компрессор греется"},{en:"Clicking noise",ru:"Щелчки"},{en:"Broken shelf",ru:"Треснута полка"},{en:"Alarm beeping",ru:"Сигнал тревоги"},{en:"Vegetables freezing",ru:"Овощи замерзают"},{en:"Not dispensing water",ru:"Нет воды из диспенсера"},{en:"No power",ru:"Не включается"},{en:"Bulb burns often",ru:"Часто перегорает лампочка"},{en:"Temperature fluctuates",ru:"Температура скачет"},{en:"Fan runs nonstop",ru:"Вентилятор постоянно работает"},{en:"Cracks in lining",ru:"Трещины в обшивке"},{en:"High energy use",ru:"Высокое энергопотребление"},{en:"Water leaking inside",ru:"Течет внутри"},{en:"Display flashing",ru:"Мигает дисплей"},{en:"Error code",ru:"Ошибка на дисплее"},{en:"Unusual smell",ru:"Странный запах"},{en:"Too cold",ru:"Слишком холодно"},{en:"No cold air",ru:"Нет холода внутри"},{en:"Weak cooling",ru:"Слабое охлаждение"},{en:"Freezer too warm",ru:"Морозилка не морозит"},{en:"Compressor won’t start",ru:"Компрессор не запускается"},{en:"Water leaks when opening",ru:"Течет при открытии"},{en:"Humidity too high",ru:"Повышена влажность"},{en:"Defrost not working",ru:"Не работает оттайка"},{en:"Drawer stuck",ru:"Ящик заклинило"},{en:"Water dispenses slowly",ru:"Медленно льет воду"},{en:"Door alarm stuck",ru:"Сигнал тревоги навсегда"},{en:"No ice",ru:"Нет льда"},{en:"No sound",ru:"Совсем не шумит"},{en:"Light too dim",ru:"Тусклый свет"},{en:"Broken hinge",ru:"Петля сломана"},{en:"Breaks circuit",ru:"Выбивает автомат"},{en:"Panel buttons not working",ru:"Не работают кнопки панели"},{en:"Plastics cracked",ru:"Пластик потрескался"},{en:"Humidity control failure",ru:"Не регулируется влажность"},{en:"Cooling cycles short",ru:"Короткие циклы охлаждения"},{en:"Water filter clogged",ru:"Засорился водяной фильтр"}];
@@ -338,12 +413,25 @@ const universalActions = [
   {en:"User instructed",ru:"Проведён инструктаж клиента"}
 ];
 
-const builtinStatuses=[{en:"✅ Fixed",ru:"Полностью исправлено"},{en:"⏳ Parts needed",ru:"Требуются запчасти"},{en:"🔧 Temporary Fix",ru:"Временное решение"},{en:"❌ Not Repairable",ru:"Не подлежит ремонту"}];
-const builtinPayments=[{en:"💳 Card"},{en:"💵 Cash"},{en:"📝 Check"},{en:"🔗 Online link"}];
+/* ===== Status list (built-in + custom) ===== */
+const builtinStatuses = [
+  {en:"✅ Fixed", ru:"Полностью исправлено"},
+  {en:"⏳ Parts needed", ru:"Требуются запчасти"},
+  {en:"🔧 Temporary Fix", ru:"Временное решение"},
+  {en:"❌ Not Repairable", ru:"Не подлежит ремонту"}
+];
+
+/* ===== Payment Method list (built-in) ===== */
+const builtinPayments = [
+  {en:"💳 Card"},
+  {en:"💵 Cash"},
+  {en:"📝 Check"},
+  {en:"🔗 Online link"}
+];
 
 /* ================== STATE ================== */
 let currentMode='technician';
-let editingIndex=null; // NEW
+let editingIndex=null; // режим редактирования
 const $=id=>document.getElementById(id);
 const els={
   repairForm:$('repairForm'),
@@ -374,14 +462,16 @@ if(!custom.diagnosis) custom.diagnosis={};
 if(!custom.action) custom.action={};
 if(!custom.status) custom.status=[];
 
-/* ---- Migration from V3 ---- */
+/* ---- Migration from V3 (if exists) ---- */
 (function migrateV3(){
-  const v3=localStorage.getItem('customOptionsV3'); if(!v3) return;
+  const v3 = localStorage.getItem('customOptionsV3');
+  if(!v3) return;
   try{
-    const old=JSON.parse(v3);
+    const old = JSON.parse(v3);
     ['brand','problem','diagnosis','action'].forEach(k=>{
-      const obj=old[k]||{}; Object.keys(obj).forEach(cat=>{
-        custom[k][cat]=(custom[k][cat]||[]).concat(obj[cat]);
+      const obj = old[k]||{};
+      Object.keys(obj).forEach(cat=>{
+        custom[k][cat] = (custom[k][cat]||[]).concat(obj[cat]);
       });
     });
     localStorage.removeItem('customOptionsV3');
@@ -389,170 +479,229 @@ if(!custom.status) custom.status=[];
   }catch(e){}
 })();
 
-let allReports = JSON.parse(localStorage.getItem('repairReportsV3')||'[]');
+let allReports = JSON.parse(localStorage.getItem('repairReportsV3')||'[]'); // совместимость
 
 /* ===== Helpers ===== */
 function slugify(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,40)||('cat_'+Date.now()); }
 function categoryList(){ return [...builtinCategories, ...custom.category]; }
+
 function mapsFor(catKey){
-  const brands=(builtinBrands[catKey]||[]).concat((custom.brand[catKey]||[]));
-  const problems=(builtinProblems[catKey]||[]).concat((custom.problem[catKey]||[]));
-  const diagnosis=(builtinDiagnosis[catKey]||[]).concat((custom.diagnosis[catKey]||[]));
-  const actions=(builtinActions[catKey]||[]).concat((custom.action[catKey]||[]));
+  const brands = (builtinBrands[catKey]||[]).concat( (custom.brand[catKey]||[]) );
+  const problems = (builtinProblems[catKey]||[]).concat( (custom.problem[catKey]||[]) );
+  const diagnosis = (builtinDiagnosis[catKey]||[]).concat( (custom.diagnosis[catKey]||[]) );
+  const actions = (builtinActions[catKey]||[]).concat( (custom.action[catKey]||[]) );
   return {brands,problems,diagnosis,actions};
 }
-function ensureCustomCategory(key,en,ru){
-  if(!custom.category.find(c=>c.key===key)) custom.category.push({key,en,ru});
-  if(!custom.problem[key]||!custom.problem[key].length) custom.problem[key]=JSON.parse(JSON.stringify(universalProblems));
-  if(!custom.diagnosis[key]||!custom.diagnosis[key].length) custom.diagnosis[key]=JSON.parse(JSON.stringify(universalDiagnosis));
-  if(!custom.action[key]||!custom.action[key].length) custom.action[key]=JSON.parse(JSON.stringify(universalActions));
-  if(!custom.brand[key]) custom.brand[key]=[];
+
+function ensureCustomCategory(catKey, en, ru){
+  if(!custom.category.find(c=>c.key===catKey)){
+    custom.category.push({key:catKey,en,ru});
+  }
+  if(!custom.problem[catKey]||custom.problem[catKey].length===0) custom.problem[catKey]=JSON.parse(JSON.stringify(universalProblems));
+  if(!custom.diagnosis[catKey]||custom.diagnosis[catKey].length===0) custom.diagnosis[catKey]=JSON.parse(JSON.stringify(universalDiagnosis));
+  if(!custom.action[catKey]||custom.action[catKey].length===0) custom.action[catKey]=JSON.parse(JSON.stringify(universalActions));
+  if(!custom.brand[catKey]) custom.brand[catKey]=[];
   persistCustom();
 }
+
 function persistCustom(){ localStorage.setItem('customOptionsV4',JSON.stringify(custom)); }
 
 /* fill select helpers */
 function fillCategory(){
   const current=els.category.value;
   els.category.innerHTML='<option value="">Select Appliance Type</option>';
-  const showRu=(currentMode==='technician');
+  const showRu = (currentMode==='technician');
   categoryList().forEach(c=>{
-    const label=showRu && c.ru && c.ru!==c.en ? `${c.en} / ${c.ru}` : c.en;
-    els.category.innerHTML+=`<option value="${c.key}">${label}</option>`;
+    const label = showRu && c.ru && c.ru!==c.en ? `${c.en} / ${c.ru}` : c.en;
+    els.category.innerHTML += `<option value="${c.key}">${label}</option>`;
   });
   if(current && categoryList().some(c=>c.key===current)) els.category.value=current;
 }
+
 function fillSelectENorObj(select, arr, placeholder){
-  select.innerHTML=`<option value="">${placeholder}</option>`;
+  select.innerHTML = `<option value="">${placeholder}</option>`;
   arr.forEach(o=>{
-    if(typeof o==='string'){ select.innerHTML+=`<option value="${o}">${o}</option>`; }
-    else{
-      const isPayment=(select.id==='payment');
-      const showRu=!isPayment && currentMode==='technician' && o.ru && o.ru!==o.en;
-      const label=showRu?`${o.en} / ${o.ru}`:o.en;
-      select.innerHTML+=`<option value="${o.en}">${label}</option>`;
+    if (typeof o === 'string') {
+      select.innerHTML += `<option value="${o}">${o}</option>`;
+    } else {
+      const isPayment = (select.id === 'payment');
+      const showRu = !isPayment && currentMode === 'technician' && o.ru && o.ru !== o.en;
+      const label = showRu ? `${o.en} / ${o.ru}` : o.en;
+      select.innerHTML += `<option value="${o.en}">${label}</option>`;
     }
   });
 }
-function fillStatus(){ const list=[...builtinStatuses,...(custom.status||[])]; fillSelectENorObj(els.status,list,'Select Status'); }
-function fillPayment(){ fillSelectENorObj(els.payment,builtinPayments,'Select Payment Method'); }
-function fillRequestType(){
-  if(!els.requestType.querySelector('option')){
-    els.requestType.innerHTML=`<option value="">Select Request Type</option>
-      <option value="🆕 New">🆕 New</option>
-      <option value="🔁 Recall">🔁 Recall</option>
-      <option value="🧰 Install Parts Visit">🧰 Install Parts Visit</option>`;
-  }
+
+function fillStatus(){
+  const list = [...builtinStatuses, ...(custom.status||[])];
+  fillSelectENorObj(els.status, list, 'Select Status');
 }
 
+function fillPayment(){
+  fillSelectENorObj(els.payment, builtinPayments, 'Select Payment Method'); // только EN
+}
+
+function fillRequestType(){ /* уже есть в HTML */ }
+
 /* main update */
-function updateLists(opts={}){
-  const reset=opts.resetOnCategoryChange===true;
-  const prev={
-    category:els.category.value, brand:els.brand.value, problem:els.problem.value, diagnosis:els.diagnosis.value, action:els.action.value,
-    status:els.status.value, payment:els.payment.value, requestType:els.requestType.value
+function updateLists(opts = {}) {
+  const reset = opts.resetOnCategoryChange === true;
+
+  const prev = {
+    category: els.category.value,
+    brand: els.brand.value,
+    problem: els.problem.value,
+    diagnosis: els.diagnosis.value,
+    action: els.action.value,
+    status: els.status.value,
+    payment: els.payment.value,
+    requestType: els.requestType.value
   };
+
   fillCategory();
-  if(prev.category && categoryList().some(c=>c.key===prev.category)) els.category.value=prev.category;
-  const cat=els.category.value; const categoryChanged = prev.category!==cat; const doReset = reset || categoryChanged;
 
-  if(!cat){
-    ['brand','problem','diagnosis','action'].forEach(id=>els[id].innerHTML=`<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`);
-    fillStatus(); fillPayment(); fillRequestType();
-    els.status.value=els.payment.value=els.requestType.value='';
-    checkDelButtons(); return;
+  if (prev.category && categoryList().some(c => c.key === prev.category)) {
+    els.category.value = prev.category;
   }
 
-  const {brands,problems,diagnosis,actions}=mapsFor(cat);
-  fillSelectENorObj(els.brand,brands,'Select Brand');
-  fillSelectENorObj(els.problem,problems,'Select Problem');
-  fillSelectENorObj(els.diagnosis,diagnosis,'Select Diagnosis');
-  fillSelectENorObj(els.action,actions,'Select Action');
-  fillStatus(); fillPayment(); fillRequestType();
+  const cat = els.category.value;
+  const categoryChanged = prev.category !== cat;
+  const doReset = reset || categoryChanged;
 
-  if(!doReset){
-    if(prev.brand) els.brand.value=prev.brand;
-    if(prev.problem) els.problem.value=prev.problem;
-    if(prev.diagnosis) els.diagnosis.value=prev.diagnosis;
-    if(prev.action) els.action.value=prev.action;
-    if(prev.status) els.status.value=prev.status;
-    if(prev.payment) els.payment.value=prev.payment;
-    if(prev.requestType) els.requestType.value=prev.requestType;
-  }else{
-    els.brand.value=els.problem.value=els.diagnosis.value=els.action.value='';
-    els.status.value=els.payment.value=els.requestType.value='';
-    ['model','serial','year','notes','sc'].forEach(k=>els[k].value='');
+  if (!cat) {
+    ['brand','problem','diagnosis','action'].forEach(id => {
+      els[id].innerHTML = `<option value="">Select ${id[0].toUpperCase()+id.slice(1)}</option>`;
+    });
+    fillStatus();
+    fillPayment();
+    fillRequestType();
+    els.status.value = '';
+    els.payment.value = '';
+    els.requestType.value = '';
+    checkDelButtons();
+    return;
   }
+
+  const {brands, problems, diagnosis, actions} = mapsFor(cat);
+  fillSelectENorObj(els.brand,     brands,    'Select Brand');
+  fillSelectENorObj(els.problem,   problems,  'Select Problem');
+  fillSelectENorObj(els.diagnosis, diagnosis, 'Select Diagnosis');
+  fillSelectENorObj(els.action,    actions,   'Select Action');
+  fillStatus();
+  fillPayment();
+  fillRequestType();
+
+  if (!doReset) {
+    if (prev.brand)       els.brand.value       = prev.brand;
+    if (prev.problem)     els.problem.value     = prev.problem;
+    if (prev.diagnosis)   els.diagnosis.value   = prev.diagnosis;
+    if (prev.action)      els.action.value      = prev.action;
+    if (prev.status)      els.status.value      = prev.status;
+    if (prev.payment)     els.payment.value     = prev.payment;
+    if (prev.requestType) els.requestType.value = prev.requestType;
+  } else {
+    els.brand.value       = '';
+    els.problem.value     = '';
+    els.diagnosis.value   = '';
+    els.action.value      = '';
+    els.status.value      = '';
+    els.payment.value     = '';
+    els.requestType.value = '';
+    ['model','serial','year','notes','sc'].forEach(k => els[k].value = '');
+  }
+
   checkDelButtons();
 }
 
 /* delete buttons visibility */
 function checkDelButtons(){
   const cat=els.category.value;
-  const isCustomCat = custom.category.some(c=>c.key===cat);
-  els.delCustomCategory.style.display=(cat && isCustomCat)?'inline-block':'none';
 
-  const check=(key,selectEl,btnEl)=>{
+  const isCustomCat = custom.category.some(c=>c.key===cat);
+  els.delCustomCategory.style.display = (cat && isCustomCat)?'inline-block':'none';
+
+  const check = (key, selectEl, btnEl)=>{
     if(!cat){ btnEl.style.display='none'; return; }
     const customs=(custom[key][cat]||[]);
-    const val=selectEl.value;
-    const idx=customs.findIndex(o=>(typeof o==='string'?o:(o.en||''))===val);
-    btnEl.style.display=(idx!==-1)?'inline-block':'none';
-    btnEl.onclick=()=>delCustomOption(key,cat,val);
+    const val = selectEl.value;
+    const idx = customs.findIndex(o=> (typeof o==='string'?o:(o.en||''))===val );
+    btnEl.style.display = (idx!==-1)?'inline-block':'none';
+    btnEl.onclick = ()=>delCustomOption(key,cat,val);
   };
   check('brand',els.brand,els.delCustomBrand);
   check('problem',els.problem,els.delCustomProblem);
   check('diagnosis',els.diagnosis,els.delCustomDiagnosis);
   check('action',els.action,els.delCustomAction);
 
-  const stVal=els.status.value;
-  const stIdx=(custom.status||[]).findIndex(o=>o.en===stVal);
-  els.delCustomStatus.style.display=stIdx!==-1?'inline-block':'none';
-  els.delCustomStatus.onclick=()=>delCustomStatus(stVal);
+  const stVal = els.status.value;
+  const stIdx = (custom.status||[]).findIndex(o=>o.en===stVal);
+  els.delCustomStatus.style.display = stIdx!==-1?'inline-block':'none';
+  els.delCustomStatus.onclick = ()=>delCustomStatus(stVal);
 }
 
 /* adders / deleters */
 function promptAddCategory(){
   const en=prompt("Enter new Appliance Type (EN):"); if(!en||!en.trim()) return;
   const ru=prompt("Введите перевод Appliance Type (RU):",en)||en;
-  const key=slugify(en);
+  const key = slugify(en);
   ensureCustomCategory(key,en.trim(),(ru||en).trim());
-  persistCustom(); updateLists();
-  els.category.value=key; updateLists();
+  persistCustom();
+  updateLists();
+  els.category.value = key;
+  updateLists();
 }
+
 function promptAddCustom(type){
   const cat=els.category.value;
   if(type!=='status' && !cat){ alert('Choose Appliance Type first'); return; }
-  const en=prompt(`Enter new ${type} (EN):`); if(!en||!en.trim()) return;
-  const ru=(type==='brand')? null : (prompt(`Введите перевод ${type} (RU):`,en)||en);
 
-  if(type==='status'){ custom.status=custom.status||[]; custom.status.push({en:en.trim(),ru:(ru||en).trim()}); }
-  else if(type==='brand'){ custom.brand[cat]=custom.brand[cat]||[]; custom.brand[cat].push(en.trim()); }
-  else{ custom[type][cat]=custom[type][cat]||[]; custom[type][cat].push({en:en.trim(),ru:(ru||en).trim()}); }
-  persistCustom(); updateLists();
+  const en=prompt(`Enter new ${type} (EN):`); if(!en||!en.trim()) return;
+  const ru = (type==='brand')? null : (prompt(`Введите перевод ${type} (RU):`,en)||en);
+
+  if(type==='status'){
+    custom.status = custom.status||[];
+    custom.status.push({en:en.trim(), ru:(ru||en).trim()});
+  }else if(type==='brand'){
+    custom.brand[cat]=custom.brand[cat]||[];
+    custom.brand[cat].push(en.trim());
+  }else{
+    custom[type][cat]=custom[type][cat]||[];
+    custom[type][cat].push({en:en.trim(), ru:(ru||en).trim()});
+  }
+  persistCustom();
+  updateLists();
   if(type==='status') els.status.value=en.trim(); else document.getElementById(type).value=en.trim();
   checkDelButtons();
 }
+
 function delCustomOption(key,cat,val){
   if(!confirm("Remove custom '"+val+"'?")) return;
-  custom[key][cat]=(custom[key][cat]||[]).filter(o=>(typeof o==='string'?o:(o.en||''))!==val);
+  custom[key][cat]=(custom[key][cat]||[]).filter(o=> (typeof o==='string'?o:(o.en||''))!==val );
   persistCustom(); updateLists();
 }
+
 function delCustomCategory(){
   const cat=els.category.value;
-  const obj=custom.category.find(c=>c.key===cat); if(!obj) return;
+  const obj = custom.category.find(c=>c.key===cat);
+  if(!obj) return;
   if(!confirm(`Delete custom type '${obj.en}'? All its custom lists will be removed.`)) return;
-  custom.category=custom.category.filter(c=>c.key!==cat);
-  delete custom.brand[cat]; delete custom.problem[cat]; delete custom.diagnosis[cat]; delete custom.action[cat];
-  persistCustom(); els.category.value=''; updateLists();
+  custom.category = custom.category.filter(c=>c.key!==cat);
+  delete custom.brand[cat];
+  delete custom.problem[cat];
+  delete custom.diagnosis[cat];
+  delete custom.action[cat];
+  persistCustom();
+  els.category.value='';
+  updateLists();
 }
+
 function delCustomStatus(valEN){
   if(!confirm(`Remove custom status '${valEN}'?`)) return;
   custom.status=(custom.status||[]).filter(s=>s.en!==valEN);
   persistCustom(); updateLists();
 }
 
-/* translations */
+/* translations (find RU) */
 function findRuInList(arr,val){
   if(!val) return ''; if(!arr||!arr.length) return '';
   if(typeof arr[0]==='string') return val;
@@ -595,7 +744,7 @@ function reportToPlainText(r){
   return lines.join('\n');
 }
 
-/* NEW: makeReportObj accepts existing to preserve ticket/date */
+/* makeReportObj — сохраняем ticket/date при редактировании */
 function makeReportObj(existing=null){
   const catKey=els.category.value;
   const catObj=categoryList().find(c=>c.key===catKey);
@@ -660,9 +809,14 @@ function makeReportBlock(r,idx){
   </div>`;
   return html;
 }
+
 function renderReports(){
-  if(!allReports.length){ els.reportsBlock.innerHTML=''; return; }
-  let cards=''; allReports.forEach((r,i)=>{ cards+=makeReportBlock(r,i); });
+  if(!allReports.length){
+    els.reportsBlock.innerHTML='';
+    return;
+  }
+  let cards='';
+  allReports.forEach((r,i)=>{ cards+=makeReportBlock(r,i); });
   els.reportsBlock.innerHTML=`
     <div id="reportsControlBtns">
       <button class="btn btn-secondary" onclick="copyLastReport()">Copy Last</button>
@@ -672,16 +826,15 @@ function renderReports(){
     <div class="reports-grid">${cards}</div>`;
 }
 
-/* ===== Edit mode (NEW) ===== */
+/* ===== Edit mode ===== */
 function startEdit(idx){
   const r=allReports[idx]; if(!r) return;
   editingIndex=idx;
-  // заполнить форму
-  els.category.value=r.category||''; updateLists({resetOnCategoryChange:true});
+  els.category.value=r.category||'';
+  updateLists({resetOnCategoryChange:true});
   ['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','sc','payment'].forEach(k=>{
     if(els[k]) els[k].value = (r[k]??'');
   });
-  // баннер + кнопки
   els.genBtn.textContent='💾 Save Changes';
   els.editBannerText.innerHTML=`<strong>Editing ticket №${r.ticketNo}</strong> — ${r.date}`;
   els.editBanner.style.display='flex';
@@ -701,7 +854,10 @@ function copyToClipboard(text){
 }
 function copyReport(idx){ copyToClipboard(reportToPlainText(allReports[idx])); }
 function copyLastReport(){ if(allReports.length) copyReport(allReports.length-1); else alert('No reports'); }
-function copyAllReports(){ if(!allReports.length) return alert('No reports'); copyToClipboard(allReports.map(reportToPlainText).join('\n\n-------------------\n\n')); }
+function copyAllReports(){
+  if(!allReports.length) return alert('No reports');
+  copyToClipboard(allReports.map(reportToPlainText).join('\n\n-------------------\n\n'));
+}
 function shareWhatsApp(idx){ const text=encodeURIComponent(reportToPlainText(allReports[idx])); window.open(`https://wa.me/?text=${text}`,'_blank'); }
 function printReport(idx){
   const text=reportToPlainText(allReports[idx]).replace(/\n/g,'<br>');
@@ -717,7 +873,10 @@ function deleteReport(idx){
 }
 function clearReports(){
   if(!confirm('CLEAR ALL REPORTS?')) return;
-  allReports=[]; localStorage.removeItem('repairReportsV3'); resetTicketCounter(); renderReports();
+  allReports=[];
+  localStorage.removeItem('repairReportsV3');
+  resetTicketCounter();
+  renderReports();
   alert('All reports cleared. Ticket counter reset for today.');
 }
 
@@ -788,11 +947,9 @@ els.repairForm.onsubmit=(e)=>{
     localStorage.setItem('repairReportsV3',JSON.stringify(allReports));
     renderReports();
     alert(`Ticket #${existing.ticketNo} updated!`);
-    // exit edit mode
     editingIndex=null; els.genBtn.textContent='📋 Generate Report'; els.editBanner.style.display='none';
     return;
   }
-  // new report
   const r=makeReportObj(null);
   allReports.push(r);
   localStorage.setItem('repairReportsV3',JSON.stringify(allReports));

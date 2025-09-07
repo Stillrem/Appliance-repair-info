@@ -950,6 +950,15 @@ function clearEditingHighlight(){
   document.querySelectorAll('.report-output').forEach(el=>el.classList.remove('editing'));
 }
 
+  function clearReports(){
+  if(!allReports.length) return alert('No reports');
+  if(!confirm('Delete ALL reports?')) return;
+  allReports = [];
+  localStorage.setItem('repairReportsV3', JSON.stringify(allReports));
+  renderReports();
+  cancelEdit();
+}
+
 /* Actions */
 function copyToClipboard(text){
   const t=document.createElement('textarea'); t.value=text; document.body.appendChild(t);

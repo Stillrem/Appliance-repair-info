@@ -734,11 +734,24 @@ function findStatusRu(val){
 }
 
 /* Report builders */
-function prettyYear(val){
-  if(!val) return '';
-  const m=val.replace(/[^\d]/g,'').slice(0,6);
-  if(m.length===6) return m.slice(0,2)+'.'+m.slice(2,6);
-  return val;
+function prettyYear(val) {
+  const s = (val || '').trim();
+  if (!s) return '';
+
+  // Если формат уже правильный — возвращаем как есть
+  if (/^\d{2}[./-]\d{4}$/.test(s)) {
+    return s;
+  }
+
+  // Если только цифры (пример: "082024") — подставляем разделитель
+  const digits = s.replace(/[^\d]/g, '');
+  if (digits.length === 6) {
+    const delim = s.includes('/') ? '/' : (s.includes('-') ? '-' : '.');
+    return `${digits.slice(0, 2)}${delim}${digits.slice(2)}`;
+  }
+
+  // В остальных случаях — как есть
+  return s;
 }
 function lineENRU(label,en,ru){
   if(!en && !ru) return '';

@@ -793,7 +793,7 @@ function makeReportObj(existing=null){
     status: els.status.value||'',
     status_ru: findStatusRu(els.status.value),
     notes: (els.notes.value||'').trim(),
-    address: (els.address.value || '').trim(),
+    address: (els.address.value ||'').trim(),
     sc: (els.sc.value||'').trim(),
     payment: els.payment.value||'',
     ticketNo: existing ? existing.ticketNo : nextTicketNumber(),
@@ -818,7 +818,7 @@ function makeReportBlock(r,idx){
   html+=lineENRU('Action',r.action,r.action_ru);
   html+=lineENRU('Status',r.status,r.status_ru);
   html+=lineENRU('Notes',r.notes,'');
-  html += lineENRU('Address', r.address, '');
+  html += lineENRU('Address', r.address,'');
   const scStr=(r.sc??'').toString().trim(); if(scStr!=='') html+=lineENRU('SC',`$${scStr}`,'');
   const payStr=(r.payment??'').toString().trim(); if(payStr!=='') html+=lineENRU('Payment',payStr,'');
   html+=`</div>

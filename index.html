@@ -444,7 +444,7 @@ const els={
   category:$('category'), brand:$('brand'), model:$('model'),
   serial:$('serial'), year:$('year'),
   problem:$('problem'), diagnosis:$('diagnosis'), action:$('action'),
-  status:$('status'), notes:$('notes'), sc:$('sc'),
+  status:$('status'), notes:$('notes'), address:$('address'), sc:$('sc'),
   payment:$('payment'),
   requestType:$('requestType'),
   genBtn:$('genBtn'), clearBtn:$('clearBtn'),
@@ -612,7 +612,7 @@ function updateLists(opts = {}) {
     els.status.value      = '';
     els.payment.value     = '';
     els.requestType.value = '';
-    ['model','serial','year','notes','sc'].forEach(k => els[k].value = '');
+    ['model','serial','year','notes','address','sc'].forEach(k => els[k].value = '');
   }
 
   checkDelButtons();

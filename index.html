@@ -857,7 +857,7 @@ function makeReportBlock(r,idx){
   html+=lineENRU('Action',r.action,r.action_ru);
   html+=lineENRU('Status',r.status,r.status_ru);
   html+=lineENRU('Notes',r.notes,'');
-  html+=lineENRU('Address', r.address,'');
+  html+=lineENRU('Address',r.address,'');
   const scStr=(r.sc??'').toString().trim(); if(scStr!=='') html+=lineENRU('SC',`$${scStr}`,'');
   const payStr=(r.payment??'').toString().trim(); if(payStr!=='') html+=lineENRU('Payment',payStr,'');
   html+=`</div>
@@ -894,7 +894,7 @@ function startEdit(idx){
   editingIndex=idx;
   els.category.value=r.category||'';
   updateLists({resetOnCategoryChange:true});
-  ['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','sc','payment'].forEach(k=>{
+  ['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','address','sc','payment'].forEach(k=>{
     if(els[k]) els[k].value = (r[k]??'');
   });
   els.genBtn.textContent='💾 Save Changes';

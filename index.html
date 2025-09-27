@@ -271,6 +271,11 @@
           <textarea id="notes" name="notes" placeholder="Enter any additional details or recommendations..."></textarea>
         </div>
 
+        <div class="form-group">
+          <label class="label" for="address">Address <span class="translation">Адрес</span></label>
+          <textarea id="address" name="address" placeholder="Street, City, State, ZIP"></textarea>
+        </div>
+        
         <div class="form-group input-dollar">
           <label class="label" for="sc">Service Call Fee <span class="translation">Плата за выезд мастера</span></label>
           <span class="dollar-sign" aria-hidden="true">$</span>
@@ -783,6 +788,10 @@ function reportToPlainText(r){
     paragraphs.push(`Notes:\n${notesBlock}`);
   }
 
+  if ((r.address ?? '').toString().trim() !== '') {
+    paragraphs.push(`Address: ${r.address}`);
+}
+  
   const scStr = (r.sc ?? '').toString().trim();
   if (scStr !== '') paragraphs.push(`SC: $${scStr}`);
 
@@ -821,6 +830,7 @@ function makeReportObj(existing=null){
     status: els.status.value||'',
     status_ru: findStatusRu(els.status.value),
     notes: (els.notes.value||'').trim(),
+    address: (els.address.value ||'').trim(),
     sc: (els.sc.value||'').trim(),
     payment: els.payment.value||'',
     ticketNo: existing ? existing.ticketNo : nextTicketNumber(),
@@ -847,6 +857,7 @@ function makeReportBlock(r,idx){
   html+=lineENRU('Action',r.action,r.action_ru);
   html+=lineENRU('Status',r.status,r.status_ru);
   html+=lineENRU('Notes',r.notes,'');
+  html+=lineENRU('Address', r.address,'');
   const scStr=(r.sc??'').toString().trim(); if(scStr!=='') html+=lineENRU('SC',`$${scStr}`,'');
   const payStr=(r.payment??'').toString().trim(); if(payStr!=='') html+=lineENRU('Payment',payStr,'');
   html+=`</div>
@@ -934,7 +945,7 @@ function clearReports(){
 /* Autosave form */
 const FORM_KEY='repairFormStateV4';
 function saveForm(){
-  const data={mode:currentMode,category:els.category.value,brand:els.brand.value,model:els.model.value,serial:els.serial.value,year:els.year.value,requestType:els.requestType.value,problem:els.problem.value,diagnosis:els.diagnosis.value,action:els.action.value,status:els.status.value,notes:els.notes.value,sc:els.sc.value,payment:els.payment.value};
+  const data={mode:currentMode,category:els.category.value,brand:els.brand.value,model:els.model.value,serial:els.serial.value,year:els.year.value,requestType:els.requestType.value,problem:els.problem.value,diagnosis:els.diagnosis.value,action:els.action.value,status:els.status.value,notes:els.notes.value,address:els.address.value,sc:els.sc.value,payment:els.payment.value};
   localStorage.setItem(FORM_KEY,JSON.stringify(data));
 }
 function loadForm(){
@@ -943,7 +954,7 @@ function loadForm(){
   if(d.mode){ currentMode=d.mode; updateModeButtons(); }
   if(d.category){ els.category.value=d.category; }
   updateLists();
-  ['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','sc','payment'].forEach(k=>{
+  ['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','address','sc','payment'].forEach(k=>{
     if(d[k]!==undefined && d[k]!==null){ els[k].value=d[k]; }
   });
   checkDelButtons();
@@ -964,7 +975,7 @@ els.modeTech.onclick=()=>{ currentMode='technician'; updateModeButtons(); saveFo
 els.modeClient.onclick=()=>{ currentMode='client'; updateModeButtons(); saveForm(); renderReports(); };
 
 els.category.addEventListener('change',()=>{ updateLists({resetOnCategoryChange:true}); saveForm(); });
-['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','sc','payment'].forEach(id=>{
+['brand','model','serial','year','requestType','problem','diagnosis','action','status','notes','address','sc','payment'].forEach(id=>{
   const el=els[id]; el.addEventListener('input',saveForm); el.addEventListener('change',()=>{ saveForm(); checkDelButtons(); });
 });
 
@@ -984,7 +995,7 @@ els.delCustomCategory.onclick=delCustomCategory;
 els.clearBtn.onclick=()=>{
   if(!confirm('Clear form?')) return;
   els.repairForm.reset(); localStorage.removeItem(FORM_KEY);
-  updateLists(); ['model','serial','year','requestType','notes','sc','payment'].forEach(k=>els[k].value='');
+  updateLists(); ['model','serial','year','requestType','notes','address','sc','payment'].forEach(k=>els[k].value='');
   checkDelButtons();
 };
 

@@ -729,19 +729,61 @@ function lineENRU(label,en,ru){
   return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en||ru||''}</span></div>`;
 }
 function reportToPlainText(r){
-  const header=`Заявка №${r.ticketNo||'-'} — ${r.mode==='technician'?'Technician Report':'Client Report'} (${r.date})`;
-  const lines=[header];
-  const fmt=(en,ru)=>{
-    const enT=(en??'').toString().trim(); const ruT=(ru??'').toString().trim();
-    if(!enT && !ruT) return '';
-    if(currentMode==='technician' && ruT && enT && ruT!==enT) return `${enT} / ${ruT}`;
-    return enT || ruT;
+  const title = r.mode==='technician' ? 'Technician Report' : 'Client Report';
+  const header = `Заявка №${r.ticketNo || '-'} — ${title} (${r.date})`;
+
+  // помощник: EN / RU в зависимости от режима
+  const fmt = (en, ru) => {
+    const e = (en ?? '').toString().trim();
+    const u = (ru ?? '').toString().trim();
+    if (!e && !u) return '';
+    if (currentMode === 'technician' && u && e && u !== e) return `${e} / ${u}`;
+    return e || u;
   };
-  const add=(label,en,ru)=>{ const v=fmt(en,ru); if(v) lines.push(`${label}: ${v}`); };
-  add('Appliance',r.categoryLabel,''); add('Brand',r.brand,r.brand_ru); add('Model',r.model,''); add('Serial',r.serial,''); add('Year',r.year,''); add('Request Type',r.requestType,''); add('Problem',r.problem,r.problem_ru); add('Diagnosis',r.diagnosis,r.diagnosis_ru); add('Action',r.action,r.action_ru); add('Status',r.status,r.status_ru); add('Notes',r.notes,'');
-  const scStr=(r.sc??'').toString().trim(); if(scStr!=='') lines.push(`SC: $${scStr}`);
-  const pay=(r.payment??'').toString().trim(); if(pay) lines.push(`Payment: ${pay}`);
-  return lines.join('\n');
+
+  // строки как параграфы (между ними будет пустая строка)
+  const paragraphs = [];
+
+  paragraphs.push(header);
+
+  const appliance = fmt(r.categoryLabel, '');
+  if (appliance) paragraphs.push(`Appliance: ${appliance}`);
+
+  const brand = fmt(r.brand, r.brand_ru);
+  if (brand) paragraphs.push(`Brand: ${brand}`);
+
+  if (r.model?.trim()) paragraphs.push(`Model: ${r.model.trim()}`);
+  if (r.serial?.trim()) paragraphs.push(`Serial: ${r.serial.trim()}`);
+  if (r.year?.trim())   paragraphs.push(`Year: ${r.year.trim()}`);
+
+  if (r.requestType?.trim()) paragraphs.push(`Request Type: ${r.requestType.trim()}`);
+
+  const problem = fmt(r.problem, r.problem_ru);
+  if (problem) paragraphs.push(`Problem: ${problem}`);
+
+  const diagnosis = fmt(r.diagnosis, r.diagnosis_ru);
+  if (diagnosis) paragraphs.push(`Diagnosis: ${diagnosis}`);
+
+  const action = fmt(r.action, r.action_ru);
+  if (action) paragraphs.push(`Action: ${action}`);
+
+  const status = fmt(r.status, r.status_ru);
+  if (status) paragraphs.push(`Status: ${status}`);
+
+  // Notes — сохраняем переносы строк, но оформляем отдельным параграфом
+  if ((r.notes ?? '').toString().trim() !== '') {
+    const notesBlock = (r.notes || '').toString().replace(/\r?\n/g, '\n');
+    paragraphs.push(`Notes:\n${notesBlock}`);
+  }
+
+  const scStr = (r.sc ?? '').toString().trim();
+  if (scStr !== '') paragraphs.push(`SC: $${scStr}`);
+
+  const pay = (r.payment ?? '').toString().trim();
+  if (pay) paragraphs.push(`Payment: ${pay}`);
+
+  // КЛЮЧЕВОЕ: двойной перенос между блоками
+  return paragraphs.join('\n\n');
 }
 
 /* makeReportObj — сохраняем ticket/date при редактировании */

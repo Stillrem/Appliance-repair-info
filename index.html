@@ -737,7 +737,6 @@ function reportToPlainText(r){
   const title = r.mode==='technician' ? 'Technician Report' : 'Client Report';
   const header = `Заявка №${r.ticketNo || '-'} — ${title} (${r.date})`;
 
-  // помощник: EN / RU в зависимости от режима
   const fmt = (en, ru) => {
     const e = (en ?? '').toString().trim();
     const u = (ru ?? '').toString().trim();
@@ -746,9 +745,7 @@ function reportToPlainText(r){
     return e || u;
   };
 
-  // строки как параграфы (между ними будет пустая строка)
   const paragraphs = [];
-
   paragraphs.push(header);
 
   const appliance = fmt(r.categoryLabel, '');
@@ -775,10 +772,14 @@ function reportToPlainText(r){
   const status = fmt(r.status, r.status_ru);
   if (status) paragraphs.push(`Status: ${status}`);
 
-  // Notes — сохраняем переносы строк, но оформляем отдельным параграфом
   if ((r.notes ?? '').toString().trim() !== '') {
     const notesBlock = (r.notes || '').toString().replace(/\r?\n/g, '\n');
     paragraphs.push(`Notes:\n${notesBlock}`);
+  }
+
+  // 🔹 Новый блок Address
+  if ((r.address ?? '').toString().trim() !== '') {
+    paragraphs.push(`Address: ${r.address}`);
   }
 
   const scStr = (r.sc ?? '').toString().trim();
@@ -787,8 +788,7 @@ function reportToPlainText(r){
   const pay = (r.payment ?? '').toString().trim();
   if (pay) paragraphs.push(`Payment: ${pay}`);
 
-  // КЛЮЧЕВОЕ: двойной перенос между блоками
-  return paragraphs.join('\n\n');
+  return paragraphs.join('\n\n'); // пустая строка между блоками
 }
 
 /* makeReportObj — сохраняем ticket/date при редактировании */

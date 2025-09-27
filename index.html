@@ -782,11 +782,16 @@ function reportToPlainText(r){
   const status = fmt(r.status, r.status_ru);
   if (status) paragraphs.push(`Status: ${status}`);
 
-  // Notes — сохраняем переносы строк, но оформляем отдельным параграфом
-  if ((r.notes ?? '').toString().trim() !== '') {
-    const notesBlock = (r.notes || '').toString().replace(/\r?\n/g, '\n');
-    paragraphs.push(`Notes:\n${notesBlock}`);
+  const rawNotes = (r.notes || '').toString().replace(/\r?\n/g, '\n').trim();
+  if (rawNotes !== '') {
+  if (rawNotes.includes('\n')) {
+    // многострочные заметки → отдельный блок
+    paragraphs.push(`Notes:\n${rawNotes}`);
+  } else {
+    // однострочные заметки → в одну строку
+    paragraphs.push(`Notes: ${rawNotes}`);
   }
+}
 
   if ((r.address ?? '').toString().trim() !== '') {
     paragraphs.push(`Address: ${r.address}`);

@@ -707,37 +707,10 @@ function delCustomStatus(valEN){
 }
 
 /* translations (find RU) */
-function findRuInList(arr,val){
-  if(!val) return ''; if(!arr||!arr.length) return '';
-  if(typeof arr[0]==='string') return val;
-  const f=arr.find(o=>o.en===val);
-  return f ? (f.ru||val) : val;
-}
-function findStatusRu(val){
-  const list=[...builtinStatuses,...(custom.status||[])];
-  const f=list.find(s=>s.en===val);
-  return f ? (f.ru||val) : val;
-}
-
-/* Report builders */
-function prettyYear(val){
-  const s=(val||'').trim(); if(!s) return '';
-  if(/^\d{2}[./-]\d{4}$/.test(s)) return s;
-  const digits=s.replace(/[^\d]/g,''); if(digits.length===6){
-    const delim=s.includes('/')?'/':(s.includes('-')?'-':'.'); return `${digits.slice(0,2)}${delim}${digits.slice(2)}`;
-  }
-  return s;
-}
-function lineENRU(label,en,ru){
-  if(!en && !ru) return '';
-  if(currentMode==='technician' && ru && en && ru!==en) return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en} / ${ru}</span></div>`;
-  return `<div class="report-line"><span class="report-label">${label}:</span> <span class="report-value">${en||ru||''}</span></div>`;
-}
 function reportToPlainText(r){
   const title = r.mode==='technician' ? 'Technician Report' : 'Client Report';
   const header = `Заявка №${r.ticketNo || '-'} — ${title} (${r.date})`;
 
-  // помощник: EN / RU в зависимости от режима
   const fmt = (en, ru) => {
     const e = (en ?? '').toString().trim();
     const u = (ru ?? '').toString().trim();
@@ -746,9 +719,7 @@ function reportToPlainText(r){
     return e || u;
   };
 
-  // строки как параграфы (между ними будет пустая строка)
   const paragraphs = [];
-
   paragraphs.push(header);
 
   const appliance = fmt(r.categoryLabel, '');
@@ -775,10 +746,14 @@ function reportToPlainText(r){
   const status = fmt(r.status, r.status_ru);
   if (status) paragraphs.push(`Status: ${status}`);
 
-  // Notes — сохраняем переносы строк, но оформляем отдельным параграфом
   if ((r.notes ?? '').toString().trim() !== '') {
     const notesBlock = (r.notes || '').toString().replace(/\r?\n/g, '\n');
     paragraphs.push(`Notes:\n${notesBlock}`);
+  }
+
+  // 🔹 Новый блок Address
+  if ((r.address ?? '').toString().trim() !== '') {
+    paragraphs.push(`Address: ${r.address}`);
   }
 
   const scStr = (r.sc ?? '').toString().trim();
@@ -787,8 +762,7 @@ function reportToPlainText(r){
   const pay = (r.payment ?? '').toString().trim();
   if (pay) paragraphs.push(`Payment: ${pay}`);
 
-  // КЛЮЧЕВОЕ: двойной перенос между блоками
-  return paragraphs.join('\n\n');
+  return paragraphs.join('\n\n'); // пустая строка между блоками
 }
 
 /* makeReportObj — сохраняем ticket/date при редактировании */
@@ -819,6 +793,7 @@ function makeReportObj(existing=null){
     status: els.status.value||'',
     status_ru: findStatusRu(els.status.value),
     notes: (els.notes.value||'').trim(),
+    address: (els.address.value || '').trim(),
     sc: (els.sc.value||'').trim(),
     payment: els.payment.value||'',
     ticketNo: existing ? existing.ticketNo : nextTicketNumber(),
@@ -843,6 +818,7 @@ function makeReportBlock(r,idx){
   html+=lineENRU('Action',r.action,r.action_ru);
   html+=lineENRU('Status',r.status,r.status_ru);
   html+=lineENRU('Notes',r.notes,'');
+  html += lineENRU('Address', r.address, '');
   const scStr=(r.sc??'').toString().trim(); if(scStr!=='') html+=lineENRU('SC',`$${scStr}`,'');
   const payStr=(r.payment??'').toString().trim(); if(payStr!=='') html+=lineENRU('Payment',payStr,'');
   html+=`</div>

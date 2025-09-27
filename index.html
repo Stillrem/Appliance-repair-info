@@ -708,6 +708,13 @@ function findRuInList(arr,val){
   const f=arr.find(o=>o.en===val);
   return f ? (f.ru||val) : val;
 }
+
+function findCategoryRuByKey(key){
+  const c = categoryList().find(x=>x.key===key);
+  if(!c) return '';
+  return (c.ru && c.ru !== c.en) ? c.ru : '';
+}
+  
 function findStatusRu(val){
   const list=[...builtinStatuses,...(custom.status||[])];
   const f=list.find(s=>s.en===val);
@@ -746,7 +753,7 @@ function reportToPlainText(r){
 
   paragraphs.push(header);
 
-  const appliance = fmt(r.categoryLabel, '');
+  const appliance = fmt((r.categoryLabel||'').split(' / ')[0], findCategoryRuByKey(r.category));
   if (appliance) paragraphs.push(`Appliance: ${appliance}`);
 
   const brand = fmt(r.brand, r.brand_ru);
@@ -789,8 +796,8 @@ function reportToPlainText(r){
 /* makeReportObj — сохраняем ticket/date при редактировании */
 function makeReportObj(existing=null){
   const catKey=els.category.value;
-  const catObj=categoryList().find(c=>c.key===catKey);
-  const catLabel=(()=>{ if(!catObj) return ''; if(currentMode==='technician' && catObj.ru && catObj.ru!==catObj.en) return `${catObj.en} / ${catObj.ru}`; return catObj.en; })();
+  const catObj = categoryList().find(c=>c.key===catKey) || {};
+  const catLabel = catObj.en || '';
   const m=mapsFor(catKey||'');
   const dateOnly = existing ? existing.date : new Date().toLocaleDateString('en-US',{year:'numeric',month:'2-digit',day:'2-digit'});
 
@@ -827,7 +834,9 @@ function makeReportBlock(r,idx){
   let html=`<div class="report-output" data-idx="${idx}">
     <div class="report-title">${ticketLabel} — ${title} <span style="font-size:13px;color:#bcbcc7;">(${r.date})</span></div>
     <div class="report-content">`;
-  html+=lineENRU('Appliance',r.categoryLabel,'');
+  // на случай старых отчётов, где en/ru склеены — оставим только EN до " / "
+  const catEN = (r.categoryLabel||'').split(' / ')[0];
+  html += lineENRU('Appliance', catEN, findCategoryRuByKey(r.category));
   html+=lineENRU('Brand',r.brand,r.brand_ru);
   html+=lineENRU('Model',r.model,'');
   html+=lineENRU('Serial',r.serial,'');
